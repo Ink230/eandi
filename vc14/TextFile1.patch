@@ -1,0 +1,381 @@
+config.lua            |  8 ++++++
+ src/configmanager.cpp |  3 +++
+ src/configmanager.h   |  3 +++
+ src/luascript.cpp     |  4 +++
+ src/player.cpp        | 74 ++++++++++++++++++++++++++++++++++++++++-----------
+ src/player.h          | 24 ++++++++++++++---
+ src/tools.cpp         |  3 ---
+ src/vocation.cpp      |  5 ++++
+ src/vocation.h        |  6 +++++
+ src/weapons.cpp       | 17 +++++++++++-
+ 10 files changed, 125 insertions(+), 22 deletions(-)
+
+diff --git a/config.lua b/config.lua
+index 927cc2b..814777a 100644
+--- a/config.lua
++++ b/config.lua
+@@ -71,6 +71,14 @@ maxMessageBuffer = 4
+ emoteSpells = false
+ classicEquipmentSlots = false
+ 
++-- Dual wielding
++-- NOTE: the rate are the percentage of the single-wielding values, for
++-- example, if dualWieldingSpeedFactor is 200 then dual wielding attack will
++-- be twice as fast. It makes no sense to set dualWieldingSpeedRate under 100.
++allowDualWielding = false
++dualWieldingSpeedRate = 200
++dualWieldingDamageRate = 60
++
+ -- Rates
+ -- NOTE: rateExp is not used if you have enabled stages in data/XML/stages.xml
+ rateExp = 5
+diff --git a/src/configmanager.cpp b/src/configmanager.cpp
+index 897c002..bbec401 100644
+--- a/src/configmanager.cpp
++++ b/src/configmanager.cpp
+@@ -88,6 +88,7 @@ bool ConfigManager::load()
+ 	boolean[WARN_UNSAFE_SCRIPTS] = getGlobalBoolean(L, "warnUnsafeScripts", true);
+ 	boolean[CONVERT_UNSAFE_SCRIPTS] = getGlobalBoolean(L, "convertUnsafeScripts", true);
+ 	boolean[CLASSIC_EQUIPMENT_SLOTS] = getGlobalBoolean(L, "classicEquipmentSlots", false);
++	boolean[ALLOW_DUAL_WIELDING] = getGlobalBoolean(L, "allowDualWielding", false);
+ 
+ 	string[DEFAULT_PRIORITY] = getGlobalString(L, "defaultPriority", "high");
+ 	string[SERVER_NAME] = getGlobalString(L, "serverName", "");
+@@ -113,6 +114,8 @@ bool ConfigManager::load()
+ 	integer[ACTIONS_DELAY_INTERVAL] = getGlobalNumber(L, "timeBetweenActions", 200);
+ 	integer[EX_ACTIONS_DELAY_INTERVAL] = getGlobalNumber(L, "timeBetweenExActions", 1000);
+ 	integer[MAX_MESSAGEBUFFER] = getGlobalNumber(L, "maxMessageBuffer", 4);
++	integer[DUAL_WIELDING_SPEED_RATE] = getGlobalNumber(L, "dualWieldingSpeedRate", 200);
++	integer[DUAL_WIELDING_DAMAGE_RATE] = getGlobalNumber(L, "dualWieldingDamageRate", 60);
+ 	integer[KICK_AFTER_MINUTES] = getGlobalNumber(L, "kickIdlePlayerAfterMinutes", 15);
+ 	integer[PROTECTION_LEVEL] = getGlobalNumber(L, "protectionLevel", 1);
+ 	integer[DEATH_LOSE_PERCENT] = getGlobalNumber(L, "deathLosePercent", -1);
+diff --git a/src/configmanager.h b/src/configmanager.h
+index c4c501c..61ae331 100644
+--- a/src/configmanager.h
++++ b/src/configmanager.h
+@@ -44,6 +44,7 @@ class ConfigManager
+ 			WARN_UNSAFE_SCRIPTS,
+ 			CONVERT_UNSAFE_SCRIPTS,
+ 			CLASSIC_EQUIPMENT_SLOTS,
++			ALLOW_DUAL_WIELDING,
+ 
+ 			LAST_BOOLEAN_CONFIG /* this must be the last one */
+ 		};
+@@ -86,6 +87,8 @@ class ConfigManager
+ 			KILLS_TO_RED,
+ 			KILLS_TO_BLACK,
+ 			MAX_MESSAGEBUFFER,
++			DUAL_WIELDING_SPEED_RATE,
++			DUAL_WIELDING_DAMAGE_RATE,
+ 			ACTIONS_DELAY_INTERVAL,
+ 			EX_ACTIONS_DELAY_INTERVAL,
+ 			KICK_AFTER_MINUTES,
+diff --git a/src/luascript.cpp b/src/luascript.cpp
+index 9c5f76e..3e3cfed 100644
+--- a/src/luascript.cpp
++++ b/src/luascript.cpp
+@@ -1780,6 +1780,10 @@ void LuaScriptInterface::registerFunctions()
+ 	registerEnumIn("configKeys", ConfigManager::CONVERT_UNSAFE_SCRIPTS)
+ 	registerEnumIn("configKeys", ConfigManager::CLASSIC_EQUIPMENT_SLOTS)
+ 
++	registerEnumIn("configKeys", ConfigManager::ALLOW_DUAL_WIELDING)
++	registerEnumIn("configKeys", ConfigManager::DUAL_WIELDING_SPEED_RATE)
++	registerEnumIn("configKeys", ConfigManager::DUAL_WIELDING_DAMAGE_RATE)
++
+ 	registerEnumIn("configKeys", ConfigManager::MAP_NAME)
+ 	registerEnumIn("configKeys", ConfigManager::HOUSE_RENT_PERIOD)
+ 	registerEnumIn("configKeys", ConfigManager::SERVER_NAME)
+diff --git a/src/player.cpp b/src/player.cpp
+index 82425d7..b5f1d76 100644
+--- a/src/player.cpp
++++ b/src/player.cpp
+@@ -108,6 +108,7 @@ Player::Player(ProtocolGame* p) :
+ 	lastAttackBlockType = BLOCK_NONE;
+ 	addAttackSkillPoint = false;
+ 	lastAttack = 0;
++	lastAttackHand = HAND_LEFT;
+ 
+ 	blessings = 0;
+ 
+@@ -342,6 +343,11 @@ Item* Player::getWeapon(slots_t slot, bool ignoreAmmo) const
+ 
+ Item* Player::getWeapon(bool ignoreAmmo/* = false*/) const
+ {
++	/* If player is dual wielding, we already assured he has weapons in both hands. */
++	if (isDualWielding()) {
++		return getWeapon(getAttackHand(), ignoreAmmo);
++	}
++
+ 	Item* item = getWeapon(CONST_SLOT_LEFT, ignoreAmmo);
+ 	if (item) {
+ 		return item;
+@@ -420,31 +426,50 @@ void Player::getShieldAndWeapon(const Item*& shield, const Item*& weapon) const
+ 	shield = nullptr;
+ 	weapon = nullptr;
+ 
+-	for (uint32_t slot = CONST_SLOT_RIGHT; slot <= CONST_SLOT_LEFT; slot++) {
+-		Item* item = inventory[slot];
+-		if (!item) {
+-			continue;
++	if (isDualWielding()) {
++		if (lastAttackHand == HAND_LEFT) {
++			shield = inventory[CONST_SLOT_RIGHT];
++			weapon = inventory[CONST_SLOT_LEFT];
++		} else {
++			shield = inventory[CONST_SLOT_LEFT];
++			weapon = inventory[CONST_SLOT_RIGHT];
+ 		}
++	} else {
++		for (uint32_t slot = CONST_SLOT_RIGHT; slot <= CONST_SLOT_LEFT; slot++) {
++			Item *item = inventory[slot];
++			if (!item) {
++				continue;
++			}
+ 
+-		switch (item->getWeaponType()) {
+-			case WEAPON_NONE:
+-				break;
++			switch (item->getWeaponType()) {
++				case WEAPON_NONE:
++					break;
+ 
+-			case WEAPON_SHIELD: {
+-				if (!shield || (shield && item->getDefense() > shield->getDefense())) {
+-					shield = item;
++				case WEAPON_SHIELD: {
++					if (!shield || (shield && item->getDefense() > shield->getDefense())) {
++						shield = item;
++					}
++					break;
+ 				}
+-				break;
+-			}
+ 
+-			default: { // weapons that are not shields
+-				weapon = item;
+-				break;
++				default: { // weapons that are not shields
++					weapon = item;
++					break;
++				}
+ 			}
+ 		}
+ 	}
+ }
+ 
++bool Player::isDualWielding() const
++{
++	/* Not checking dual wield because the player can't wear two weapons worn without it */
++	if (this->getWeapon(CONST_SLOT_LEFT, true) && this->getWeapon(CONST_SLOT_RIGHT, true)) {
++		return true;
++	}
++	return false;
++}
++
+ int32_t Player::getDefense() const
+ {
+ 	int32_t baseDefense = 5;
+@@ -1951,6 +1976,17 @@ void Player::removeExperience(uint64_t exp, bool sendText/* = false*/)
+ 	sendStats();
+ }
+ 
++uint32_t Player::getAttackSpeed() const {
++	uint32_t ret = vocation->getAttackSpeed();
++
++	if (isDualWielding()) {
++		double multiplier = 100.0 / static_cast<double>(g_config.getNumber(ConfigManager::DUAL_WIELDING_SPEED_RATE));
++		ret = static_cast<uint32_t>(std::ceil(static_cast<double>(ret) * multiplier));
++	}
++
++	return ret;
++}
++
+ uint8_t Player::getPercentLevel(uint64_t count, uint64_t nextLevelCount)
+ {
+ 	if (nextLevelCount == 0) {
+@@ -2583,6 +2619,10 @@ ReturnValue Player::queryAdd(int32_t index, const Thing& thing, uint32_t count,
+ 					           leftType == WEAPON_SHIELD || leftType == WEAPON_AMMO
+ 					           || type == WEAPON_SHIELD || type == WEAPON_AMMO) {
+ 						ret = RETURNVALUE_NOERROR;
++					} else if (type != WEAPON_DISTANCE && type != WEAPON_WAND &&
++						       g_config.getBoolean(ConfigManager::ALLOW_DUAL_WIELDING) &&
++						       vocation->canDualWield()) {
++						ret = RETURNVALUE_NOERROR;
+ 					} else {
+ 						ret = RETURNVALUE_CANONLYUSEONEWEAPON;
+ 					}
+@@ -2624,6 +2664,10 @@ ReturnValue Player::queryAdd(int32_t index, const Thing& thing, uint32_t count,
+ 					           rightType == WEAPON_SHIELD || rightType == WEAPON_AMMO
+ 					           || type == WEAPON_SHIELD || type == WEAPON_AMMO) {
+ 						ret = RETURNVALUE_NOERROR;
++					} else if (type != WEAPON_DISTANCE && type != WEAPON_WAND &&
++						       g_config.getBoolean(ConfigManager::ALLOW_DUAL_WIELDING) &&
++						       vocation->canDualWield()) {
++						ret = RETURNVALUE_NOERROR;
+ 					} else {
+ 						ret = RETURNVALUE_CANONLYUSEONEWEAPON;
+ 					}
+diff --git a/src/player.h b/src/player.h
+index 2928d0f..708a767 100644
+--- a/src/player.h
++++ b/src/player.h
+@@ -89,6 +89,11 @@ enum tradestate_t : uint8_t {
+ 	TRADE_TRANSFER,
+ };
+ 
++enum attackHand_t : uint8_t {
++	HAND_LEFT,
++	HAND_RIGHT,
++};
++
+ struct VIPEntry {
+ 	VIPEntry(uint32_t guid, std::string name, const std::string& description, uint32_t icon, bool notify)
+ 		: guid(guid), name(name), description(description), icon(icon), notify(notify) {}
+@@ -630,12 +635,25 @@ class Player final : public Creature, public Cylinder
+ 		BlockType_t getLastAttackBlockType() const {
+ 			return lastAttackBlockType;
+ 		}
++		void switchAttackHand() {
++			lastAttackHand = lastAttackHand == HAND_LEFT ? HAND_RIGHT : HAND_LEFT;
++		}
++		slots_t getAttackHand() const {
++			return lastAttackHand == HAND_LEFT ? CONST_SLOT_LEFT : CONST_SLOT_RIGHT;
++		}
++		void switchBlockSkillAdvance() {
++			blockSkillAdvance = !blockSkillAdvance;
++		}
++		bool getBlockSkillAdvance() {
++			return blockSkillAdvance;
++		}
+ 
+ 		Item* getWeapon(slots_t slot, bool ignoreAmmo) const;
+ 		Item* getWeapon(bool ignoreAmmo = false) const;
+ 		WeaponType_t getWeaponType() const;
+ 		int32_t getWeaponSkill(const Item* item) const;
+ 		void getShieldAndWeapon(const Item*& shield, const Item*& weapon) const;
++		bool isDualWielding() const;
+ 
+ 		void drainHealth(Creature* attacker, int32_t damage) final;
+ 		void drainMana(Creature* attacker, int32_t manaLoss) final;
+@@ -1293,6 +1311,8 @@ class Player final : public Creature, public Cylinder
+ 		chaseMode_t chaseMode;
+ 		fightMode_t fightMode;
+ 		AccountType_t accountType;
++		attackHand_t lastAttackHand;
++		bool blockSkillAdvance;
+ 
+ 		bool secureMode;
+ 		bool inMarket;
+@@ -1319,9 +1339,7 @@ class Player final : public Creature, public Cylinder
+ 
+ 		bool isPromoted() const;
+ 
+-		uint32_t getAttackSpeed() const {
+-			return vocation->getAttackSpeed();
+-		}
++		uint32_t getAttackSpeed() const;
+ 
+ 		static uint8_t getPercentLevel(uint64_t count, uint64_t nextLevelCount);
+ 		double getLostPercent() const;
+diff --git a/src/tools.cpp b/src/tools.cpp
+index 810560b..830f512 100644
+--- a/src/tools.cpp
++++ b/src/tools.cpp
+@@ -1000,9 +1000,6 @@ const char* getReturnMessage(ReturnValue value)
+ 		case RETURNVALUE_PUTTHISOBJECTINBOTHHANDS:
+ 			return "Put this object in both hands.";
+ 
+-		case RETURNVALUE_CANONLYUSEONEWEAPON:
+-			return "You may only use one weapon.";
+-
+ 		case RETURNVALUE_TOOFARAWAY:
+ 			return "Too far away.";
+ 
+diff --git a/src/vocation.cpp b/src/vocation.cpp
+index c1f57f5..c6bf894 100644
+--- a/src/vocation.cpp
++++ b/src/vocation.cpp
+@@ -109,6 +109,10 @@ bool Vocations::loadFromXml()
+ 			voc.fromVocation = pugi::cast<uint32_t>(attr.value());
+ 		}
+ 
++		if ((attr = vocationNode.attribute("dualwield"))) {
++			voc.dualWield = attr.as_bool();
++		}
++
+ 		for (auto childNode : vocationNode.children()) {
+ 			if (strcasecmp(childNode.name(), "skill") == 0) {
+ 				pugi::xml_attribute skillIdAttribute = childNode.attribute("id");
+@@ -192,6 +196,7 @@ Vocation::Vocation(uint16_t id)
+ 
+ 	clientId = 0;
+ 	fromVocation = VOCATION_NONE;
++	dualWield = true;
+ 
+ 	gainCap = 500;
+ 	gainMana = 5;
+diff --git a/src/vocation.h b/src/vocation.h
+index 1e5fa32..ee0f90d 100644
+--- a/src/vocation.h
++++ b/src/vocation.h
+@@ -86,6 +86,10 @@ class Vocation
+ 			return fromVocation;
+ 		}
+ 
++		bool canDualWield() const {
++			return dualWield;
++		}
++
+ 		float meleeDamageMultiplier, distDamageMultiplier, defenseMultiplier, armorMultiplier;
+ 
+ 	protected:
+@@ -117,6 +121,8 @@ class Vocation
+ 		uint8_t soulMax;
+ 		uint8_t clientId;
+ 
++		bool dualWield;
++
+ 		static uint32_t skillBase[SKILL_LAST + 1];
+ };
+ 
+diff --git a/src/weapons.cpp b/src/weapons.cpp
+index 1c07664..e108db8 100644
+--- a/src/weapons.cpp
++++ b/src/weapons.cpp
+@@ -325,6 +325,10 @@ int32_t Weapon::playerWeaponCheck(Player* player, Creature* target, uint8_t shoo
+ 		}
+ 
+ 		int32_t damageModifier = 100;
++		if (player->isDualWielding()) {
++			damageModifier = g_config.getNumber(ConfigManager::DUAL_WIELDING_DAMAGE_RATE);
++		}
++
+ 		if (player->getLevel() < getReqLevel()) {
+ 			damageModifier = (isWieldedUnproperly() ? damageModifier / 2 : 0);
+ 		}
+@@ -425,10 +429,21 @@ void Weapon::onUsedWeapon(Player* player, Item* item, Tile* destTile) const
+ 		skills_t skillType;
+ 		uint32_t skillPoint;
+ 		if (getSkillType(player, item, skillType, skillPoint)) {
+-			player->addSkillAdvance(skillType, skillPoint);
++			/* Advance one point for every single-wielding hit OR one point for every two hit for each hand */
++			if (!player->isDualWielding() || !player->getBlockSkillAdvance()) {
++				player->addSkillAdvance(skillType, skillPoint);
++			}
++
++			/* For every dual-wielding turn (one hit for each hand), flip the block skill bit */
++			if (player->getAttackHand() == CONST_SLOT_LEFT) {
++				player->switchBlockSkillAdvance();
++			}
+ 		}
+ 	}
+ 
++	/* There's not even the need to check if player is dual wielding: the variable is ignored otherwise. */
++	player->switchAttackHand();
++
+ 	uint32_t manaCost = getManaCost(player);
+ 	if (manaCost != 0) {
+ 		player->addManaSpent(manaCost);
+-- 
+2.4.

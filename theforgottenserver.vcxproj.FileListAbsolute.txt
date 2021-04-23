@@ -1,0 +1,14 @@
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\theforgottenserver.vcxproj.CopyComplete
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\theforgottenserver-x64.exe
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\boost_filesystem-vc141-mt-x64-1_75.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\boost_iostreams-vc141-mt-x64-1_75.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\zlib1.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\bz2.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\lzma.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\zstd.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\fmt.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\libmariadb.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\libssl-1_1-x64.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\libcrypto-1_1-x64.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\lua51.dll
+C:\src\forgottenserver\forgottenserver\vc14\x64\Release\pugixml.dll
