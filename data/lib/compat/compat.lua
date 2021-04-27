@@ -1458,6 +1458,7 @@ do
 		[SKILL_DISTANCE] = 'distance fighting',
 		[SKILL_SHIELD] = 'shielding',
 		[SKILL_FISHING] = 'fishing',
+		[SKILL_MELEE] = 'melee fighting',
 		[SKILL_MAGLEVEL] = 'magic level',
 		[SKILL_LEVEL] = 'level'
 	}

@@ -184,7 +184,9 @@ const std::unordered_map<std::string, RaceType_t> RaceTypesMap = {
 	{"fire", RACE_FIRE},
 	{"energy", RACE_ENERGY},
 };
-
+/*
+* TODO change this when adding new weapon types 
+*/
 const std::unordered_map<std::string, WeaponType_t> WeaponTypesMap = {
 	{"sword", WEAPON_SWORD},
 	{"club", WEAPON_CLUB},

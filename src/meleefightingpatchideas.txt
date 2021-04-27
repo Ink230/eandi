@@ -1,11 +1,5 @@
 Changing to Melee Fighting, Adding a new Skill
-• getSkillType of melee implementation
-    • if any of those cases return SKILL_MELEEFIGHTING 
-    • This will make that skill go up on any weapon_melee type found
-• getWeaponSkill
-    • finds the weapon type, matches it to a skill, returns said skill's lvl
-    • modify so all melee cases return melee_fighting skill
-• Create a skill called melee fighting
+
 
 Adding new WEAPON_TYPES
 • const.h

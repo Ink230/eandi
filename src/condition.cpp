@@ -570,17 +570,17 @@ bool ConditionAttributes::setParam(ConditionParam_t param, int32_t value)
 
 	switch (param) {
 		case CONDITION_PARAM_SKILL_MELEE: {
-			skills[SKILL_CLUB] = value;
-			skills[SKILL_AXE] = value;
-			skills[SKILL_SWORD] = value;
+			//skills[SKILL_CLUB] = value;
+			//skills[SKILL_AXE] = value;
+			//skills[SKILL_SWORD] = value;
 			skills[SKILL_MELEE] = value;
 			return true;
 		}
 
 		case CONDITION_PARAM_SKILL_MELEEPERCENT: {
-			skillsPercent[SKILL_CLUB] = value;
-			skillsPercent[SKILL_AXE] = value;
-			skillsPercent[SKILL_SWORD] = value;
+			//skillsPercent[SKILL_CLUB] = value;
+			//skillsPercent[SKILL_AXE] = value;
+			//skillsPercent[SKILL_SWORD] = value;
 			skillsPercent[SKILL_MELEE] = value;
 			return true;
 		}

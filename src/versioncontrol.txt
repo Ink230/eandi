@@ -1,0 +1,22 @@
+Version Control
+• fgsr
+    • pulls from git repo
+    • is always the working repo
+    • make edits
+    • copy src to compile folder in c:/src/...etc
+
+• c:/src/...etc
+    • copy src, compile, copy .exe to main folder, copy .exe to test server, test it
+    • for major changes backup live server .exe and data folder w/ versioning & create local copy from this 
+    • copy .exe to live server
+    • copy .exe into fgsr 
+
+• fgsr
+    • push local ink to origin ink
+    • switch to main, git pull origin main, git merge ink, resolve conflicts
+    • git push origin main
+    • delete local ink, origin ink,
+    • git checkout -b ink (on main)
+    • git push origin ink 
+
+• Repeat 

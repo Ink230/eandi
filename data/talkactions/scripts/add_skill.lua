@@ -1,10 +1,10 @@
 local function getSkillId(skillName)
 	if skillName == "club" then
-		return SKILL_CLUB
+		return SKILL_MELEE
 	elseif skillName == "sword" then
-		return SKILL_SWORD
+		return SKILL_MELEE
 	elseif skillName == "axe" then
-		return SKILL_AXE
+		return SKILL_MELEE
 	elseif skillName:sub(1, 4) == "dist" then
 		return SKILL_DISTANCE
 	elseif skillName:sub(1, 6) == "shield" then

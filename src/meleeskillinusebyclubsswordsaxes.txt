@@ -1,0 +1,5 @@
+player.cpp
+• getWeaponSkill -> return SKILL_MELEE on axe, club or axe
+
+condition.cpp
+• edited out case melee matches for axes/clubs/swords

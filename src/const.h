@@ -359,7 +359,9 @@ enum Icons_t {
 	ICON_PIGEON = 1 << 14,
 	ICON_BLEEDING = 1 << 15,
 };
-
+/* TODO Change this when adding new weapon types
+*
+*/
 enum WeaponType_t : uint8_t {
 	WEAPON_NONE,
 	WEAPON_SWORD,
