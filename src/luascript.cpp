@@ -15958,6 +15958,11 @@ int LuaScriptInterface::luaGlobalEventInterval(lua_State* L)
 }
 
 // Weapon
+/*
+* This is where I believe weapons are sorted into the three types of weapon sub classes 
+* Info parsed from xml, sent here to populate the lua interface
+* then the rest of the engine takes from the weapon list 
+*/
 int LuaScriptInterface::luaCreateWeapon(lua_State* L)
 {
 	// Weapon(type)

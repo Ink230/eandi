@@ -80,6 +80,14 @@ Loads the weapons array from Lua/xml and populates the corresponding values
 to the params via configureweapon() from weapon.cpp.
 
 It makes sure the items have a weapon attribute property.
+
+*Important*
+I believe this is where the weapon sub classes are applied.
+Weapons get configured here, with their default attributes and abilities applied in the list of weapons.
+Wands missing, means they lack specific things? 
+Perhaps it pulls from an item list or weapon list and further clarifies what it is for/attributes.
+
+TODO WEAPON_WAND is missing
 */
 void Weapons::loadDefaults()
 {
@@ -434,11 +442,11 @@ void Weapon::onUsedWeapon(Player* player, Item* item, Tile* destTile) const
 	if (!player->hasFlag(PlayerFlag_NotGainSkill)) {
 		skills_t skillType;
 		uint32_t skillPoint;
+		/* this will get changed to return to the skill we designate for melee fighting */ 
 		if (getSkillType(player, item, skillType, skillPoint)) {
 			//if player is dual wielding, here we would divide the skillpoint in half 
 			//we need to increase the # of points by +1 on all pts and then ensure all points given are a multiple of 2 
 			//we will divide skillpoint by 2 
-			//we do this in getskilltype
 			if(player->isDualWielding())
 			{
 				skillPoint = skillPoint / 2;
@@ -585,7 +593,9 @@ bool WeaponMelee::useWeapon(Player* player, Item* item, Creature* target) const
 	internalUseWeapon(player, item, target, damageModifier);
 	return true;
 }
-
+/* TODO change this so only distance gets trained
+* Apparently all this does is returns the skill point amount to add 
+*/
 bool WeaponMelee::getSkillType(const Player* player, const Item* item,
                                skills_t& skill, uint32_t& skillpoint) const
 {

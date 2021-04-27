@@ -1,0 +1,28 @@
+Changing to Melee Fighting, Adding a new Skill
+• getSkillType of melee implementation
+    • if any of those cases return SKILL_MELEEFIGHTING 
+    • This will make that skill go up on any weapon_melee type found
+• getWeaponSkill
+    • finds the weapon type, matches it to a skill, returns said skill's lvl
+    • modify so all melee cases return melee_fighting skill
+• Create a skill called melee fighting
+
+Adding new WEAPON_TYPES
+• const.h
+    • enum list of all weapon types
+• luascript.cpp
+    • registerEnum weapon type
+    • luaCreateWeapon->case list, include it so it gets the right melee, dist, wand treatment
+• spells.cpp
+    • if the weapon_type will be required by a spell to use, need to include here
+• tools.cpp
+    • getWeaponName returns the name of the weapon
+    • where is the reverse of this? lua? 
+
+
+Nautral Gear Stats
+• items.cpp has a list of itemparseattributes of all stats given by xml with attribute names
+• items.cpp then parsesthis info and attaches it to each item as an ability
+• weaponoritem->abilities.skills[SKILL_SWORD] i think is how it is used
+• can use this to include it in calculations
+• both weapons and armour if equipped 

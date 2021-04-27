@@ -272,7 +272,7 @@ enum ConditionParam_t {
 	CONDITION_PARAM_SPECIALSKILL_LIFELEECHAMOUNT = 51,
 	CONDITION_PARAM_SPECIALSKILL_MANALEECHCHANCE = 52,
 	CONDITION_PARAM_SPECIALSKILL_MANALEECHAMOUNT = 53,
-	CONDITION_PARAM_AGGRESSIVE = 54,
+	CONDITION_PARAM_AGGRESSIVE = 54
 };
 
 enum BlockType_t : uint8_t {
@@ -281,8 +281,11 @@ enum BlockType_t : uint8_t {
 	BLOCK_ARMOR,
 	BLOCK_IMMUNITY
 };
-
-enum skills_t : uint8_t {
+/*
+* TODO Why is maglvl not considered a skill? Why is overall level in here anyways?
+*/
+enum skills_t : uint8_t
+{
 	SKILL_FIST = 0,
 	SKILL_CLUB = 1,
 	SKILL_SWORD = 2,
@@ -290,12 +293,13 @@ enum skills_t : uint8_t {
 	SKILL_DISTANCE = 4,
 	SKILL_SHIELD = 5,
 	SKILL_FISHING = 6,
+	SKILL_MELEE = 7,
 
-	SKILL_MAGLEVEL = 7,
-	SKILL_LEVEL = 8,
+	SKILL_MAGLEVEL =8,
+	SKILL_LEVEL = 9,
 
 	SKILL_FIRST = SKILL_FIST,
-	SKILL_LAST = SKILL_FISHING
+	SKILL_LAST = SKILL_MELEE
 };
 
 enum stats_t {

@@ -28,7 +28,9 @@
 
 extern MoveEvents* g_moveEvents;
 extern Weapons* g_weapons;
-
+/*
+* TODO THIS IS FOR CUSTOM ATTRIBUTES 
+*/
 const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributesMap = {
 	{"type", ITEM_PARSE_TYPE},
 	{"description", ITEM_PARSE_DESCRIPTION},
@@ -84,6 +86,7 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"skillclub", ITEM_PARSE_SKILLCLUB},
 	{"skilldist", ITEM_PARSE_SKILLDIST},
 	{"skillfish", ITEM_PARSE_SKILLFISH},
+	{"skillmelee", ITEM_PARSE_SKILLMELEE},
 	{"skillshield", ITEM_PARSE_SKILLSHIELD},
 	{"skillfist", ITEM_PARSE_SKILLFIST},
 	{"maxhitpoints", ITEM_PARSE_MAXHITPOINTS},
@@ -917,6 +920,11 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 
 				case ITEM_PARSE_SKILLFISH: {
 					abilities.skills[SKILL_FISHING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLMELEE:
+				{
+					abilities.skills[SKILL_MELEE] = pugi::cast<int32_t>(valueAttribute.value());
 					break;
 				}
 

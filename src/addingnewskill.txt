@@ -1,0 +1,46 @@
+tools.cpp
+• Add a case for skill_melee so that the name of it can be returned 
+
+luascript.cpp
+• REGISTEReNUM OF CONDITION PARAM SKILL X AND XPERCENT
+• MELEE ALREADY exists as a registerEnum so...just take over that? 
+
+items.cpp
+• add skillmelee and item parse skillmelee as a case relation
+• later used in a case match
+• thus a case match must be added 
+    • in this case match the appropriate skill amount is added from xml onto the proper weapon's attribute location
+
+items.h
+• add ITEM_PARSE_SKILLX
+• allows that to be parsed by the items loader
+
+iologindata.cpp
+• loadplayerbid and loadplayerbynumber
+    • add  `skill_melee`, `skill_melee_tries`,  to the end of the skill retrieval part
+• 2 query strings for skill and skill tries in savePlayer 
+
+condition.cpp
+• add skillspercent and skills of the skill to the case switch of setParams of condition attributes
+• melee and meleepercent were already there
+    • maybe need to disable club, axe and sword in there 
+
+enums.h
+• add skill_x and skill_xpercent to the list of condition params 
+• add the skill under skills_t
+    • rmbr to adjust maglvl and lvl to higher values and put the skill before them
+    • rmbr to change skill first and skill last if needed
+
+vocation.h
+• skillMultiplers, add an entry for the new skill
+    • fig what this is for exactly 
+
+vocation.cpp
+• add an entry for the skill base
+    • fig what this is for exactly
+
+Database
+ALTER TABLE players ADD COLUMN skill_melee int(10) unsigned NOT NULL DEFAULT 10 AFTER skill_fishing, ADD COLUMN skill_melee_tries bigint(20) unsigned NOT NULL DEFAULT 0 AFTER skill_melee;
+
+Client
+-> see client card 
