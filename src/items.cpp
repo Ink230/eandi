@@ -87,6 +87,23 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"skilldist", ITEM_PARSE_SKILLDIST},
 	{"skillfish", ITEM_PARSE_SKILLFISH},
 	{"skillmelee", ITEM_PARSE_SKILLMELEE},
+	{"skillaccuracy", ITEM_PARSE_SKILLACCURACY},
+	{"skillevasion", ITEM_PARSE_SKILLEVASION},
+	{"skillarmour", ITEM_PARSE_SKILLARMOUR},
+	{"skillresolve", ITEM_PARSE_SKILLRESOLVE},
+	{"skillagility", ITEM_PARSE_SKILLAGILITY},
+	{"skillalacrity", ITEM_PARSE_SKILLALACRITY},
+	{"skillfinesse", ITEM_PARSE_SKILLFINESSE},
+	{"skillconcentration", ITEM_PARSE_SKILLCONCENTRATION},
+	{"skillfocus", ITEM_PARSE_SKILLFOCUS},
+	{"skillconcocting", ITEM_PARSE_SKILLCONCOCTING},
+	{"skillenchanting", ITEM_PARSE_SKILLENCHANTING},
+	{"skillexploring", ITEM_PARSE_SKILLEXPLORING},
+	{"skillsmithing", ITEM_PARSE_SKILLSMITHING},
+	{"skillcooking", ITEM_PARSE_SKILLCOOKING},
+	{"skillmining", ITEM_PARSE_SKILLMINING},
+	{"skillgathering", ITEM_PARSE_SKILLGATHERING},
+	{"skillslaying", ITEM_PARSE_SKILLSLAYING},
 	{"skillshield", ITEM_PARSE_SKILLSHIELD},
 	{"skillfist", ITEM_PARSE_SKILLFIST},
 	{"maxhitpoints", ITEM_PARSE_MAXHITPOINTS},
@@ -927,6 +944,91 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 				case ITEM_PARSE_SKILLMELEE:
 				{
 					abilities.skills[SKILL_MELEE] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLACCURACY:
+				{
+					abilities.skills[SKILL_ACCURACY] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLEVASION:
+				{
+					abilities.skills[SKILL_EVASION] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLARMOUR:
+				{
+					abilities.skills[SKILL_ARMOUR] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLRESOLVE:
+				{
+					abilities.skills[SKILL_RESOLVE] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLAGILITY:
+				{
+					abilities.skills[SKILL_AGILITY] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLALACRITY:
+				{
+					abilities.skills[SKILL_ALACRITY] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLFINESSE:
+				{
+					abilities.skills[SKILL_FINESSE] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLCONCENTRATION:
+				{
+					abilities.skills[SKILL_CONCENTRATION] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLFOCUS:
+				{
+					abilities.skills[SKILL_FOCUS] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLCONCOCTING:
+				{
+					abilities.skills[SKILL_CONCOCTING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLENCHANTING:
+				{
+					abilities.skills[SKILL_ENCHANTING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLEXPLORING:
+				{
+					abilities.skills[SKILL_EXPLORING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLSMITHING:
+				{
+					abilities.skills[SKILL_SMITHING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLCOOKING:
+				{
+					abilities.skills[SKILL_COOKING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLMINING:
+				{
+					abilities.skills[SKILL_MINING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLGATHERING:
+				{
+					abilities.skills[SKILL_GATHERING] = pugi::cast<int32_t>(valueAttribute.value());
+					break;
+				}
+				case ITEM_PARSE_SKILLSLAYING:
+				{
+					abilities.skills[SKILL_SLAYING] = pugi::cast<int32_t>(valueAttribute.value());
 					break;
 				}
 

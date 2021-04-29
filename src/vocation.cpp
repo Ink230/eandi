@@ -180,7 +180,7 @@ uint16_t Vocations::getPromotedVocation(uint16_t id) const
 	return it != vocationsMap.end() ? it->first : VOCATION_NONE;
 }
 
-static const uint32_t skillBase[SKILL_LAST + 1] = {50, 50, 50, 50, 30, 100, 20, 50};
+static const uint32_t skillBase[SKILL_LAST + 1] = {50, 50, 50, 50, 30, 100, 20, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 30, 30, 30, 30, 30, 30, 30, 30};
 
 uint64_t Vocation::getReqSkillTries(uint8_t skill, uint16_t level)
 {

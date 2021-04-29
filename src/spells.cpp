@@ -796,7 +796,9 @@ bool Spell::playerRuneSpellCheck(Player* player, const Position& toPos)
 	}
 	return true;
 }
-
+/*
+* Spell cool down/cooldown 
+*/
 void Spell::postCastSpell(Player* player, bool finishedCast /*= true*/, bool payCost /*= true*/) const
 {
 	if (finishedCast) {

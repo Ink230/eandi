@@ -654,6 +654,176 @@ bool ConditionAttributes::setParam(ConditionParam_t param, int32_t value)
 			skillsPercent[SKILL_FISHING] = value;
 			return true;
 		}
+		case CONDITION_PARAM_SKILL_ACCURACY:
+		{
+			skills[SKILL_ACCURACY] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_EVASION:
+		{
+			skills[SKILL_EVASION] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ARMOUR:
+		{
+			skills[SKILL_ARMOUR] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_RESOLVE:
+		{
+			skills[SKILL_RESOLVE] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_AGILITY:
+		{
+			skills[SKILL_AGILITY] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ALACRITY:
+		{
+			skills[SKILL_ALACRITY] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_FINESSE:
+		{
+			skills[SKILL_FINESSE] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_CONCENTRATION:
+		{
+			skills[SKILL_CONCENTRATION] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_FOCUS:
+		{
+			skills[SKILL_FOCUS] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_CONCOCTING:
+		{
+			skills[SKILL_CONCOCTING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ENCHANTING:
+		{
+			skills[SKILL_ENCHANTING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_EXPLORING:
+		{
+			skills[SKILL_EXPLORING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_SMITHING:
+		{
+			skills[SKILL_SMITHING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_COOKING:
+		{
+			skills[SKILL_COOKING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_MINING:
+		{
+			skills[SKILL_MINING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_GATHERING:
+		{
+			skills[SKILL_GATHERING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_SLAYING:
+		{
+			skills[SKILL_SLAYING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ACCURACYPERCENT:
+		{
+			skillsPercent[SKILL_ACCURACY] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_EVASIONPERCENT:
+		{
+			skillsPercent[SKILL_EVASION] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ARMOURPERCENT:
+		{
+			skillsPercent[SKILL_ARMOUR] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_RESOLVEPERCENT:
+		{
+			skillsPercent[SKILL_RESOLVE] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_AGILITYPERCENT:
+		{
+			skillsPercent[SKILL_AGILITY] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ALACRITYPERCENT:
+		{
+			skillsPercent[SKILL_ALACRITY] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_FINESSEPERCENT:
+		{
+			skillsPercent[SKILL_FINESSE] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_CONCENTRATIONPERCENT:
+		{
+			skillsPercent[SKILL_CONCENTRATION] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_FOCUSPERCENT:
+		{
+			skillsPercent[SKILL_FOCUS] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_CONCOCTINGPERCENT:
+		{
+			skillsPercent[SKILL_CONCOCTING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_ENCHANTINGPERCENT:
+		{
+			skillsPercent[SKILL_ENCHANTING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_EXPLORINGPERCENT:
+		{
+			skillsPercent[SKILL_EXPLORING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_SMITHINGPERCENT:
+		{
+			skillsPercent[SKILL_SMITHING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_COOKINGPERCENT:
+		{
+			skillsPercent[SKILL_COOKING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_MININGPERCENT:
+		{
+			skillsPercent[SKILL_MINING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_GATHERINGPERCENT:
+		{
+			skillsPercent[SKILL_GATHERING] = value;
+			return true;
+		}
+		case CONDITION_PARAM_SKILL_SLAYINGPERCENT:
+		{
+			skillsPercent[SKILL_SLAYING] = value;
+			return true;
+		}
 
 		case CONDITION_PARAM_STAT_MAXHITPOINTS: {
 			stats[STAT_MAXHITPOINTS] = value;

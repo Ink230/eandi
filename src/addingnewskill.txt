@@ -1,3 +1,9 @@
+enums.h
+• add skill_x and skill_xpercent to the list of condition params 
+• add the skill under skills_t
+    • rmbr to adjust maglvl and lvl to higher values and put the skill before them
+    • rmbr to change skill first and skill last if needed
+
 tools.cpp
 • Add a case for skill_melee so that the name of it can be returned 
 
@@ -6,7 +12,9 @@ luascript.cpp
 • MELEE ALREADY exists as a registerEnum so...just take over that? 
 
 items.cpp
-• add skillmelee and item parse skillmelee as a case relation
+• add skillmelee 
+• add item parse skillmelee as a case relation
+• percents not needed 
 • later used in a case match
 • thus a case match must be added 
     • in this case match the appropriate skill amount is added from xml onto the proper weapon's attribute location
@@ -24,12 +32,6 @@ condition.cpp
 • add skillspercent and skills of the skill to the case switch of setParams of condition attributes
 • melee and meleepercent were already there
     • maybe need to disable club, axe and sword in there 
-
-enums.h
-• add skill_x and skill_xpercent to the list of condition params 
-• add the skill under skills_t
-    • rmbr to adjust maglvl and lvl to higher values and put the skill before them
-    • rmbr to change skill first and skill last if needed
 
 vocation.h
 • skillMultiplers, add an entry for the new skill

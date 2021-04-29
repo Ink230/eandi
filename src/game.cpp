@@ -3743,7 +3743,9 @@ void Game::checkCreatures(size_t index)
 
 	cleanup();
 }
-
+/*
+* TODO Movement speed change here 
+*/
 void Game::changeSpeed(Creature* creature, int32_t varSpeedDelta)
 {
 	int32_t varSpeed = creature->getSpeed() - creature->getBaseSpeed();

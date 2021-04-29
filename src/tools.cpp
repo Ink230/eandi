@@ -805,6 +805,57 @@ std::string getSkillName(uint8_t skillid)
 		case SKILL_MELEE:
 			return "melee fighting";
 
+		case SKILL_ACCURACY:
+			return "Accuracy";
+
+		case SKILL_EVASION:
+			return "Evasion";
+
+		case SKILL_ARMOUR:
+			return "Armour";
+
+		case SKILL_RESOLVE:
+			return "Resolve";
+
+		case SKILL_AGILITY:
+			return "Agility";
+
+		case SKILL_ALACRITY:
+			return "Alacrity";
+
+		case SKILL_FINESSE:
+			return "Finesse";
+
+		case SKILL_CONCENTRATION:
+			return "Concentration";
+
+		case SKILL_FOCUS:
+			return "Focus";
+
+		case SKILL_CONCOCTING:
+			return "Concocting";
+
+		case SKILL_ENCHANTING:
+			return "Enchanting";
+
+		case SKILL_EXPLORING:
+			return "Exploring";
+
+		case SKILL_SMITHING:
+			return "Smithing";
+
+		case SKILL_COOKING:
+			return "Cooking";
+
+		case SKILL_MINING:
+			return "Mining";
+
+		case SKILL_GATHERING:
+			return "Gathering";
+
+		case SKILL_SLAYING:
+			return "Slayer";
+
 		case SKILL_MAGLEVEL:
 			return "magic level";
 
