@@ -109,6 +109,98 @@ bool Vocations::loadFromXml()
 		if ((attr = vocationNode.attribute("fromvoc"))) {
 			voc.fromVocation = pugi::cast<uint32_t>(attr.value());
 		}
+		if ((attr = vocationNode.attribute("armor")))
+		{
+			voc.armor = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("defense")))
+		{
+			voc.defense = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("distance")))
+		{
+			voc.distance = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("melee")))
+		{
+			voc.melee = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("accuracy")))
+		{
+			voc.accuracy = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("evasion")))
+		{
+			voc.evasion = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("resolve")))
+		{
+			voc.resolve = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("agility")))
+		{
+			voc.agility = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("alacrity")))
+		{
+			voc.alacrity = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("finesse")))
+		{
+			voc.finesse = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("concentration")))
+		{
+			voc.concentration = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("focus")))
+		{
+			voc.focus = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("concocting")))
+		{
+			voc.concocting = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("enchanting")))
+		{
+			voc.enchanting = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("exploring")))
+		{
+			voc.exploring = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("smithing")))
+		{
+			voc.smithing = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("cooking")))
+		{
+			voc.cooking = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("mining")))
+		{
+			voc.mining = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("gathering")))
+		{
+			voc.gathering = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("slaying")))
+		{
+			voc.slaying = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("shield")))
+		{
+			voc.shield = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("fist")))
+		{
+			voc.fist = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("magic")))
+		{
+			voc.magic = pugi::cast<uint32_t>(attr.value());
+		}
 		/* Enable if we want to have certain classes with dual wield on or off
 		if ((attr = vocationNode.attribute("dualwield")))
 		{

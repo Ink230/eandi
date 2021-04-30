@@ -643,6 +643,7 @@ ShootTypeNames shootTypeNames = {
 
 CombatTypeNames combatTypeNames = {
 	{COMBAT_PHYSICALDAMAGE, 	"physical"},
+	{COMBAT_RANGEDAMAGE, 		"range"},
 	{COMBAT_ENERGYDAMAGE, 		"energy"},
 	{COMBAT_EARTHDAMAGE, 		"earth"},
 	{COMBAT_FIREDAMAGE, 		"fire"},
@@ -971,6 +972,8 @@ size_t combatTypeToIndex(CombatType_t combatType)
 			return 10;
 		case COMBAT_DEATHDAMAGE:
 			return 11;
+		case COMBAT_RANGEDAMAGE:
+			return 12;
 		default:
 			return 0;
 	}

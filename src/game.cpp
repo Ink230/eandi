@@ -3836,6 +3836,7 @@ bool Game::combatBlockHit(CombatDamage& damage, Creature* attacker, Creature* ta
 				case COMBAT_ENERGYDAMAGE:
 				case COMBAT_FIREDAMAGE:
 				case COMBAT_PHYSICALDAMAGE:
+				case COMBAT_RANGEDAMAGE:
 				case COMBAT_ICEDAMAGE:
 				case COMBAT_DEATHDAMAGE: {
 					hitEffect = CONST_ME_BLOCKHIT;
@@ -3891,14 +3892,15 @@ void Game::combatGetTypeInfo(CombatType_t combatType, Creature* target, TextColo
 	switch (combatType) {
 		case COMBAT_PHYSICALDAMAGE: {
 			Item* splash = nullptr;
+			color = TEXTCOLOR_RED;
 			switch (target->getRace()) {
 				case RACE_VENOM:
-					color = TEXTCOLOR_LIGHTGREEN;
+					//color = TEXTCOLOR_LIGHTGREEN;
 					effect = CONST_ME_HITBYPOISON;
 					splash = Item::CreateItem(ITEM_SMALLSPLASH, FLUID_SLIME);
 					break;
 				case RACE_BLOOD:
-					color = TEXTCOLOR_RED;
+					//color = TEXTCOLOR_RED;
 					effect = CONST_ME_DRAWBLOOD;
 					if (const Tile* tile = target->getTile()) {
 						if (!tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
@@ -3907,24 +3909,72 @@ void Game::combatGetTypeInfo(CombatType_t combatType, Creature* target, TextColo
 					}
 					break;
 				case RACE_UNDEAD:
-					color = TEXTCOLOR_LIGHTGREY;
+					//color = TEXTCOLOR_LIGHTGREY;
 					effect = CONST_ME_HITAREA;
 					break;
 				case RACE_FIRE:
-					color = TEXTCOLOR_ORANGE;
+					//color = TEXTCOLOR_ORANGE;
 					effect = CONST_ME_DRAWBLOOD;
 					break;
 				case RACE_ENERGY:
-					color = TEXTCOLOR_ELECTRICPURPLE;
+					//color = TEXTCOLOR_ELECTRICPURPLE;
 					effect = CONST_ME_ENERGYHIT;
 					break;
 				default:
-					color = TEXTCOLOR_NONE;
+					//color = TEXTCOLOR_NONE;
 					effect = CONST_ME_NONE;
 					break;
 			}
 
 			if (splash) {
+				internalAddItem(target->getTile(), splash, INDEX_WHEREEVER, FLAG_NOLIMIT);
+				startDecay(splash);
+			}
+
+			break;
+		}
+		case COMBAT_RANGEDAMAGE:
+		{
+			Item *splash = nullptr;
+			color = TEXTCOLOR_LIGHTGREEN;
+			switch (target->getRace())
+			{
+			case RACE_VENOM:
+				//color = TEXTCOLOR_LIGHTGREEN;
+				effect = CONST_ME_HITBYPOISON;
+				splash = Item::CreateItem(ITEM_SMALLSPLASH, FLUID_SLIME);
+				break;
+			case RACE_BLOOD:
+				//color = TEXTCOLOR_RED;
+				effect = CONST_ME_DRAWBLOOD;
+				if (const Tile *tile = target->getTile())
+				{
+					if (!tile->hasFlag(TILESTATE_PROTECTIONZONE))
+					{
+						splash = Item::CreateItem(ITEM_SMALLSPLASH, FLUID_BLOOD);
+					}
+				}
+				break;
+			case RACE_UNDEAD:
+				//color = TEXTCOLOR_LIGHTGREY;
+				effect = CONST_ME_HITAREA;
+				break;
+			case RACE_FIRE:
+				//color = TEXTCOLOR_ORANGE;
+				effect = CONST_ME_DRAWBLOOD;
+				break;
+			case RACE_ENERGY:
+				//color = TEXTCOLOR_ELECTRICPURPLE;
+				effect = CONST_ME_ENERGYHIT;
+				break;
+			default:
+				//color = TEXTCOLOR_NONE;
+				effect = CONST_ME_NONE;
+				break;
+			}
+
+			if (splash)
+			{
 				internalAddItem(target->getTile(), splash, INDEX_WHEREEVER, FLAG_NOLIMIT);
 				startDecay(splash);
 			}

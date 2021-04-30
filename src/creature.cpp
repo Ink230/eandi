@@ -817,6 +817,9 @@ void Creature::drainHealth(Creature* attacker, int32_t damage)
 /* 
 Uses positive damage values. Main caller is game::combatBlockHit which changes the damage object to positive.
 Damage object is passed by reference.
+
+Access attacker as attacker, access target as this
+TODO This is where dmg formulas, reductions...etc will take place 
 */
 BlockType_t Creature::blockHit(Creature* attacker, CombatType_t combatType, int32_t& damage,
                                bool checkDefense /* = false */, bool checkArmor /* = false */, bool /* field = false */, bool /* ignoreResistances = false */)
@@ -836,6 +839,7 @@ BlockType_t Creature::blockHit(Creature* attacker, CombatType_t combatType, int3
 
 		if (checkDefense && hasDefense && canUseDefense) {
 			int32_t defense = getDefense();
+			//TODO damage is reduced by defense here (i think this factors in shield)
 			damage -= uniform_random(defense / 2, defense); //defense reduction formula
 			if (damage <= 0) {
 				damage = 0;
@@ -844,7 +848,7 @@ BlockType_t Creature::blockHit(Creature* attacker, CombatType_t combatType, int3
 			}
 		}
 
-		/* idk wtf this is doing, too tired come back later
+		/* TODO damage is reduced by armour here 
 		*/
 		if (checkArmor) {
 			int32_t armor = getArmor();

@@ -226,7 +226,7 @@ bool IOLoginData::loadPlayerById(Player* player, uint32_t id)
 {
 	Database& db = Database::getInstance();
 	std::ostringstream query;
-	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_melee`, `skill_melee_tries`, `skill_accuracy`, `skill_accuracy_tries`, `skill_evasion`, `skill_evasion_tries`, `skill_armour`, `skill_armour_tries`, `skill_resolve`, `skill_resolve_tries`, `skill_agility`, `skill_agility_tries`, `skill_alacrity`, `skill_alacrity_tries`, `skill_finesse`, `skill_finesse_tries`, `skill_concentration`, `skill_concentration_tries`,`skill_focus`, `skill_focus_tries`, `skill_concocting`, `skill_concocting_tries`, `skill_enchanting`, `skill_enchanting_tries`, `exploring`, `skill_exploring_tries`, `skill_smithing`, `skill_smithing_tries`, `skill_cooking`, `skill_cooking_tries`, `skill_mining`, `skill_mining_tries`, `skill_gathering`, `skill_gathering_tries`, `skill_slaying`, `skill_slaying_tries`, `direction` FROM `players` WHERE `id` = " << id;
+	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_melee`, `skill_melee_tries`, `skill_accuracy`, `skill_accuracy_tries`, `skill_evasion`, `skill_evasion_tries`, `skill_armour`, `skill_armour_tries`, `skill_resolve`, `skill_resolve_tries`, `skill_agility`, `skill_agility_tries`, `skill_alacrity`, `skill_alacrity_tries`, `skill_finesse`, `skill_finesse_tries`, `skill_concentration`, `skill_concentration_tries`,`skill_focus`, `skill_focus_tries`, `skill_concocting`, `skill_concocting_tries`, `skill_enchanting`, `skill_enchanting_tries`, `skill_exploring`, `skill_exploring_tries`, `skill_smithing`, `skill_smithing_tries`, `skill_cooking`, `skill_cooking_tries`, `skill_mining`, `skill_mining_tries`, `skill_gathering`, `skill_gathering_tries`, `skill_slaying`, `skill_slaying_tries`, `direction` FROM `players` WHERE `id` = " << id;
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
@@ -234,7 +234,7 @@ bool IOLoginData::loadPlayerByName(Player* player, const std::string& name)
 {
 	Database& db = Database::getInstance();
 	std::ostringstream query;
-	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_melee`, `skill_melee_tries`, `skill_accuracy`, `skill_accuracy_tries`, `skill_evasion`, `skill_evasion_tries`, `skill_armour`, `skill_armour_tries`, `skill_resolve`, `skill_resolve_tries`, `skill_agility`, `skill_agility_tries`, `skill_alacrity`, `skill_alacrity_tries`, `skill_finesse`, `skill_finesse_tries`, `skill_concentration`, `skill_concentration_tries`,`skill_focus`, `skill_focus_tries`, `skill_concocting`, `skill_concocting_tries`, `skill_enchanting`, `skill_enchanting_tries`, `exploring`, `skill_exploring_tries`, `skill_smithing`, `skill_smithing_tries`, `skill_cooking`, `skill_cooking_tries`, `skill_mining`, `skill_mining_tries`, `skill_gathering`, `skill_gathering_tries`, `skill_slaying`, `skill_slaying_tries`, `direction` FROM `players` WHERE `name` = " << db.escapeString(name);
+	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_melee`, `skill_melee_tries`, `skill_accuracy`, `skill_accuracy_tries`, `skill_evasion`, `skill_evasion_tries`, `skill_armour`, `skill_armour_tries`, `skill_resolve`, `skill_resolve_tries`, `skill_agility`, `skill_agility_tries`, `skill_alacrity`, `skill_alacrity_tries`, `skill_finesse`, `skill_finesse_tries`, `skill_concentration`, `skill_concentration_tries`,`skill_focus`, `skill_focus_tries`, `skill_concocting`, `skill_concocting_tries`, `skill_enchanting`, `skill_enchanting_tries`, `skill_exploring`, `skill_exploring_tries`, `skill_smithing`, `skill_smithing_tries`, `skill_cooking`, `skill_cooking_tries`, `skill_mining`, `skill_mining_tries`, `skill_gathering`, `skill_gathering_tries`, `skill_slaying`, `skill_slaying_tries`, `direction` FROM `players` WHERE `name` = " << db.escapeString(name);
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
@@ -374,8 +374,8 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 
 	player->staminaMinutes = result->getNumber<uint16_t>("stamina");
 
-	static const std::string skillNames[] = {"skill_fist", "skill_club", "skill_sword", "skill_axe", "skill_dist", "skill_shielding", "skill_fishing", "skill_melee"};
-	static const std::string skillNameTries[] = {"skill_fist_tries", "skill_club_tries", "skill_sword_tries", "skill_axe_tries", "skill_dist_tries", "skill_shielding_tries", "skill_fishing_tries", "skill_melee_tries"};
+	static const std::string skillNames[] = {"skill_fist", "skill_club", "skill_sword", "skill_axe", "skill_dist", "skill_shielding", "skill_fishing", "skill_melee", "skill_accuracy", "skill_evasion", "skill_armour", "skill_resolve", "skill_agility", "skill_alacrity", "skill_finesse", "skill_concentration", "skill_focus", "skill_concocting", "skill_enchanting", "skill_exploring", "skill_smithing", "skill_cooking", "skill_mining", "skill_gathering", "skill_slaying"};
+	static const std::string skillNameTries[] = {"skill_fist_tries", "skill_club_tries", "skill_sword_tries", "skill_axe_tries", "skill_dist_tries", "skill_shielding_tries", "skill_fishing_tries", "skill_melee_tries", "skill_accuracy_tries", "skill_evasion_tries", "skill_armour_tries", "skill_resolve_tries", "skill_agility_tries", "skill_alacrity_tries", "skill_finesse_tries", "skill_concentration_tries", "skill_focus_tries", "skill_concocting_tries", "skill_enchanting_tries", "skill_exploring_tries", "skill_smithing_tries", "skill_cooking_tries", "skill_mining_tries", "skill_gathering_tries", "skill_slaying"};
 	static constexpr size_t size = sizeof(skillNames) / sizeof(std::string);
 	for (uint8_t i = 0; i < size; ++i) {
 		uint16_t skillLevel = result->getNumber<uint16_t>(skillNames[i]);
@@ -760,6 +760,40 @@ bool IOLoginData::savePlayer(Player* player)
 	query << "`skill_fishing_tries` = " << player->skills[SKILL_FISHING].tries << ',';
 	query << "`skill_melee` = " << player->skills[SKILL_MELEE].level << ',';
 	query << "`skill_melee_tries` = " << player->skills[SKILL_MELEE].tries << ',';
+	query << "`skill_accuracy` = " << player->skills[SKILL_ACCURACY].level << ',';
+	query << "`skill_accuracy_tries` = " << player->skills[SKILL_ACCURACY].tries << ',';
+	query << "`skill_evasion` = " << player->skills[SKILL_EVASION].level << ',';
+	query << "`skill_evasion_tries` = " << player->skills[SKILL_EVASION].tries << ',';
+	query << "`skill_armour` = " << player->skills[SKILL_ARMOUR].level << ',';
+	query << "`skill_armour_tries` = " << player->skills[SKILL_ARMOUR].tries << ',';
+	query << "`skill_resolve` = " << player->skills[SKILL_RESOLVE].level << ',';
+	query << "`skill_resolve_tries` = " << player->skills[SKILL_RESOLVE].tries << ',';
+	query << "`skill_agility` = " << player->skills[SKILL_AGILITY].level << ',';
+	query << "`skill_agility_tries` = " << player->skills[SKILL_AGILITY].tries << ',';
+	query << "`skill_alacrity` = " << player->skills[SKILL_ALACRITY].level << ',';
+	query << "`skill_alacrity_tries` = " << player->skills[SKILL_ALACRITY].tries << ',';
+	query << "`skill_finesse` = " << player->skills[SKILL_FINESSE].level << ',';
+	query << "`skill_finesse_tries` = " << player->skills[SKILL_FINESSE].tries << ',';
+	query << "`skill_concentration` = " << player->skills[SKILL_CONCENTRATION].level << ',';
+	query << "`skill_concentration_tries` = " << player->skills[SKILL_CONCENTRATION].tries << ',';
+	query << "`skill_focus` = " << player->skills[SKILL_FOCUS].level << ',';
+	query << "`skill_focus_tries` = " << player->skills[SKILL_FOCUS].tries << ',';
+	query << "`skill_concocting` = " << player->skills[SKILL_CONCOCTING].level << ',';
+	query << "`skill_concocting_tries` = " << player->skills[SKILL_CONCOCTING].tries << ',';
+	query << "`skill_enchanting` = " << player->skills[SKILL_ENCHANTING].level << ',';
+	query << "`skill_enchanting_tries` = " << player->skills[SKILL_ENCHANTING].tries << ',';
+	query << "`skill_exploring` = " << player->skills[SKILL_EXPLORING].level << ',';
+	query << "`skill_exploring_tries` = " << player->skills[SKILL_EXPLORING].tries << ',';
+	query << "`skill_smithing` = " << player->skills[SKILL_SMITHING].level << ',';
+	query << "`skill_smithing_tries` = " << player->skills[SKILL_SMITHING].tries << ',';
+	query << "`skill_cooking` = " << player->skills[SKILL_COOKING].level << ',';
+	query << "`skill_cooking_tries` = " << player->skills[SKILL_COOKING].tries << ',';
+	query << "`skill_mining` = " << player->skills[SKILL_MINING].level << ',';
+	query << "`skill_mining_tries` = " << player->skills[SKILL_MINING].tries << ',';
+	query << "`skill_gathering` = " << player->skills[SKILL_GATHERING].level << ',';
+	query << "`skill_gathering_tries` = " << player->skills[SKILL_GATHERING].tries << ',';
+	query << "`skill_slaying` = " << player->skills[SKILL_SLAYING].level << ',';
+	query << "`skill_slaying_tries` = " << player->skills[SKILL_SLAYING].tries << ',';
 	query << "`direction` = " << static_cast<uint16_t> (player->getDirection()) << ',';
 
 	if (!player->isOffline()) {

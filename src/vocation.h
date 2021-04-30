@@ -85,6 +85,98 @@ class Vocation
 		uint32_t getFromVocation() const {
 			return fromVocation;
 		}
+		uint32_t getArmour() const
+		{
+			return armor;
+		}
+		uint32_t getDefense() const
+		{
+			return defense;
+		}
+		uint32_t getDistance() const
+		{
+			return distance;
+		}
+		uint32_t getMelee() const
+		{
+			return melee;
+		}
+		uint32_t getFist() const
+		{
+			return fist;
+		}
+		uint32_t getShield() const
+		{
+			return shield;
+		}
+		uint32_t getMagic() const
+		{
+			return magic;
+		}
+		uint32_t getAccuracy() const
+		{
+			return accuracy;
+		}
+		uint32_t getEvasion() const
+		{
+			return evasion;
+		}
+		uint32_t getResolve() const
+		{
+			return resolve;
+		}
+		uint32_t getAgility() const
+		{
+			return agility;
+		}
+		uint32_t getAlacrity() const
+		{
+			return alacrity;
+		}
+		uint32_t getFinesse() const
+		{
+			return finesse;
+		}
+		uint32_t getConcentration() const
+		{
+			return concentration;
+		}
+		uint32_t getFocus() const
+		{
+			return focus;
+		}
+		uint32_t getConcocting() const
+		{
+			return concocting;
+		}
+		uint32_t getEnchanting() const
+		{
+			return enchanting;
+		}
+		uint32_t getExploring() const
+		{
+			return exploring;
+		}
+		uint32_t getSmithing() const
+		{
+			return smithing;
+		}
+		uint32_t getCooking() const
+		{
+			return cooking;
+		}
+		uint32_t getMining() const
+		{
+			return mining;
+		}
+		uint32_t getGathering() const
+		{
+			return gathering;
+		}
+		uint32_t getSlaying() const
+		{
+			return slaying;
+		}
 
 		bool canDualWield() const
 		{
@@ -122,6 +214,29 @@ class Vocation
 
 		uint8_t soulMax = 100;
 		uint8_t clientId = 0;
+		uint32_t defense = 0;
+		uint32_t armor = 0;
+		uint32_t accuracy = 0;
+		uint32_t evasion = 0;
+		uint32_t resolve = 0;
+		uint32_t agility = 0;
+		uint32_t alacrity = 0;
+		uint32_t finesse = 0;
+		uint32_t concentration = 0;
+		uint32_t focus = 0;
+		uint32_t concocting = 0;
+		uint32_t enchanting = 0;
+		uint32_t exploring = 0;
+		uint32_t smithing = 0;
+		uint32_t cooking = 0;
+		uint32_t mining = 0;
+		uint32_t gathering = 0;
+		uint32_t slaying = 0;
+		uint32_t magic = 0;
+		uint32_t distance = 0;
+		uint32_t melee = 0;
+		uint32_t shield = 0;
+		uint32_t fist = 0;
 };
 
 class Vocations

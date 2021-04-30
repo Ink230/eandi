@@ -1,0 +1,48 @@
+===Skills for Monsters & Skill Func for Creatures/Players/Monsters===
+monsters => xml file => all properties from there
+
+monsters.h
+• MonsterInfo
+    • add each attribute you want here 
+
+monsters.cpp
+• loadMonster
+    • defenses block
+        • add resistances (agility, resolve)
+    • attack block
+        • 
+
+creature.h
+• put virtual funcs for the combat skills, not noncombat ones
+• implement these in monster.h (populated by monsters.h) and player.h/player.cpp 
+
+player.h
+• added the overrides in .h
+• getSkills 
+
+player.cpp
+• added the implementations in .cpp
+
+===Items with Skills Given & Func===
+items.h
+• populated the items array with values for the new skills 
+
+items.cpp
+• populated the skills into the right values of it.skillname
+
+item.h
+• added getExploring...etc, with proper returnfrom items 
+
+===more, check changelog===
+
+• attackspeed skill is now used instead of other skills
+• added combat_rangedamage
+• built functionality for combat new skills or monsters and players
+• built functionality for non-combat skills for players
+• modified text colours of magic, distance, melee damages
+    • dist dmg colour is placeholder for client edit
+• item attributes for the new skills
+• monster attributes for the new skills
+• vocation attributes for the new skills 
+• rmbr dist, melee, fist, def, arm, 8+9, magic 
+

@@ -601,6 +601,7 @@ class Item : virtual public Thing
 			if (!attributes) {
 				return 0;
 			}
+			
 			return attributes->getIntAttr(type);
 		}
 		void setIntAttr(itemAttrTypes type, int64_t value) {
@@ -875,6 +876,89 @@ class Item : virtual public Thing
 				return getIntAttr(ITEM_ATTRIBUTE_HITCHANCE);
 			}
 			return items[id].hitChance;
+		}
+		int32_t getAccuracy() const {
+			return items[id].accuracy;
+		}
+		int32_t getEvasion() const
+		{
+			return items[id].evasion;
+		}
+		int32_t getResolve() const
+		{
+			return items[id].resolve;
+		}
+		int32_t getAgility() const
+		{
+			return items[id].agility;
+		}
+		int32_t getAlacrity() const
+		{
+			return items[id].alacrity;
+		}
+		int32_t getFinesse() const
+		{
+			return items[id].finesse;
+		}
+		int32_t getConcentration() const
+		{
+			return items[id].concentration;
+		}
+		int32_t getFocus() const
+		{
+			return items[id].focus;
+		}
+		int32_t getConcocting() const
+		{
+			return items[id].concocting;
+		}
+		int32_t getEnchanting() const
+		{
+			return items[id].enchanting;
+		}
+		int32_t getExploring() const
+		{
+			return items[id].exploring;
+		}
+		int32_t getSmithing() const
+		{
+			return items[id].smithing;
+		}
+		int32_t getCooking() const
+		{
+			return items[id].cooking;
+		}
+		int32_t getMining() const
+		{
+			return items[id].mining;
+		}
+		int32_t getGathering() const
+		{
+			return items[id].gathering;
+		}
+		int32_t getSlaying() const
+		{
+			return items[id].slaying;
+		}
+		int32_t getMagic() const
+		{
+			return items[id].magic;
+		}
+		int32_t getDistance() const
+		{
+			return items[id].distance;
+		}
+		int32_t getMelee() const
+		{
+			return items[id].melee;
+		}
+		int32_t getShield() const
+		{
+			return items[id].shield;
+		}
+		int32_t getFist() const
+		{
+			return items[id].fist;
 		}
 
 		uint32_t getWorth() const;

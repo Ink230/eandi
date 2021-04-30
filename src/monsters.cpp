@@ -305,7 +305,7 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 			combat->setParam(COMBAT_PARAM_BLOCKSHIELD, 1);
 			combat->setOrigin(ORIGIN_MELEE);
 		} else if (tmpName == "physical") {
-			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_PHYSICALDAMAGE);
+			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_RANGEDAMAGE);
 			combat->setParam(COMBAT_PARAM_BLOCKARMOR, 1);
 			combat->setOrigin(ORIGIN_RANGED);
 		} else if (tmpName == "bleed") {
@@ -1015,6 +1015,31 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 	}
 
 	if ((node = monsterNode.child("attacks"))) {
+		if ((attr = node.attribute("finesse")))
+		{
+			mType->info.finesse = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("concentration")))
+		{
+			mType->info.concentration = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("focus")))
+		{
+			mType->info.focus = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("accuracy")))
+		{
+			mType->info.accuracy = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("evasion")))
+		{
+			mType->info.evasion = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("alacrity")))
+		{
+			mType->info.alacrity = pugi::cast<int32_t>(attr.value());
+		}
+
 		for (auto attackNode : node.children()) {
 			spellBlock_t sb;
 			if (deserializeSpell(attackNode, sb, monsterName)) {
@@ -1032,6 +1057,14 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 
 		if ((attr = node.attribute("armor"))) {
 			mType->info.armor = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("resolve")))
+		{
+			mType->info.resolve = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("agility")))
+		{
+			mType->info.agility = pugi::cast<int32_t>(attr.value());
 		}
 
 		for (auto defenseNode : node.children()) {

@@ -25,8 +25,14 @@ items.h
 
 iologindata.cpp
 • loadplayerbid and loadplayerbynumber
-    • add  `skill_melee`, `skill_melee_tries`,  to the end of the skill retrieval part
-• 2 query strings for skill and skill tries in savePlayer 
+• add skill_ and skill__tries to the two queries 
+****
+• loadPlayer
+    • add  `skill_melee`, `skill_melee_tries` in the two separate variables, parsing skills 
+• savePlayer
+    • add skill_ and skill__tries to the query list 
+    ******
+
 
 condition.cpp
 • add skillspercent and skills of the skill to the case switch of setParams of condition attributes

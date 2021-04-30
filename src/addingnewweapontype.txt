@@ -1,0 +1,55 @@
+
+
+game.lua
+• getSkillType
+    • Where is WEAPON_WAND
+    • Update melee, range, magic weapon types to feed from the 3 skills
+
+combat.cpp
+• Daggers need a distance effect, along with 2H weapon variants
+
+const.h
+• WeaponType_t needs each new weapon type added
+
+items.cpp
+• update unordered map to relate ex 'slingshot' and 'WEAPON_SLINGSHOT
+     • weapontypesmap 
+
+luascript.cpp
+• registerEnum of each WEAPON_SLINGSHOT to add
+• Add each weapon type to whichever 1 of 3 skills types 
+
+player.cpp
+• getWeaponSkill
+    • Associate each weapon_type to 1 of 3 dmg skills 
+
+spells.cpp
+• add all other weapon types to the if(needWeapon) check
+
+tools.cpp
+• getWeaponName
+    • Add relations between skill and string text
+
+weapons.cpp
+• loadDefaults
+    • Add the weapon types to parse into the 1 of 3 skill dmg types 
+    • default type is WeaponWand* 
+
+
+    test changing wands to fire dmg, see if red text 
+
+
+    weapons.cpp
+    -> internaluseweapon -> getElementType()
+
+    combat.cpp getcombatdamage
+
+    doTargetCombat
+
+    add COMBAT_RANGEDAMAGE in the enums list of COMBAT_PHYSICALDAMAGE
+    • AND WHEREVER ELSE 
+    • COMBATBLOCKHIT -> evasion/accuracy check pls, other checks too 
+        • BLOCKHIT creature, player, ?monster? <- dmg reduction yo
+
+
+copy src, compile .exe, paste exe in fgsr, src, server 

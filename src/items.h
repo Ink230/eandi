@@ -68,8 +68,8 @@ enum ItemParseAttributes_t
 	ITEM_PARSE_DEFENSE,
 	ITEM_PARSE_EXTRADEF,
 	ITEM_PARSE_ATTACK,
-	ITEM_PARSE_ROTATETO,
 	ITEM_PARSE_MOVEABLE,
+	ITEM_PARSE_ROTATETO,
 	ITEM_PARSE_BLOCKPROJECTILE,
 	ITEM_PARSE_PICKUPABLE,
 	ITEM_PARSE_FORCESERIALIZE,
@@ -130,7 +130,7 @@ enum ItemParseAttributes_t
 	ITEM_PARSE_SKILLMINING,
 	ITEM_PARSE_SKILLGATHERING,
 	ITEM_PARSE_SKILLSLAYING,
-
+	ITEM_PARSE_SKILLMAGIC,
 	ITEM_PARSE_MAXHITPOINTS,
 	ITEM_PARSE_MAXHITPOINTSPERCENT,
 	ITEM_PARSE_MAXMANAPOINTS,
@@ -159,6 +159,7 @@ enum ItemParseAttributes_t
 	ITEM_PARSE_ABSORBPERCENTMANADRAIN,
 	ITEM_PARSE_ABSORBPERCENTDROWN,
 	ITEM_PARSE_ABSORBPERCENTPHYSICAL,
+	ITEM_PARSE_ASBORBPERCENTRANGE,
 	ITEM_PARSE_ABSORBPERCENTHEALING,
 	ITEM_PARSE_ABSORBPERCENTUNDEFINED,
 	ITEM_PARSE_SUPPRESSDRUNK,
@@ -345,6 +346,27 @@ class ItemType
 		int32_t defense = 0;
 		int32_t extraDefense = 0;
 		int32_t armor = 0;
+		int32_t accuracy = 0;
+		int32_t evasion = 0;
+		int32_t resolve = 0;
+		int32_t agility = 0;
+		int32_t alacrity = 0;
+		int32_t finesse = 0;
+		int32_t concentration = 0;
+		int32_t focus = 0;
+		int32_t concocting = 0;
+		int32_t enchanting = 0;
+		int32_t exploring = 0;
+		int32_t smithing = 0;
+		int32_t cooking = 0;
+		int32_t mining = 0;
+		int32_t gathering = 0;
+		int32_t slaying = 0;
+		int32_t magic = 0;
+		int32_t distance = 0;
+		int32_t melee = 0;
+		int32_t shield = 0;
+		int32_t fist = 0;
 		uint16_t rotateTo = 0;
 		int32_t runeMagLevel = 0;
 		int32_t runeLevel = 0;

@@ -1,0 +1,55 @@
+compat.lua
+• add combat_x = 'range' 
+
+combat.cpp
+• condition to damage type
+    • range would be nothing in here
+• might be something if another dmg type is added, 2 spots to check 
+• need a condition that deals range based dmg 
+
+enums.h
+• combattype_t entry
+
+game.cpp
+• sendBlockEffects
+    • prob add to the standard blockhit anim
+• combatGetTypeInfo
+    • copy and paste physical damage case
+    • add the colours to each race as desired
+    • reset it for physcal and range so colours r consistent 
+    • add TEXTCOLOR_GREEN = ???, then client displays it 
+
+items.cpp
+• item_parse_absorbpercentrange by physicaldamage
+• combatType = COMBAT_PHYSICALDAMAGE
+    • need another else if check 
+    • is this going to make bleeding super strong against range? 
+    • bleeding seems to be combat physical type
+    • maybe bleeding is range
+    • guess this is where conditions can deal dmg to you
+    • need a cond that applies rnage based dmg   
+
+luascript.cpp
+• register enum combat_physicldamage area
+• immunity else if check in luamonstertypecombatimmunities 
+    • would add this here, where is immunity received from xml?
+
+monsters.cpp
+• search combat_physicaldamage and add a case for each
+
+tools.cpp
+• add relation in combat_physicaldamage
+• add a case to index in combatTypeToIndex 
+
+weapons.cpp
+• change weapondistance::weapondistance params to combat_whatever
+
+
+Immunity list 
+monster.h or monster.cpp for conditionImmunities or damageImmunities 
+
+Monsters.cpp
+need to investigate further the changes of physical vs ranged dmg 
+------
+
+adding monster support for new skills

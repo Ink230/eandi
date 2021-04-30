@@ -1,0 +1,37 @@
+player.cpp
+• update getDefense and getArmour (when doing dmg formulas)
+• getSkillX
+    • add in a voc retrieval as well 
+
+client
+• update magic lvl uint32
+• update dist dmg color (and in src) 
+• update client styling for sleekness
+
+monsters.cpp
+• go through the code
+• update references for physical, melee range damage
+• figure out how they will play into dmg formulas
+• test they can receive all skills from attributes 
+    • prob each monster is pop with each skill
+    • check each one as needed vs mobs in dmg formulas
+
+
+
+test monsters
+• put stuff in attacks attribute
+• put stuff in defenses attribute
+
+test vocation attributes
+    • can they be set in xml
+    • can the game retrieve them
+    • can they get calculated in dmg formulas 
+
+optimize player.cpp
+    • return instead of int32_t in all getSkills functions
+
+
+weird issues? skills_last = maglvl ? 
+
+skill_melee
+vocation melee 

@@ -143,6 +143,14 @@ class MonsterType
 		int32_t changeTargetChance = 0;
 		int32_t defense = 0;
 		int32_t armor = 0;
+		int32_t accuracy = 0;
+		int32_t evasion = 0;
+		int32_t resolve = 0;
+		int32_t agility = 0;
+		int32_t alacrity = 0;
+		int32_t finesse = 0;
+		int32_t concentration = 0;
+		int32_t focus = 0;
 
 		bool canPushItems = false;
 		bool canPushCreatures = false;

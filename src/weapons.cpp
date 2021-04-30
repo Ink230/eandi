@@ -81,11 +81,7 @@ to the params via configureweapon() from weapon.cpp.
 
 It makes sure the items have a weapon attribute property.
 
-*Important*
-I believe this is where the weapon sub classes are applied.
-Weapons get configured here, with their default attributes and abilities applied in the list of weapons.
-Wands missing, means they lack specific things? 
-Perhaps it pulls from an item list or weapon list and further clarifies what it is for/attributes.
+Simplying loading default values, which then later get overwritten. 
 
 TODO WEAPON_WAND is missing
 */
@@ -414,7 +410,7 @@ void Weapon::internalUseWeapon(Player* player, Item* item, Creature* target, int
 		}
 		damage.primary.type = params.combatType;
 		damage.primary.value = (getWeaponDamage(player, target, item) * damageModifier) / 100;
-		damage.secondary.type = getElementType();
+		damage.secondary.type = getElementType(); //returns none for wands? how does it know  
 		damage.secondary.value = getElementDamage(player, target, item);
 		Combat::doTargetCombat(player, target, damage, params);
 	}
@@ -580,6 +576,7 @@ void WeaponMelee::configureWeapon(const ItemType& it)
 		elementType = COMBAT_NONE;//no element so element dmg is 0
 		elementDamage = 0;
 	}
+
 	Weapon::configureWeapon(it);
 }
 
@@ -660,7 +657,7 @@ WeaponDistance::WeaponDistance(LuaScriptInterface* interface) :
 	Weapon(interface)
 {
 	params.blockedByArmor = true;
-	params.combatType = COMBAT_PHYSICALDAMAGE;
+	params.combatType = COMBAT_RANGEDAMAGE;
 }
 
 void WeaponDistance::configureWeapon(const ItemType& it)

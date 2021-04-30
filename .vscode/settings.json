@@ -5,6 +5,9 @@
         "utility": "cpp",
         "optional": "cpp",
         "system_error": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "xstring": "cpp",
+        "list": "cpp",
+        "vector": "cpp"
     }
 }

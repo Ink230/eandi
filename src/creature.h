@@ -302,6 +302,44 @@ class Creature : virtual public Thing
 		virtual int32_t getDefense() const {
 			return 0;
 		}
+		virtual int32_t getAccuracy() const
+		{
+			return 0;
+		}
+
+		virtual int32_t getEvasion() const
+		{
+			return 0;
+		}
+
+		virtual int32_t getResolve() const
+		{
+			return 0;
+		}
+
+		virtual int32_t getAgility() const
+		{
+			return 0;
+		}
+
+		virtual int32_t getAlacrity() const
+		{
+			return 0;
+		}
+
+		virtual int32_t getFinesse() const
+		{
+			return 0;
+		}
+		virtual int32_t getConcentration() const
+		{
+			return 0;
+		}
+		virtual int32_t getFocus() const
+		{
+			return 0;
+		}
+
 		virtual float getAttackFactor() const {
 			return 1.0f;
 		}

@@ -646,8 +646,28 @@ class Player final : public Creature, public Cylinder
 
 		int32_t getArmor() const override;
 		int32_t getDefense() const override;
-		float getAttackFactor() const override;
-		float getDefenseFactor() const override;
+		int32_t getAccuracy() const override;
+		int32_t getEvasion() const override;
+		int32_t getResolve() const override;
+		int32_t getAgility() const override;
+		int32_t getAlacrity() const override;
+		int32_t getFinesse() const override;
+		int32_t getConcentration() const override;
+		int32_t getFocus() const override;
+		int32_t getConcocting() const;
+		int32_t getEnchanting() const;
+		int32_t getExploring() const;
+		int32_t getSmithing() const;
+		int32_t getCooking() const;
+		int32_t getMining() const;
+		int32_t getGathering() const;
+		int32_t getSlaying() const;
+		int32_t getFist() const;
+		int32_t getShield() const; 
+		int32_t getDistance() const;
+		int32_t getMelee() const; 
+		float getAttackFactor() const;
+		float getDefenseFactor() const;
 
 		void addInFightTicks(bool pzlock = false);
 

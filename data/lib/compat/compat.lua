@@ -1431,6 +1431,7 @@ end
 do
 	local combats = {
 		[COMBAT_PHYSICALDAMAGE] = 'physical',
+		[COMBAT_RANGEDAMAGE]  'range',
 		[COMBAT_ENERGYDAMAGE] = 'energy',
 		[COMBAT_EARTHDAMAGE] = 'earth',
 		[COMBAT_FIREDAMAGE] = 'fire',

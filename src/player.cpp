@@ -366,10 +366,10 @@ can go negative need to adjust function
 uint32_t Player::getAttackSpeed() const
 {
 	int32_t attspdClass = vocation->getAttackSpeed();
-	Item* tool = getWeapon();
+	//Item* tool = getWeapon(); //don't need anymore 
 	//const Weapon* weapon = g_weapons->getWeapon(tool);
-
-	int32_t attspdSkill = getWeaponSkill(tool);
+	int32_t attspdSkill = getAlacrity();
+	//int32_t attspdSkill = getWeaponSkill(tool); //don't need anymore 
 	int32_t attspdValue1 = attspdClass - (attspdSkill*3);
 	uint32_t attspdValue2;
 
@@ -414,6 +414,111 @@ int32_t Player::getDefense() const
 	}
 	//defense value returned, we'll need to adjust this to be the dmg reduction formula
 	return (defenseSkill / 4. + 2.23) * defenseValue * 0.15 * getDefenseFactor() * vocation->defenseMultiplier;
+}
+int32_t Player::getAccuracy() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_ACCURACY);
+	return foundSkill;
+}
+
+int32_t Player::getEvasion() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_EVASION);
+	return foundSkill;
+}
+
+int32_t Player::getResolve() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_RESOLVE);
+	return foundSkill;
+}
+
+int32_t Player::getAgility() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_AGILITY);
+	return foundSkill;
+}
+
+int32_t Player::getAlacrity() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_ALACRITY);
+	return foundSkill;
+}
+
+int32_t Player::getFinesse() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_FINESSE);
+	return foundSkill;
+}
+int32_t Player::getConcentration() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_CONCENTRATION);
+	return foundSkill;
+}
+int32_t Player::getFocus() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_FOCUS);
+	return foundSkill;
+}
+int32_t Player::getConcocting() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_CONCENTRATION);
+	return foundSkill;
+}
+int32_t Player::getEnchanting() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_ENCHANTING);
+	return foundSkill;
+}
+int32_t Player::getExploring() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_EXPLORING);
+	return foundSkill;
+}
+int32_t Player::getSmithing() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_SMITHING);
+	return foundSkill;
+}
+int32_t Player::getCooking() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_COOKING);
+	return foundSkill;
+}
+int32_t Player::getMining() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_MINING);
+	return foundSkill;
+}
+int32_t Player::getGathering() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_GATHERING);
+	return foundSkill;
+}
+int32_t Player::getMelee() const
+{
+	return getSkillLevel(SKILL_MELEE) + vocation->getMelee();
+}
+int32_t Player::getSlaying() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_SLAYING);
+	return foundSkill;
+}
+
+int32_t Player::getDistance() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_DISTANCE);
+	return foundSkill;
+}
+int32_t Player::getShield() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_SHIELD);
+	return foundSkill;
+}
+int32_t Player::getFist() const
+{
+	int32_t foundSkill = getSkillLevel(SKILL_FIST);
+	return foundSkill;
 }
 
 bool Player::isDualWielding() const

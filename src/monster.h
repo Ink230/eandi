@@ -94,9 +94,43 @@ class Monster final : public Creature
 		int32_t getArmor() const override {
 			return mType->info.armor;
 		}
-		int32_t getDefense() const override {
+		int32_t getDefense() const override
+		{
 			return mType->info.defense;
 		}
+		int32_t getAccuracy() const override {
+			return mType->info.accuracy;
+		}
+		
+		int32_t getEvasion() const override {
+			return mType->info.evasion;
+		}
+		
+		int32_t getResolve() const override {
+			return mType->info.resolve;
+		}
+		
+		int32_t getAgility() const override {
+			return mType->info.agility;
+		}
+		
+		int32_t getAlacrity() const override {
+			return mType->info.alacrity;
+		}
+		
+		int32_t getFinesse() const override
+		{
+			return mType->info.finesse;
+		}
+		int32_t getConcentration() const override
+		{
+			return mType->info.concentration;
+		}
+		int32_t getFocus() const override
+		{
+			return mType->info.focus;
+		}
+
 		bool isPushable() const override {
 			return mType->info.pushable && baseSpeed != 0;
 		}

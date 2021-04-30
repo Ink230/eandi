@@ -1133,6 +1133,7 @@ void LuaScriptInterface::registerFunctions()
 
 	registerEnum(COMBAT_NONE)
 	registerEnum(COMBAT_PHYSICALDAMAGE)
+	registerEnum(COMBAT_RANGEDAMAGE)
 	registerEnum(COMBAT_ENERGYDAMAGE)
 	registerEnum(COMBAT_EARTHDAMAGE)
 	registerEnum(COMBAT_FIREDAMAGE)
@@ -13029,34 +13030,59 @@ int LuaScriptInterface::luaMonsterTypeCombatImmunities(lua_State* L)
 			if (immunity == "physical") {
 				monsterType->info.damageImmunities |= COMBAT_PHYSICALDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "energy") {
+			}
+			else if (immunity == "range")
+			{
+				monsterType->info.damageImmunities |= COMBAT_RANGEDAMAGE;
+				pushBoolean(L, true);
+			}
+			else if (immunity == "energy")
+			{
 				monsterType->info.damageImmunities |= COMBAT_ENERGYDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "fire") {
+			}
+			else if (immunity == "fire")
+			{
 				monsterType->info.damageImmunities |= COMBAT_FIREDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "poison" || immunity == "earth") {
+			}
+			else if (immunity == "poison" || immunity == "earth")
+			{
 				monsterType->info.damageImmunities |= COMBAT_EARTHDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "drown") {
+			}
+			else if (immunity == "drown")
+			{
 				monsterType->info.damageImmunities |= COMBAT_DROWNDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "ice") {
+			}
+			else if (immunity == "ice")
+			{
 				monsterType->info.damageImmunities |= COMBAT_ICEDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "holy") {
+			}
+			else if (immunity == "holy")
+			{
 				monsterType->info.damageImmunities |= COMBAT_HOLYDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "death") {
+			}
+			else if (immunity == "death")
+			{
 				monsterType->info.damageImmunities |= COMBAT_DEATHDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "lifedrain") {
+			}
+			else if (immunity == "lifedrain")
+			{
 				monsterType->info.damageImmunities |= COMBAT_LIFEDRAIN;
 				pushBoolean(L, true);
-			} else if (immunity == "manadrain") {
+			}
+			else if (immunity == "manadrain")
+			{
 				monsterType->info.damageImmunities |= COMBAT_MANADRAIN;
 				pushBoolean(L, true);
-			} else {
+			}
+			else
+			{
 				std::cout << "[Warning - Monsters::loadMonster] Unknown immunity name " << immunity << " for monster: " << monsterType->name << std::endl;
 				lua_pushnil(L);
 			}

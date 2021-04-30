@@ -823,7 +823,7 @@ void Combat::doTargetCombat(Creature* caster, Creature* target, CombatDamage& da
 	bool success = false;
 	if (damage.primary.type != COMBAT_MANADRAIN) {
 		/*
-			Let me tell you a story...a world where a damage object is held in negatives
+			Let me tell you a story...a world  a damage object is held in negatives
 			where a called function has to convert that damage to positive
 			so that a another called function can be chill with using positive values
 			just to change the damage object back to negative after the call
