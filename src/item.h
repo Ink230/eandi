@@ -67,7 +67,8 @@ enum ItemDecayState_t : uint8_t {
 	DECAYING_PENDING,
 };
 
-enum AttrTypes_t {
+enum AttrTypes_t
+{
 	//ATTR_DESCRIPTION = 1,
 	//ATTR_EXT_FILE = 2,
 	ATTR_TILE_FLAGS = 3,
@@ -104,7 +105,41 @@ enum AttrTypes_t {
 	ATTR_CUSTOM_ATTRIBUTES = 34,
 	ATTR_DECAYTO = 35,
 	ATTR_WRAPID = 36,
-	ATTR_STOREITEM = 37
+	ATTR_STOREITEM = 37, 
+	ATTR_ACCURACY = 38,
+	ATTR_EVASION = 39,
+	ATTR_RESOLVE = 40,
+	ATTR_AGILITY = 41,
+	ATTR_ALACRITY = 42,
+	ATTR_FINESSE = 43,
+	ATTR_CONCENTRATION = 44,
+	ATTR_FOCUS = 45,
+	ATTR_CONCOCTING = 46,
+	ATTR_ENCHANTING = 47,
+	ATTR_EXPLORING = 48,
+	ATTR_SMITHING = 49,
+	ATTR_COOKING = 50,
+	ATTR_MINING = 51,
+	ATTR_GATHERING = 52,
+	ATTR_SLAYING = 53,
+	ATTR_NOTUSED = 54,
+	ATTR_SHIELD = 55,
+	ATTR_MAGIC = 56,
+	ATTR_MELEE = 57,
+	ATTR_DISTANCE = 58,
+
+	ATTR_UPGRADE = 59,
+
+	ATTR_SLOT1 = 60,
+	ATTR_SLOT1VALUE = 61,
+	ATTR_SLOT2 = 62,
+	ATTR_SLOT2VALUE = 63,
+	ATTR_SLOT3 = 64,
+	ATTR_SLOT3VALUE = 65,
+	ATTR_SLOT4 = 66,
+	ATTR_SLOT4VALUE = 67,
+	ATTR_SLOT5 = 68,
+	ATTR_SLOT5VALUE = 69
 };
 
 enum Attr_ReadValue {
@@ -354,9 +389,9 @@ class ItemAttributes
 		struct Attribute
 		{
 			union {
-				int64_t integer;
+				uint32_t integer;
 				std::string* string;
-				CustomAttributeMap* custom;
+				CustomAttributeMap* custom; //TODO did they not implement this?
 			} value;
 			itemAttrTypes type;
 
@@ -414,13 +449,13 @@ class ItemAttributes
 		};
 
 		std::vector<Attribute> attributes;
-		uint32_t attributeBits = 0;
+		uint64_t attributeBits = 0;
 
 		const std::string& getStrAttr(itemAttrTypes type) const;
 		void setStrAttr(itemAttrTypes type, const std::string& value);
 
-		int64_t getIntAttr(itemAttrTypes type) const;
-		void setIntAttr(itemAttrTypes type, int64_t value);
+		uint32_t getIntAttr(itemAttrTypes type) const;
+		void setIntAttr(itemAttrTypes type, uint64_t value);
 		void increaseIntAttr(itemAttrTypes type, int64_t value);
 
 		const Attribute* getExistingAttr(itemAttrTypes type) const;
@@ -496,12 +531,8 @@ class ItemAttributes
 			}
 			return false;
 		}
-
-		const static uint32_t intAttributeTypes = ITEM_ATTRIBUTE_ACTIONID | ITEM_ATTRIBUTE_UNIQUEID | ITEM_ATTRIBUTE_DATE
-			| ITEM_ATTRIBUTE_WEIGHT | ITEM_ATTRIBUTE_ATTACK | ITEM_ATTRIBUTE_DEFENSE | ITEM_ATTRIBUTE_EXTRADEFENSE
-			| ITEM_ATTRIBUTE_ARMOR | ITEM_ATTRIBUTE_HITCHANCE | ITEM_ATTRIBUTE_SHOOTRANGE | ITEM_ATTRIBUTE_OWNER
-			| ITEM_ATTRIBUTE_DURATION | ITEM_ATTRIBUTE_DECAYSTATE | ITEM_ATTRIBUTE_CORPSEOWNER | ITEM_ATTRIBUTE_CHARGES
-			| ITEM_ATTRIBUTE_FLUIDTYPE | ITEM_ATTRIBUTE_DOORID | ITEM_ATTRIBUTE_DECAYTO | ITEM_ATTRIBUTE_WRAPID | ITEM_ATTRIBUTE_STOREITEM;
+		
+		const static uint64_t intAttributeTypes = ITEM_ATTRIBUTE_ACTIONID | ITEM_ATTRIBUTE_UNIQUEID | ITEM_ATTRIBUTE_DATE | ITEM_ATTRIBUTE_WEIGHT | ITEM_ATTRIBUTE_ATTACK | ITEM_ATTRIBUTE_DEFENSE | ITEM_ATTRIBUTE_EXTRADEFENSE | ITEM_ATTRIBUTE_ARMOR | ITEM_ATTRIBUTE_HITCHANCE | ITEM_ATTRIBUTE_SHOOTRANGE | ITEM_ATTRIBUTE_OWNER | ITEM_ATTRIBUTE_DURATION | ITEM_ATTRIBUTE_DECAYSTATE | ITEM_ATTRIBUTE_CORPSEOWNER | ITEM_ATTRIBUTE_CHARGES | ITEM_ATTRIBUTE_FLUIDTYPE | ITEM_ATTRIBUTE_DOORID | ITEM_ATTRIBUTE_DECAYTO | ITEM_ATTRIBUTE_WRAPID | ITEM_ATTRIBUTE_STOREITEM | ITEM_ATTRIBUTE_ACCURACY | ITEM_ATTRIBUTE_EVASION | ITEM_ATTRIBUTE_RESOLVE | ITEM_ATTRIBUTE_AGILITY | ITEM_ATTRIBUTE_ALACRITY | ITEM_ATTRIBUTE_FINESSE | ITEM_ATTRIBUTE_CONCENTRATION | ITEM_ATTRIBUTE_FOCUS | ITEM_ATTRIBUTE_CONCOCTING | ITEM_ATTRIBUTE_ENCHANTING | ITEM_ATTRIBUTE_EXPLORING | ITEM_ATTRIBUTE_SMITHING | ITEM_ATTRIBUTE_COOKING | ITEM_ATTRIBUTE_MINING | ITEM_ATTRIBUTE_GATHERING | ITEM_ATTRIBUTE_SLAYING | ITEM_ATTRIBUTE_NOTUSED | ITEM_ATTRIBUTE_SHIELD | ITEM_ATTRIBUTE_MAGIC | ITEM_ATTRIBUTE_MELEE | ITEM_ATTRIBUTE_DISTANCE | ITEM_ATTRIBUTE_UPGRADE | ITEM_ATTRIBUTE_SLOT1 | ITEM_ATTRIBUTE_SLOT1VALUE | ITEM_ATTRIBUTE_SLOT2 | ITEM_ATTRIBUTE_SLOT2VALUE | ITEM_ATTRIBUTE_SLOT3 | ITEM_ATTRIBUTE_SLOT3VALUE | ITEM_ATTRIBUTE_SLOT4 | ITEM_ATTRIBUTE_SLOT4VALUE | ITEM_ATTRIBUTE_SLOT5 | ITEM_ATTRIBUTE_SLOT5VALUE;
 		const static uint32_t stringAttributeTypes = ITEM_ATTRIBUTE_DESCRIPTION | ITEM_ATTRIBUTE_TEXT | ITEM_ATTRIBUTE_WRITER
 			| ITEM_ATTRIBUTE_NAME | ITEM_ATTRIBUTE_ARTICLE | ITEM_ATTRIBUTE_PLURALNAME;
 
@@ -597,17 +628,17 @@ class Item : virtual public Thing
 			getAttributes()->setStrAttr(type, value);
 		}
 
-		int64_t getIntAttr(itemAttrTypes type) const {
+		uint32_t getIntAttr(itemAttrTypes type) const {
 			if (!attributes) {
 				return 0;
 			}
 			
 			return attributes->getIntAttr(type);
 		}
-		void setIntAttr(itemAttrTypes type, int64_t value) {
+		void setIntAttr(itemAttrTypes type, uint64_t value) {
 			getAttributes()->setIntAttr(type, value);
 		}
-		void increaseIntAttr(itemAttrTypes type, int64_t value) {
+		void increaseIntAttr(itemAttrTypes type, uint64_t value) {
 			getAttributes()->increaseIntAttr(type, value);
 		}
 
@@ -877,85 +908,256 @@ class Item : virtual public Thing
 			}
 			return items[id].hitChance;
 		}
-		int32_t getAccuracy() const {
+		int32_t getAccuracy() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_ACCURACY))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_ACCURACY);
+			}
 			return items[id].accuracy;
 		}
 		int32_t getEvasion() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_EVASION))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_EVASION);
+			}
 			return items[id].evasion;
 		}
 		int32_t getResolve() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_RESOLVE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_RESOLVE);
+			}
 			return items[id].resolve;
 		}
 		int32_t getAgility() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_AGILITY))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_AGILITY);
+			}
 			return items[id].agility;
 		}
 		int32_t getAlacrity() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_ALACRITY))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_ALACRITY);
+			}
 			return items[id].alacrity;
 		}
 		int32_t getFinesse() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_FINESSE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_FINESSE);
+			}
 			return items[id].finesse;
 		}
 		int32_t getConcentration() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_CONCENTRATION))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_CONCENTRATION);
+			}
 			return items[id].concentration;
 		}
 		int32_t getFocus() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_FOCUS))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_FOCUS);
+			}
 			return items[id].focus;
 		}
 		int32_t getConcocting() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_CONCOCTING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_CONCOCTING);
+			}
 			return items[id].concocting;
 		}
 		int32_t getEnchanting() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_ENCHANTING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_ENCHANTING);
+			}
 			return items[id].enchanting;
 		}
 		int32_t getExploring() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_EXPLORING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_EXPLORING);
+			}
 			return items[id].exploring;
 		}
 		int32_t getSmithing() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SMITHING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SMITHING);
+			}
 			return items[id].smithing;
 		}
 		int32_t getCooking() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_COOKING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_COOKING);
+			}
 			return items[id].cooking;
 		}
 		int32_t getMining() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_MINING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_MINING);
+			}
 			return items[id].mining;
 		}
 		int32_t getGathering() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_GATHERING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_GATHERING);
+			}
 			return items[id].gathering;
 		}
 		int32_t getSlaying() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLAYING))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLAYING);
+			}
 			return items[id].slaying;
 		}
 		int32_t getMagic() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_MAGIC))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_MAGIC);
+			}
 			return items[id].magic;
 		}
 		int32_t getDistance() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_DISTANCE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_DISTANCE);
+			}
 			return items[id].distance;
 		}
 		int32_t getMelee() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_MELEE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_MELEE);
+			}
 			return items[id].melee;
 		}
 		int32_t getShield() const
 		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SHIELD))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SHIELD);
+			}
 			return items[id].shield;
 		}
+		int32_t getUpgrade() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_UPGRADE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_UPGRADE);
+			}
+			return 0;
+		}
+
+		int32_t getSlot1() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT1))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT1);
+			}
+			return 0;
+		}
+		int32_t getSlot1Value() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT1VALUE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT1VALUE);
+			}
+			return 0;
+		}
+		int32_t getSlot2() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT2))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT2);
+			}
+			return 0;
+		}
+		int32_t getSlot2Value() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT2VALUE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT2VALUE);
+			}
+			return 0;
+		}
+		int32_t getSlot3() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT3))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT3);
+			}
+			return 0;
+		}
+		int32_t getSlot3Value() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT3VALUE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT3VALUE);
+			}
+			return 0;
+		}
+		int32_t getSlot4() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT4))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT4);
+			}
+			return 0;
+		}
+		int32_t getSlot4Value() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT4VALUE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT4VALUE);
+			}
+			return 0;
+		}
+		int32_t getSlot5() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT5))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT5);
+			}
+			return 0;
+		}
+		int32_t getSlot5Value() const
+		{
+			if (hasAttribute(ITEM_ATTRIBUTE_SLOT5VALUE))
+			{
+				return getIntAttr(ITEM_ATTRIBUTE_SLOT5VALUE);
+			}
+			return 0;
+		}
+
 		int32_t getFist() const
 		{
 			return items[id].fist;

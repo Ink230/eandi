@@ -289,7 +289,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 	player->capacity = result->getNumber<uint32_t>("cap") * 100;
 	player->blessings = result->getNumber<uint16_t>("blessings");
 
-	unsigned long conditionsSize;
+	unsigned long long conditionsSize;
 	const char* conditions = result->getStream("conditions", conditionsSize);
 	PropStream propStream;
 	propStream.init(conditions, conditionsSize);
@@ -851,7 +851,7 @@ bool IOLoginData::savePlayer(Player* player)
 	if (!saveItems(player, itemList, itemsQuery, propWriteStream)) {
 		return false;
 	}
-
+	//save depot items
 	if (player->lastDepotId != -1) {
 		//save depot items
 		query.str(std::string());
@@ -1012,7 +1012,7 @@ void IOLoginData::loadItems(ItemMap& itemMap, DBResult_ptr result)
 		uint16_t type = result->getNumber<uint16_t>("itemtype");
 		uint16_t count = result->getNumber<uint16_t>("count");
 
-		unsigned long attrSize;
+		unsigned long long attrSize;
 		const char* attr = result->getStream("attributes", attrSize);
 
 		PropStream propStream;

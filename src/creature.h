@@ -339,7 +339,18 @@ class Creature : virtual public Thing
 		{
 			return 0;
 		}
-
+		virtual int32_t getMelee() const
+		{
+			return 0;
+		}
+		virtual int32_t getShield() const
+		{
+			return 0;
+		}
+		virtual int32_t getDistance() const
+		{
+			return 0;
+		}
 		virtual float getAttackFactor() const {
 			return 1.0f;
 		}

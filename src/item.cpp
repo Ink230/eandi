@@ -455,12 +455,12 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 		}
 
 		case ATTR_DURATION: {
-			int32_t duration;
-			if (!propStream.read<int32_t>(duration)) {
+			uint32_t duration;
+			if (!propStream.read<uint32_t>(duration)) {
 				return ATTR_READ_ERROR;
 			}
 
-			setDuration(std::max<int32_t>(0, duration));
+			setDuration(std::max<uint32_t>(0, duration));
 			break;
 		}
 
@@ -506,29 +506,33 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_WEIGHT: {
+		case ATTR_ATTACK:
+		{
+			uint32_t attack;
+			if (!propStream.read<uint32_t>(attack))
+			{
+				return ATTR_READ_ERROR;
+			}
+			setIntAttr(ITEM_ATTRIBUTE_ATTACK, attack);
+			break;
+		}
+		case ATTR_WEIGHT:
+		{
 			uint32_t weight;
-			if (!propStream.read<uint32_t>(weight)) {
+			if (!propStream.read<uint32_t>(weight))
+			{
 				return ATTR_READ_ERROR;
 			}
 
 			setIntAttr(ITEM_ATTRIBUTE_WEIGHT, weight);
 			break;
 		}
-
-		case ATTR_ATTACK: {
-			int32_t attack;
-			if (!propStream.read<int32_t>(attack)) {
-				return ATTR_READ_ERROR;
-			}
-
-			setIntAttr(ITEM_ATTRIBUTE_ATTACK, attack);
-			break;
-		}
-
-		case ATTR_DEFENSE: {
-			int32_t defense;
-			if (!propStream.read<int32_t>(defense)) {
+			/*uint64_t and beyond */
+		case ATTR_DEFENSE:
+		{
+			uint64_t defense;
+			if (!propStream.read<uint64_t>(defense))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -536,9 +540,11 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_EXTRADEFENSE: {
-			int32_t extraDefense;
-			if (!propStream.read<int32_t>(extraDefense)) {
+		case ATTR_EXTRADEFENSE:
+		{
+			uint64_t extraDefense;
+			if (!propStream.read<uint64_t>(extraDefense))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -546,9 +552,11 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_ARMOR: {
-			int32_t armor;
-			if (!propStream.read<int32_t>(armor)) {
+		case ATTR_ARMOR:
+		{
+			uint64_t armor;
+			if (!propStream.read<uint64_t>(armor))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -556,9 +564,11 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_HITCHANCE: {
-			int8_t hitChance;
-			if (!propStream.read<int8_t>(hitChance)) {
+		case ATTR_HITCHANCE:
+		{
+			uint64_t hitChance;
+			if (!propStream.read<uint64_t>(hitChance))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -566,9 +576,11 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_SHOOTRANGE: {
-			uint8_t shootRange;
-			if (!propStream.read<uint8_t>(shootRange)) {
+		case ATTR_SHOOTRANGE:
+		{
+			uint64_t shootRange;
+			if (!propStream.read<uint64_t>(shootRange))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -576,9 +588,11 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_DECAYTO: {
-			int32_t decayTo;
-			if (!propStream.read<int32_t>(decayTo)) {
+		case ATTR_DECAYTO:
+		{
+			uint64_t decayTo;
+			if (!propStream.read<uint64_t>(decayTo))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -586,9 +600,11 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_WRAPID: {
-			uint16_t wrapId;
-			if (!propStream.read<uint16_t>(wrapId)) {
+		case ATTR_WRAPID:
+		{
+			uint64_t wrapId;
+			if (!propStream.read<uint64_t>(wrapId))
+			{
 				return ATTR_READ_ERROR;
 			}
 
@@ -596,13 +612,364 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
-		case ATTR_STOREITEM: {
-			uint8_t storeItem;
-			if (!propStream.read<uint8_t>(storeItem)) {
+		case ATTR_STOREITEM:
+		{
+			uint64_t storeItem;
+			if (!propStream.read<uint64_t>(storeItem))
+			{
 				return ATTR_READ_ERROR;
 			}
 
 			setIntAttr(ITEM_ATTRIBUTE_STOREITEM, storeItem);
+			break;
+		}
+
+		case ATTR_ACCURACY:
+		{
+			uint64_t accuracy;
+			if (!propStream.read<uint64_t>(accuracy))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_ACCURACY, accuracy);
+			break;
+		}
+
+		case ATTR_EVASION:
+		{
+			uint64_t evasion;
+			if (!propStream.read<uint64_t>(evasion))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_EVASION, evasion);
+			break;
+		}
+		case ATTR_RESOLVE:
+		{
+			uint64_t resolve;
+			if (!propStream.read<uint64_t>(resolve))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_RESOLVE, resolve);
+			break;
+		}
+		case ATTR_AGILITY:
+		{
+			uint64_t agility;
+			if (!propStream.read<uint64_t>(agility))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_AGILITY, agility);
+			break;
+		}
+		case ATTR_ALACRITY:
+		{
+			uint64_t alacrity;
+			if (!propStream.read<uint64_t>(alacrity))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_ALACRITY, alacrity);
+			break;
+		}
+		case ATTR_MAGIC:
+		{
+			uint64_t magic;
+			if (!propStream.read<uint64_t>(magic))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_MAGIC, magic);
+			break;
+		}
+
+		case ATTR_FINESSE:
+		{
+			uint64_t finesse;
+			if (!propStream.read<uint64_t>(finesse))
+			{
+				return ATTR_READ_ERROR;
+			}
+			setIntAttr(ITEM_ATTRIBUTE_FINESSE, finesse);
+			break;
+		}
+		case ATTR_CONCENTRATION:
+		{
+			uint64_t concentration;
+			if (!propStream.read<uint64_t>(concentration))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_CONCENTRATION, concentration);
+			break;
+		}
+		case ATTR_FOCUS:
+		{
+			uint64_t focus;
+			if (!propStream.read<uint64_t>(focus))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_FOCUS, focus);
+			break;
+		}
+		case ATTR_DISTANCE:
+		{
+			uint64_t distance;
+			if (!propStream.read<uint64_t>(distance))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_DISTANCE, distance);
+			break;
+		}
+		case ATTR_MELEE:
+		{
+			uint64_t melee;
+			if (!propStream.read<uint64_t>(melee))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_MELEE, melee);
+			break;
+		}
+		case ATTR_SHIELD:
+		{
+			uint64_t shield;
+			if (!propStream.read<uint64_t>(shield))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SHIELD, shield);
+			break;
+		}
+		case ATTR_CONCOCTING:
+		{
+			uint64_t concocting;
+			if (!propStream.read<uint64_t>(concocting))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_CONCOCTING, concocting);
+			break;
+		}
+		case ATTR_ENCHANTING:
+		{
+			uint64_t enchanting;
+			if (!propStream.read<uint64_t>(enchanting))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_ENCHANTING, enchanting);
+			break;
+		}
+		case ATTR_EXPLORING:
+		{
+			uint64_t exploring;
+			if (!propStream.read<uint64_t>(exploring))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_EXPLORING, exploring);
+			break;
+		}
+		case ATTR_SMITHING:
+		{
+			uint64_t smithing;
+			if (!propStream.read<uint64_t>(smithing))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SMITHING, smithing);
+			break;
+		}
+		case ATTR_COOKING:
+		{
+			uint64_t cooking;
+			if (!propStream.read<uint64_t>(cooking))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_COOKING, cooking);
+			break;
+		}
+		case ATTR_MINING:
+		{
+			uint64_t mining;
+			if (!propStream.read<uint64_t>(mining))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_MINING, mining);
+			break;
+		}
+		case ATTR_GATHERING:
+		{
+			uint64_t gathering;
+			if (!propStream.read<uint64_t>(gathering))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_GATHERING, gathering);
+			break;
+		}
+		case ATTR_SLAYING:
+		{
+			uint64_t slaying;
+			if (!propStream.read<uint64_t>(slaying))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLAYING, slaying);
+			break;
+		}
+
+		case ATTR_UPGRADE:
+		{
+			uint64_t upgrade;
+			if (!propStream.read<uint64_t>(upgrade))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_UPGRADE, upgrade);
+			break;
+		}
+
+		case ATTR_SLOT1:
+		{
+			uint64_t slot1;
+			if (!propStream.read<uint64_t>(slot1))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT1, slot1);
+			break;
+		}
+		case ATTR_SLOT1VALUE:
+		{
+			uint64_t slot1value;
+			if (!propStream.read<uint64_t>(slot1value))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT1VALUE, slot1value);
+			break;
+		}
+
+		case ATTR_SLOT2:
+		{
+			uint64_t slot2;
+			if (!propStream.read<uint64_t>(slot2))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT2, slot2);
+			break;
+		}
+		case ATTR_SLOT2VALUE:
+		{
+			uint64_t slot2value;
+			if (!propStream.read<uint64_t>(slot2value))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT2VALUE, slot2value);
+			break;
+		}
+
+		case ATTR_SLOT3:
+		{
+			uint64_t slot3;
+			if (!propStream.read<uint64_t>(slot3))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT3, slot3);
+			break;
+		}
+		case ATTR_SLOT3VALUE:
+		{
+			uint64_t slot3value;
+			if (!propStream.read<uint64_t>(slot3value))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT3VALUE, slot3value);
+			break;
+		}
+
+		case ATTR_SLOT4:
+		{
+			uint64_t slot4;
+			if (!propStream.read<uint64_t>(slot4))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT4, slot4);
+			break;
+		}
+		case ATTR_SLOT4VALUE:
+		{
+			uint64_t slot4value;
+			if (!propStream.read<uint64_t>(slot4value))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT4VALUE, slot4value);
+			break;
+		}
+
+		case ATTR_SLOT5:
+		{
+			uint64_t slot5;
+			if (!propStream.read<uint64_t>(slot5))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT5, slot5);
+			break;
+		}
+		case ATTR_SLOT5VALUE:
+		{
+			uint64_t slot5value;
+			if (!propStream.read<uint64_t>(slot5value))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_SLOT5VALUE, slot5value);
 			break;
 		}
 
@@ -692,7 +1059,8 @@ bool Item::unserializeAttr(PropStream& propStream)
 		Attr_ReadValue ret = readAttr(static_cast<AttrTypes_t>(attr_type), propStream);
 		if (ret == ATTR_READ_ERROR) {
 			return false;
-		} else if (ret == ATTR_READ_END) {
+		}
+		if (ret == ATTR_READ_END) {
 			return true;
 		}
 	}
@@ -750,80 +1118,252 @@ void Item::serializeAttr(PropWriteStream& propWriteStream) const
 		propWriteStream.writeString(specialDesc);
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_DURATION)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_DURATION))
+	{
 		propWriteStream.write<uint8_t>(ATTR_DURATION);
 		propWriteStream.write<uint32_t>(getIntAttr(ITEM_ATTRIBUTE_DURATION));
 	}
 
 	ItemDecayState_t decayState = getDecaying();
-	if (decayState == DECAYING_TRUE || decayState == DECAYING_PENDING) {
+	if (decayState == DECAYING_TRUE || decayState == DECAYING_PENDING)
+	{
 		propWriteStream.write<uint8_t>(ATTR_DECAYING_STATE);
 		propWriteStream.write<uint8_t>(decayState);
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_NAME)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_NAME))
+	{
 		propWriteStream.write<uint8_t>(ATTR_NAME);
 		propWriteStream.writeString(getStrAttr(ITEM_ATTRIBUTE_NAME));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_ARTICLE)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_ARTICLE))
+	{
 		propWriteStream.write<uint8_t>(ATTR_ARTICLE);
 		propWriteStream.writeString(getStrAttr(ITEM_ATTRIBUTE_ARTICLE));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_PLURALNAME)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_PLURALNAME))
+	{
 		propWriteStream.write<uint8_t>(ATTR_PLURALNAME);
 		propWriteStream.writeString(getStrAttr(ITEM_ATTRIBUTE_PLURALNAME));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_WEIGHT)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_ATTACK))
+	{
+		propWriteStream.write<uint8_t>(ATTR_ATTACK);
+		propWriteStream.write<uint32_t>(getIntAttr(ITEM_ATTRIBUTE_ATTACK));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_WEIGHT))
+	{
 		propWriteStream.write<uint8_t>(ATTR_WEIGHT);
 		propWriteStream.write<uint32_t>(getIntAttr(ITEM_ATTRIBUTE_WEIGHT));
 	}
-
-	if (hasAttribute(ITEM_ATTRIBUTE_ATTACK)) {
-		propWriteStream.write<uint8_t>(ATTR_ATTACK);
-		propWriteStream.write<int32_t>(getIntAttr(ITEM_ATTRIBUTE_ATTACK));
-	}
-
-	if (hasAttribute(ITEM_ATTRIBUTE_DEFENSE)) {
+/*uint64_t and beyond */
+	if (hasAttribute(ITEM_ATTRIBUTE_DEFENSE))
+	{
 		propWriteStream.write<uint8_t>(ATTR_DEFENSE);
-		propWriteStream.write<int32_t>(getIntAttr(ITEM_ATTRIBUTE_DEFENSE));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_DEFENSE));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_EXTRADEFENSE)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_EXTRADEFENSE))
+	{
 		propWriteStream.write<uint8_t>(ATTR_EXTRADEFENSE);
-		propWriteStream.write<int32_t>(getIntAttr(ITEM_ATTRIBUTE_EXTRADEFENSE));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_EXTRADEFENSE));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_ARMOR)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_ARMOR))
+	{
 		propWriteStream.write<uint8_t>(ATTR_ARMOR);
-		propWriteStream.write<int32_t>(getIntAttr(ITEM_ATTRIBUTE_ARMOR));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_ARMOR));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_HITCHANCE)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_HITCHANCE))
+	{
 		propWriteStream.write<uint8_t>(ATTR_HITCHANCE);
-		propWriteStream.write<int8_t>(getIntAttr(ITEM_ATTRIBUTE_HITCHANCE));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_HITCHANCE));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_SHOOTRANGE)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_SHOOTRANGE))
+	{
 		propWriteStream.write<uint8_t>(ATTR_SHOOTRANGE);
-		propWriteStream.write<uint8_t>(getIntAttr(ITEM_ATTRIBUTE_SHOOTRANGE));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SHOOTRANGE));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_DECAYTO)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_DECAYTO))
+	{
 		propWriteStream.write<uint8_t>(ATTR_DECAYTO);
-		propWriteStream.write<int32_t>(getIntAttr(ITEM_ATTRIBUTE_DECAYTO));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_DECAYTO));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_WRAPID)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_WRAPID))
+	{
 		propWriteStream.write<uint8_t>(ATTR_WRAPID);
-		propWriteStream.write<uint16_t>(getIntAttr(ITEM_ATTRIBUTE_WRAPID));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_WRAPID));
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_STOREITEM)) {
+	if (hasAttribute(ITEM_ATTRIBUTE_STOREITEM))
+	{
 		propWriteStream.write<uint8_t>(ATTR_STOREITEM);
-		propWriteStream.write<uint8_t>(getIntAttr(ITEM_ATTRIBUTE_STOREITEM));
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_STOREITEM));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_ACCURACY))
+	{
+		propWriteStream.write<uint8_t>(ATTR_ACCURACY);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_ACCURACY));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_EVASION))
+	{
+		propWriteStream.write<uint8_t>(ATTR_EVASION);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_EVASION));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_RESOLVE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_RESOLVE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_RESOLVE));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_AGILITY))
+	{
+		propWriteStream.write<uint8_t>(ATTR_AGILITY);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_AGILITY));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_ALACRITY))
+	{
+		propWriteStream.write<uint8_t>(ATTR_ALACRITY);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_ALACRITY));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_MAGIC))
+	{
+		propWriteStream.write<uint8_t>(ATTR_MAGIC);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_MAGIC));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_FINESSE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_FINESSE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_FINESSE));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_CONCENTRATION))
+	{
+		propWriteStream.write<uint8_t>(ATTR_CONCENTRATION);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_CONCENTRATION));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_FOCUS))
+	{
+		propWriteStream.write<uint8_t>(ATTR_FOCUS);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_FOCUS));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_DISTANCE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_DISTANCE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_DISTANCE));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_MELEE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_MELEE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_MELEE));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SHIELD))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SHIELD);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SHIELD));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_CONCOCTING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_CONCOCTING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_CONCOCTING));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_ENCHANTING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_ENCHANTING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_ENCHANTING));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_EXPLORING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_EXPLORING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_EXPLORING));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SMITHING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SMITHING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SMITHING));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_COOKING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_COOKING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_COOKING));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_MINING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_MINING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_MINING));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_GATHERING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_GATHERING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_GATHERING));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_SLAYING))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLAYING);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLAYING));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT1))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT1);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT1));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT1VALUE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT1VALUE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT1VALUE));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT2))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT1);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT2));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT2VALUE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT2VALUE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT2VALUE));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT3))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT3);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT3));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT3VALUE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT3VALUE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT3VALUE));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT4))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT4);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT4));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT4VALUE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT4VALUE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT4VALUE));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT5))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT5);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT5));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_SLOT5VALUE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_SLOT5VALUE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT5VALUE));
 	}
 
 	if (hasAttribute(ITEM_ATTRIBUTE_CUSTOM)) {
@@ -1687,7 +2227,7 @@ void ItemAttributes::removeAttribute(itemAttrTypes type)
 	attributeBits &= ~type;
 }
 
-int64_t ItemAttributes::getIntAttr(itemAttrTypes type) const
+uint32_t ItemAttributes::getIntAttr(itemAttrTypes type) const
 {
 	if (!isIntAttrType(type)) {
 		return 0;
@@ -1700,7 +2240,7 @@ int64_t ItemAttributes::getIntAttr(itemAttrTypes type) const
 	return attr->value.integer;
 }
 
-void ItemAttributes::setIntAttr(itemAttrTypes type, int64_t value)
+void ItemAttributes::setIntAttr(itemAttrTypes type, uint64_t value)
 {
 	if (!isIntAttrType(type)) {
 		return;

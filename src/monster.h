@@ -130,6 +130,22 @@ class Monster final : public Creature
 		{
 			return mType->info.focus;
 		}
+		int32_t getMelee() const override
+		{
+			return mType->info.melee;
+		}
+		int32_t getShield() const override
+		{
+			return mType->info.shield;
+		}
+		int32_t getMagic() const
+		{
+			return mType->info.magic;
+		}
+		int32_t getDistance() const override
+		{
+			return mType->info.distance;
+		}
 
 		bool isPushable() const override {
 			return mType->info.pushable && baseSpeed != 0;

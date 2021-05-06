@@ -417,83 +417,63 @@ int32_t Player::getDefense() const
 }
 int32_t Player::getAccuracy() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_ACCURACY);
-	return foundSkill;
+	return getSkillLevel(SKILL_ACCURACY) + vocation->getAccuracy();
 }
-
 int32_t Player::getEvasion() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_EVASION);
-	return foundSkill;
+	return getSkillLevel(SKILL_EVASION) + vocation->getEvasion();
 }
-
 int32_t Player::getResolve() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_RESOLVE);
-	return foundSkill;
+	return getSkillLevel(SKILL_RESOLVE) + vocation->getResolve();
 }
-
 int32_t Player::getAgility() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_AGILITY);
-	return foundSkill;
+	return getSkillLevel(SKILL_AGILITY) + vocation->getAgility();
 }
-
 int32_t Player::getAlacrity() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_ALACRITY);
-	return foundSkill;
+	return getSkillLevel(SKILL_ALACRITY) + vocation->getAlacrity();
 }
-
 int32_t Player::getFinesse() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_FINESSE);
-	return foundSkill;
+	return getSkillLevel(SKILL_FINESSE) + vocation->getFinesse();
 }
 int32_t Player::getConcentration() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_CONCENTRATION);
-	return foundSkill;
+	return getSkillLevel(SKILL_CONCENTRATION) + vocation->getConcentration();
 }
 int32_t Player::getFocus() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_FOCUS);
-	return foundSkill;
+	return getSkillLevel(SKILL_FOCUS) + vocation->getFocus();
 }
 int32_t Player::getConcocting() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_CONCENTRATION);
-	return foundSkill;
+	return getSkillLevel(SKILL_CONCOCTING) + vocation->getConcocting();
 }
 int32_t Player::getEnchanting() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_ENCHANTING);
-	return foundSkill;
+	return getSkillLevel(SKILL_ENCHANTING) + vocation->getEnchanting();
 }
 int32_t Player::getExploring() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_EXPLORING);
-	return foundSkill;
+	return getSkillLevel(SKILL_EXPLORING) + vocation->getExploring();
 }
 int32_t Player::getSmithing() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_SMITHING);
-	return foundSkill;
+	return getSkillLevel(SKILL_SMITHING) + vocation->getSmithing();
 }
 int32_t Player::getCooking() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_COOKING);
-	return foundSkill;
+	return getSkillLevel(SKILL_COOKING) + vocation->getCooking();
 }
 int32_t Player::getMining() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_MINING);
-	return foundSkill;
+	return getSkillLevel(SKILL_MINING) + vocation->getMining();
 }
 int32_t Player::getGathering() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_GATHERING);
-	return foundSkill;
+	return getSkillLevel(SKILL_GATHERING) + vocation->getGathering();
 }
 int32_t Player::getMelee() const
 {
@@ -501,24 +481,19 @@ int32_t Player::getMelee() const
 }
 int32_t Player::getSlaying() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_SLAYING);
-	return foundSkill;
+	return getSkillLevel(SKILL_SLAYING) + vocation->getSlaying();
 }
-
 int32_t Player::getDistance() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_DISTANCE);
-	return foundSkill;
+	return getSkillLevel(SKILL_DISTANCE) + vocation->getDistance();
 }
 int32_t Player::getShield() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_SHIELD);
-	return foundSkill;
+	return getSkillLevel(SKILL_SHIELD) + vocation->getShield();
 }
 int32_t Player::getFist() const
 {
-	int32_t foundSkill = getSkillLevel(SKILL_FIST);
-	return foundSkill;
+	return getSkillLevel(SKILL_FIST) + vocation->getFist();
 }
 
 bool Player::isDualWielding() const

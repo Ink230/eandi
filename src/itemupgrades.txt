@@ -1,0 +1,300 @@
+if anything returns false or fails, the whole player connection fails
+
+protocolgame.cpp
+• ::login (name, accountId, OS)
+    • check for duplicates, set name, inc and set ID
+    • preload check,send in player object 
+    • duplicate check again, ban check 
+    • queue login system
+    • loadPlayerByID is called
+
+iologindata.cpp
+• loadPlayerById
+    • loads the players table for the specific player
+    • calls loadPlayer (player, db)
+• loadPlayer
+    • 242 to 589
+    • loadAccount, returns acc with id, name, Type, premium 
+    • up to 447, parsing and storing the players table info
+    • load inventory items
+        • player->internalAddThing(pid, item) to equipment slots
+        • getContainer puts the item in the correct container via internalAddThing
+        • loadItems is what we need to change
+        • this function we add additional fields to the query 
+• loadItems(itemMap, result)
+    • receives a blank map and the db result
+    • itemMap is indexed by SID
+        • each index has a pair which is <item, pid)
+        • create an item by CreateItem
+        • magic occurs in readAttr
+            • each case has a setter function
+            • 
+           
+unserializeAttr (item.cpp) 
+readAttr (item.cpp)
+setIntAttr (item.h) 607
+
+getAttributes()->setIntAttr()
+• setIntAttr is of itemattributes 
+setIntAttr (item.h) 423 is of itemattributes 
+setIntAttr (item.cpp) 1703 is of itemattributes
+    • getAttr(type).value.integer = value @ 1709
+
+
+enums.h
+• itemAttrTypes
+    • add all skills or modifiers we want
+
+item.cpp
+• match with AttrTypes_t
+    • add all skills or modifiers we want
+• on match call setIntAttr on the enum type related w/ the value 
+• propstream.read(defense) is reading the defense value in the stream and 
+    assigning it to defense
+
+itemattrtypes used againx2  
+
+ItemAttributes in item.h 116
+• create a set, reset or remove helper function for each upgrade/gem stat
+    • each one implements a set get or remove class function
+    • those class funcs call on helper funcs from itemattributes 
+    • past line 859ish 
+• then the setStr,setInt, remove, getStr, getInt will be used
+• item has get, set, remove, has
+    • these interact with the itemattr class helper functions
+    • getAttributes()->setIntAttr
+    • though this getAttributes is used frequently 
+
+• we have getEvasion...etc for everything
+• now we need a setEvasion and a removeEvasion/resetEvasion
+• the set one needs to update the items[id].evasion value
+    and update the attribute value that gets displayed onlook
+• some attributes will be separate
+    • attack from attributes + att from upgrades
+    • natural dist + %dist from gems
+    • some attributes and natural stats need to both be sent, others only one 
+
+
+
+• attributes of stats
+    • these are always natural stats loaded via XML
+• upgrade attributes
+    • modify all natural stats (att, def...etc)
+• enchant attributes
+    • display on weapon
+    • inc skills list value
+    • used in combat calculations 
+
+item.h
+• getAgility
+• setAgility
+    • adjust both display and built in value 
+
+
+MySQL
+• PID
+    • 1 to 11 are your slots
+    • >100, each player gets a specifc container # for each container they have on them
+    • each container contains item of the same type, a count and a blob attribute 
+• SID
+    • total number of all items owned by a player...useless?
+
+
+load and save items:
+• unserializeAttr
+• serializeAttr 707 in item.cpp  
+
+create/modify
+• set an items values in item.h ?
+    • setIntAttr(item type, value)
+    • also adjust the items[id].
+
+
+everything custom in item.h is for EVERY item in the game
+we want to hijack each get and set by returning not just the base global natural stat but also w/e else we have done to it on a per item basis 
+
+item->getAlacrity
+will return items[id].defense AND w/e modifiers affecting that stat
+if(getIntAttr(ITEM_ATTR_GEMSLOT1) == DEFENSE) then
+conditionalValue = getIntAttr(ITEM_ATTR_GEMSLOT1VALUE)
+return (items[id].defense * (1+getIntAttr(ITEM_ATTRIBUTE_UPGRADE))) + conditionalvalue;
+
+
+NOW WHAT IS ATTR_DEFENSE for? item.cpp
+seems like its for reading att
+
+if has return getint
+is the primary thing
+return items is the backup default 
+
+serialize needs to be updated w/ new things
+unserialize needs to be updated too
+item_Attr and item_attributes to be updated 
+    • some w/ new skills, some with enchant specific attributes 
+
+
+
+FILE CHANGES
+
+
+item.cpp
+• readAttr (reading in from SQL db)
+    • add case ATTR_ for each skill modifier we want as an attribute
+    • in each case setIntAttr should be enough
+    • propstream check too
+    • break check 
+    • add ATTR_ case for each upgrade and gem slot, gem slot value
+    • changed uint32_t to uint64_t for anything larger than 31 in enums
+    • ^For each case 
+• serializeAttr
+    • add an if for each attr skill
+    • add an if for each upgrade and gem slot, gem slot value
+    • changed larger ones to uint64_t 
+• BOTH unserialize and serialize MUST MATCH PERFECTLY or else any one wrong one will mess everything else up
+    • memory management is annoying 
+
+item.h
+• AttrTypes_t
+    • add ATTR_ for each skill we want to modify
+    • add ATTR_ for each upgrade, gem, and gem slot value
+• in item : 526 
+    • getCustomSkill
+        • if has return, return secondary
+        • remake for each getAccuracy...etc
+        • add for upgrade, gem slot, gem slot values
+    • item:setIntAttr should handle setting everything 
+        • changed to uint64_t
+    • struct attribute -> 
+    • strStrAttr should handle the base slot values 
+    • itemattributes:setintattr changed to uint64_t for value
+
+• intAttributeTypes changed to uint64_t and included the custom stuff
+• attributeBits changed to uint64_t 
+• struct Attribute changed to uint32_t 
+
+items.h
+• added upgrade, slots to itemtype class 
+
+enum.h
+• itemAttrTypes
+    • add one for each skill
+    • add one for each enchant (upgrade, gem slot, gem slot value)
+    • change to uint64_t
+    • add 1ULL 
+ 
+tools.cpp
+• stringToItemAttribute
+    • add strs for new skills and enchants
+
+item.lua
+• local auc
+    • added key value pairings 
+
+luascript.h
+• static int luaItemTypeGetArmor(lua_State* L);
+    • added for 20 skills, (def, att already in), upgrade, 10 slots 
+
+luascript.cpp
+• registerEnums (skills, slots, upgrade)
+• registerMethod("ItemType", "getArmor", LuaScriptInterface::luaItemTypeGetArmor);
+• int LuaScriptInterface::luaItemTypeGetReflection(lua_State* L)
+    {
+    }
+
+iologindata.cpp
+• attrSize of 1015 changedto usigned long long
+
+database.h
+• 172 getStrea, cjamhed tp usigned long long& for arg
+
+database.cpp
+• getStream @ 219 arg size to unsigned long long&
+
+• luascript and iomapserialization also had a long long variable change 
+
+
+
+combat.cpp
+if(!target) 
+{
+    return false;
+}
+in combatChangeHealth
+
+Systems, Procedures & Thoughts
+=====
+Upgrade
+• ITEM_ATTRIBUTE_UPGRADE
+• ATTR_UPGRADE
+• values from 1 to 15
+• these values modify the base stats of the weapon
+• items[id].melee * (1000+(attrvalue*10))
+=====
+Enchant
+• ITEM_ATTRIBUTE_SLOT1 (dist, alacrity...etc) dist << 1, alacrity << 2...etc? 
+• ITEM_ATTRIBUTE_SLOT1VALUE (1 to 10)
+• ATTR_SLOT1
+• ATTR_SLOT1VALUE
+=====
+• Skills List
+accuracy
+evasion
+armour
+resolve
+agility
+alacrity
+magic
+defense 
+finesse
+concentration
+focus
+distance
+melee
+shield
+concocting
+enchanting
+exploring
+smithing
+cooking
+mining
+gathering
+slaying 
+=====
+• Skill Pairings
+0 = not set
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+=====
+• Key Functions to Diagnose
+propWriteStream
+propStream
+prop
+getIntAttr 
+readAttr
+unserialize  
+serialize
+===== 
+
+
+
+

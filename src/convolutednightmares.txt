@@ -1,0 +1,15 @@
+Remeres => Data => 1098 
+• items.otb in 1098
+• items.xml in 1098
+• Load forgotten.otbm from desktop
+• Assign client as otmaster-ink w/ the .dat and .spr
+• edit data => clients.xml w/ the new file signatures
+    • 4A10
+    • 59E48E02
+        • 0x in front, these r 12.x sigs
+
+ItemEditor => Plugins
+• Plugin3 => edit .dar and .spr sigs
+• Put otmaster-ink as client in file
+• run as admin
+• load otb file from File Open -> Remeres folder 

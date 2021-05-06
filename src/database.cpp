@@ -216,7 +216,7 @@ std::string DBResult::getString(const std::string& s) const
 	return std::string(row[it->second]);
 }
 
-const char* DBResult::getStream(const std::string& s, unsigned long& size) const
+const char* DBResult::getStream(const std::string& s, unsigned long long& size) const
 {
 	auto it = listNames.find(s);
 	if (it == listNames.end()) {

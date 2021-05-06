@@ -45,4 +45,6 @@ item.h
 • monster attributes for the new skills
 • vocation attributes for the new skills 
 • rmbr dist, melee, fist, def, arm, 8+9, magic 
+• changed words to canadian english
+• Showing  with 979 additions and 49 deletions.
 

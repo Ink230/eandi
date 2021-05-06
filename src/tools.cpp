@@ -1055,6 +1055,135 @@ itemAttrTypes stringToItemAttribute(const std::string& str)
 	} else if (str == "wrapid") {
 		return ITEM_ATTRIBUTE_WRAPID;
 	}
+	else if (str == "accuracy")
+	{
+		return ITEM_ATTRIBUTE_ACCURACY;
+	}
+	else if (str == "evasion")
+	{
+		return ITEM_ATTRIBUTE_EVASION;
+	}
+	else if (str == "resolve")
+	{
+		return ITEM_ATTRIBUTE_RESOLVE;
+	}
+	else if (str == "agility")
+	{
+		return ITEM_ATTRIBUTE_AGILITY;
+	}
+	else if (str == "alacrity")
+	{
+		return ITEM_ATTRIBUTE_ALACRITY;
+	}
+	else if (str == "magic")
+	{
+		return ITEM_ATTRIBUTE_MAGIC;
+	}
+	else if (str == "finesse")
+	{
+		return ITEM_ATTRIBUTE_FINESSE;
+	}
+	else if (str == "concentration")
+	{
+		return ITEM_ATTRIBUTE_CONCENTRATION;
+	}
+	else if (str == "focus")
+	{
+		return ITEM_ATTRIBUTE_FOCUS;
+	}
+	else if (str == "distance")
+	{
+		return ITEM_ATTRIBUTE_DISTANCE;
+	}
+	else if (str == "melee")
+	{
+		return ITEM_ATTRIBUTE_MELEE;
+	}
+	else if (str == "shield")
+	{
+		return ITEM_ATTRIBUTE_SHIELD;
+	}
+	else if (str == "concocting")
+	{
+		return ITEM_ATTRIBUTE_CONCOCTING;
+	}
+	else if (str == "enchanting")
+	{
+		return ITEM_ATTRIBUTE_ENCHANTING;
+	}
+	else if (str == "exploring")
+	{
+		return ITEM_ATTRIBUTE_EXPLORING;
+	}
+	else if (str == "smithing")
+	{
+		return ITEM_ATTRIBUTE_SMITHING;
+	}
+	else if (str == "cooking")
+	{
+		return ITEM_ATTRIBUTE_COOKING;
+	}
+	else if (str == "mining")
+	{
+		return ITEM_ATTRIBUTE_MINING;
+	}
+	else if (str == "gathering")
+	{
+		return ITEM_ATTRIBUTE_GATHERING;
+	}
+	else if (str == "slaying")
+	{
+		return ITEM_ATTRIBUTE_SLAYING;
+	}
+	else if (str == "upgrade")
+	{
+		return ITEM_ATTRIBUTE_UPGRADE;
+	}
+
+	else if (str == "slot1")
+	{
+		return ITEM_ATTRIBUTE_SLOT1;
+	}
+	else if (str == "slot1value")
+	{
+		return ITEM_ATTRIBUTE_SLOT1VALUE;
+	}
+
+	else if (str == "slot2")
+	{
+		return ITEM_ATTRIBUTE_SLOT2;
+	}
+	else if (str == "slot2value")
+	{
+		return ITEM_ATTRIBUTE_SLOT2VALUE;
+	}
+
+	else if (str == "slot3")
+	{
+		return ITEM_ATTRIBUTE_SLOT3;
+	}
+	else if (str == "slot3value")
+	{
+		return ITEM_ATTRIBUTE_SLOT3VALUE;
+	}
+
+	else if (str == "slot4")
+	{
+		return ITEM_ATTRIBUTE_SLOT4;
+	}
+	else if (str == "slot4value")
+	{
+		return ITEM_ATTRIBUTE_SLOT4VALUE;
+	}
+
+	else if (str == "slot5")
+	{
+		return ITEM_ATTRIBUTE_SLOT5;
+	}
+	else if (str == "slot5value")
+	{
+		return ITEM_ATTRIBUTE_SLOT5VALUE;
+	}
 	return ITEM_ATTRIBUTE_NONE;
 }
 

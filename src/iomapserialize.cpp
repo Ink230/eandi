@@ -37,7 +37,7 @@ void IOMapSerialize::loadHouseItems(Map* map)
 	}
 
 	do {
-		unsigned long attrSize;
+		unsigned long long attrSize;
 		const char* attr = result->getStream("data", attrSize);
 
 		PropStream propStream;

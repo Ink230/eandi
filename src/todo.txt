@@ -35,3 +35,16 @@ weird issues? skills_last = maglvl ?
 
 skill_melee
 vocation melee 
+
+
+player class
+getAlacrity
+• get from vocation
+• get from skill lvl
+
+within the internaluseweapon
+• item->getAlacrity
+    • natural attribute
+    • upgrade modifier
+    • any gem modifiers
+• player->getAlacrity

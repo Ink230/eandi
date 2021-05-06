@@ -1,0 +1,14 @@
+combat.cpp
+• doCombat
+    • params.combatType needs to be set generally, which means something else set it already
+    • if not, doTargetCombat is never called
+• doTargetCombat (caster, target, damage, params)
+    • ensure caster and target (either monster or player) can retrieve the same info
+    • damage is calculated before getting here (so to calc the damage amount before)
+    • need to integrate penetration stats in the 3 block hits methods? 
+
+general
+• need to account for vocation skills, player skills, weapon properties, weapon 'attack', boosts/potions/blessings/pets, other gear benefits, upgrades/gems to gear to calculate raw damage
+
+modifiers
+• need to account for arm pen, magic pen, range pen alongside target's armour, m resist, r resist, defense and shield/shielding

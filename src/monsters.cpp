@@ -55,7 +55,9 @@ void MonsterType::loadLoot(MonsterType* monsterType, LootBlock lootBlock)
 		monsterType->info.lootItems.push_back(lootBlock);
 	}
 }
-
+/*
+* Load monsters from XML w/ care of reloading event
+*/
 bool Monsters::loadFromXml(bool reloading /*= false*/)
 {
 	unloadedMonsters = {};
@@ -70,17 +72,17 @@ bool Monsters::loadFromXml(bool reloading /*= false*/)
 
 	for (auto monsterNode : doc.child("monsters").children()) {
 		std::string name = asLowerCaseString(monsterNode.attribute("name").as_string());
-		std::string file = "data/monster/" + std::string(monsterNode.attribute("file").as_string());
+		std::string file = "data/monster/" + std::string(monsterNode.attribute("file").as_string()); //find the associated script file
 		auto forceLoad = g_config.getBoolean(ConfigManager::FORCE_MONSTERTYPE_LOAD);
 		if (forceLoad) {
-			loadMonster(file, name, true);
+			loadMonster(file, name, true); //LOAD
 			continue;
 		}
 
 		if (reloading && monsters.find(name) != monsters.end()) {
-			loadMonster(file, name, true);
+			loadMonster(file, name, true); //RELOAD NON SENSE
 		} else {
-			unloadedMonsters.emplace(name, file);
+			unloadedMonsters.emplace(name, file); //BIG ERROR 
 		}
 	}
 	return true;
@@ -106,9 +108,25 @@ ConditionDamage* Monsters::getDamageCondition(ConditionType_t conditionType,
 	condition->setParam(CONDITION_PARAM_DELAYED, 1);
 	return condition;
 }
+/*
+* Load spell data from XML files in Spells
+* Find which objects r calling this
+* Loads all the parameters of spells into memory for each mob
+* Kind of wasteful since the same spell will be saved in multiple places
+* Why not one saved spell in memory, with mobs accessing that shared resources?
+* Are there timings/race condition issues if multiple users are fighting multiple mobs who access the same spell?
 
+
+
+*This is the most inefficient xml deserialization i've ever seen
+*80k BRANCHES WTF r they doing 
+*Refactoring this could make server start up time almost instant
+*Probably why there's a 7-9 second delay on starting the server up 
+*/
 bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, const std::string& description)
 {
+	//we receive a node list
+	// but even if the node is targetchange or monster ?? 
 	std::string name;
 	std::string scriptName;
 	bool isScripted;
@@ -118,12 +136,12 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 		scriptName = attr.as_string();
 		isScripted = true;
 	} else if ((attr = node.attribute("name"))) {
-		name = attr.as_string();
+		name = attr.as_string(); //get the name attribute of the monster 
 		isScripted = false;
 	} else {
 		return false;
 	}
-
+	//OR? speed and interval are both separate attributes 
 	if ((attr = node.attribute("speed")) || (attr = node.attribute("interval"))) {
 		sb.speed = std::max<int32_t>(1, pugi::cast<int32_t>(attr.value()));
 	}
@@ -171,7 +189,7 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 	bool needTarget = false;
 	bool needDirection = false;
 
-	if (isScripted) {
+	if (isScripted) { //ezmode lua 
 		if ((attr = node.attribute("direction"))) {
 			needDirection = attr.as_bool();
 		}
@@ -191,7 +209,8 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 
 		combatSpell = combatSpellPtr.release();
 		combatSpell->getCombat()->setPlayerCombatValues(COMBAT_FORMULA_DAMAGE, sb.minCombatValue, 0, sb.maxCombatValue, 0);
-	} else {
+	} else { //if no script, then take the provided base xml attributes and complete the script in src 
+			// can we move any of the lua stuff above outside of the if else ? TODO 
 		Combat* combat = new Combat;
 		if ((attr = node.attribute("length"))) {
 			int32_t length = pugi::cast<int32_t>(attr.value());
@@ -226,11 +245,13 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 
 		std::string tmpName = asLowerCaseString(name);
 
-		if (tmpName == "melee") {
+		//we have the monster's main means of attacking or default means 
+		//means they can only have one default 'melee' attack => probably different modifiers to make a non-melee one a melee one? 
+		if (tmpName == "melee") { //melee is a spell for monsters => makes doCombat of combat.cpp make more sense 
 			sb.isMelee = true;
 
 			pugi::xml_attribute attackAttribute, skillAttribute;
-			if ((attackAttribute = node.attribute("attack")) && (skillAttribute = node.attribute("skill"))) {
+			if ((attackAttribute = node.attribute("attack")) && (skillAttribute = node.attribute("skill"))) { //we can choose which skill the mob is using to attack with 
 				sb.minCombatValue = 0;
 				sb.maxCombatValue = -Weapons::getMaxMeleeDamage(pugi::cast<int32_t>(skillAttribute.value()), pugi::cast<int32_t>(attackAttribute.value()));
 			}
@@ -528,7 +549,9 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 	}
 	return true;
 }
-
+/*
+* We have a spell already, we have an sb already, now do things with it 
+*/
 bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std::string& description)
 {
 	if (!spell->scriptName.empty()) {
@@ -571,7 +594,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std
 		std::unique_ptr<CombatSpell> combatSpellPtr(new CombatSpell(nullptr, spell->needTarget, spell->needDirection));
 		if (!combatSpellPtr->loadScript("data/" + g_spells->getScriptBaseName() + "/scripts/" + spell->scriptName)) {
 			std::cout << "cannot find file" << std::endl;
-			return false;
+			return false; //this is where animera's spells go to die 
 		}
 
 		if (!combatSpellPtr->loadScriptCombat()) {
@@ -630,7 +653,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std
 			combat->setParam(COMBAT_PARAM_BLOCKARMOR, 1);
 			combat->setParam(COMBAT_PARAM_BLOCKSHIELD, 1);
 			combat->setOrigin(ORIGIN_MELEE);
-		} else if (tmpName == "combat") {
+		} else if (tmpName == "combat") { //not sure why combat is different from melee? 
 			if (spell->combatType == COMBAT_UNDEFINEDDAMAGE) {
 				std::cout << "[Warning - Monsters::deserializeSpell] - " << description << " - spell has undefined damage" << std::endl;
 				combat->setParam(COMBAT_PARAM_TYPE, COMBAT_PHYSICALDAMAGE);
@@ -817,7 +840,7 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 		mType->nameDescription = "a " + asLowerCaseString(mType->name);
 	}
 
-	if ((attr = monsterNode.attribute("race"))) {
+	if ((attr = monsterNode.attribute("race"))) { //why all the way down here 
 		std::string tmpStrValue = asLowerCaseString(attr.as_string());
 		uint16_t tmpInt = pugi::cast<uint16_t>(attr.value());
 		if (tmpStrValue == "venom" || tmpInt == 1) {
@@ -1009,11 +1032,12 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 			mType->info.outfit.lookMount = pugi::cast<uint16_t>(attr.value());
 		}
 
-		if ((attr = node.attribute("corpse"))) {
+		if ((attr = node.attribute("corpse"))) { //no dwarves for rabbits 
 			mType->info.lookcorpse = pugi::cast<uint16_t>(attr.value());
 		}
 	}
-
+	
+	//shields? melee? magic? distance?
 	if ((node = monsterNode.child("attacks"))) {
 		if ((attr = node.attribute("finesse")))
 		{
@@ -1039,7 +1063,18 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 		{
 			mType->info.alacrity = pugi::cast<int32_t>(attr.value());
 		}
-
+		if ((attr = node.attribute("melee")))
+		{
+			mType->info.melee = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("magic")))
+		{
+			mType->info.magic = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("distance")))
+		{
+			mType->info.distance = pugi::cast<int32_t>(attr.value());
+		}
 		for (auto attackNode : node.children()) {
 			spellBlock_t sb;
 			if (deserializeSpell(attackNode, sb, monsterName)) {
@@ -1065,6 +1100,10 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 		if ((attr = node.attribute("agility")))
 		{
 			mType->info.agility = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("shield")))
+		{
+			mType->info.shield = pugi::cast<int32_t>(attr.value());
 		}
 
 		for (auto defenseNode : node.children()) {

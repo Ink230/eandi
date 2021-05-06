@@ -1184,6 +1184,40 @@ class LuaScriptInterface
 		static int luaItemTypeGetArmor(lua_State* L);
 		static int luaItemTypeGetWeaponType(lua_State* L);
 
+		static int luaItemTypeGetAccuracy(lua_State *L);
+		static int luaItemTypeGetEvasion(lua_State *L);
+		static int luaItemTypeGetResolve(lua_State *L);
+		static int luaItemTypeGetAgility(lua_State *L);
+		static int luaItemTypeGetAlacrity(lua_State *L);
+		static int luaItemTypeGetMagic(lua_State *L);
+		static int luaItemTypeGetFinesse(lua_State *L);
+		static int luaItemTypeGetConcentration(lua_State *L);
+		static int luaItemTypeGetFocus(lua_State *L);
+		static int luaItemTypeGetDistance(lua_State *L);
+		static int luaItemTypeGetMelee(lua_State *L);
+		static int luaItemTypeGetShield(lua_State *L);
+		static int luaItemTypeGetConcocting(lua_State *L);
+		static int luaItemTypeGetEnchanting(lua_State *L);
+		static int luaItemTypeGetExploring(lua_State *L);
+		static int luaItemTypeGetSmithing(lua_State *L);
+		static int luaItemTypeGetCooking(lua_State *L);
+		static int luaItemTypeGetMining(lua_State *L);
+		static int luaItemTypeGetGathering(lua_State *L);
+		static int luaItemTypeGetSlaying(lua_State *L);
+
+		static int luaItemTypeGetUpgrade(lua_State *L);
+
+		static int luaItemTypeGetSlot1(lua_State *L);
+		static int luaItemTypeGetSlot1Value(lua_State *L);
+		static int luaItemTypeGetSlot2(lua_State *L);
+		static int luaItemTypeGetSlot2Value(lua_State *L);
+		static int luaItemTypeGetSlot3(lua_State *L);
+		static int luaItemTypeGetSlot3Value(lua_State *L);
+		static int luaItemTypeGetSlot4(lua_State *L);
+		static int luaItemTypeGetSlot4Value(lua_State *L);
+		static int luaItemTypeGetSlot5(lua_State *L);
+		static int luaItemTypeGetSlot5Value(lua_State *L);
+
 		static int luaItemTypeGetElementType(lua_State* L);
 		static int luaItemTypeGetElementDamage(lua_State* L);
 

@@ -1,0 +1,15 @@
+• SCREW EIFFEL
+    • min max is dead 
+
+monster.h
+• has getMagic now 
+player.h
+• has getMagicLevel
+creature.h
+• has no magic retrieval means 
+
+monsters.cpp
+• line 656 ???
+    • 
+• 1285 -> ranged combat immunities
+    • 

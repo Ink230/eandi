@@ -414,7 +414,7 @@ void Weapon::internalUseWeapon(Player* player, Item* item, Creature* target, int
 		damage.secondary.value = getElementDamage(player, target, item);
 		Combat::doTargetCombat(player, target, damage, params);
 	}
-
+	
 	onUsedWeapon(player, item, target->getTile());
 }
 

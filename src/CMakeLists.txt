@@ -1,80 +1,105 @@
-set(tfs_SRC
-	${CMAKE_CURRENT_LIST_DIR}/otpch.cpp
-	${CMAKE_CURRENT_LIST_DIR}/actions.cpp
-	${CMAKE_CURRENT_LIST_DIR}/ban.cpp
-	${CMAKE_CURRENT_LIST_DIR}/baseevents.cpp
-	${CMAKE_CURRENT_LIST_DIR}/bed.cpp
-	${CMAKE_CURRENT_LIST_DIR}/chat.cpp
-	${CMAKE_CURRENT_LIST_DIR}/combat.cpp
-	${CMAKE_CURRENT_LIST_DIR}/condition.cpp
-	${CMAKE_CURRENT_LIST_DIR}/configmanager.cpp
-	${CMAKE_CURRENT_LIST_DIR}/connection.cpp
-	${CMAKE_CURRENT_LIST_DIR}/container.cpp
-	${CMAKE_CURRENT_LIST_DIR}/creature.cpp
-	${CMAKE_CURRENT_LIST_DIR}/creatureevent.cpp
-	${CMAKE_CURRENT_LIST_DIR}/cylinder.cpp
-	${CMAKE_CURRENT_LIST_DIR}/database.cpp
-	${CMAKE_CURRENT_LIST_DIR}/databasemanager.cpp
-	${CMAKE_CURRENT_LIST_DIR}/databasetasks.cpp
-	${CMAKE_CURRENT_LIST_DIR}/depotchest.cpp
-	${CMAKE_CURRENT_LIST_DIR}/depotlocker.cpp
-	${CMAKE_CURRENT_LIST_DIR}/events.cpp
-	${CMAKE_CURRENT_LIST_DIR}/fileloader.cpp
-	${CMAKE_CURRENT_LIST_DIR}/game.cpp
-	${CMAKE_CURRENT_LIST_DIR}/globalevent.cpp
-	${CMAKE_CURRENT_LIST_DIR}/guild.cpp
-	${CMAKE_CURRENT_LIST_DIR}/groups.cpp
-	${CMAKE_CURRENT_LIST_DIR}/house.cpp
-	${CMAKE_CURRENT_LIST_DIR}/housetile.cpp
-	${CMAKE_CURRENT_LIST_DIR}/inbox.cpp
-	${CMAKE_CURRENT_LIST_DIR}/ioguild.cpp
-	${CMAKE_CURRENT_LIST_DIR}/iologindata.cpp
-	${CMAKE_CURRENT_LIST_DIR}/iomap.cpp
-	${CMAKE_CURRENT_LIST_DIR}/iomapserialize.cpp
-	${CMAKE_CURRENT_LIST_DIR}/iomarket.cpp
-	${CMAKE_CURRENT_LIST_DIR}/item.cpp
-	${CMAKE_CURRENT_LIST_DIR}/items.cpp
-	${CMAKE_CURRENT_LIST_DIR}/luascript.cpp
-	${CMAKE_CURRENT_LIST_DIR}/mailbox.cpp
-	${CMAKE_CURRENT_LIST_DIR}/map.cpp
-	${CMAKE_CURRENT_LIST_DIR}/monster.cpp
-	${CMAKE_CURRENT_LIST_DIR}/monsters.cpp
-	${CMAKE_CURRENT_LIST_DIR}/mounts.cpp
-	${CMAKE_CURRENT_LIST_DIR}/movement.cpp
-	${CMAKE_CURRENT_LIST_DIR}/networkmessage.cpp
-	${CMAKE_CURRENT_LIST_DIR}/npc.cpp
-	${CMAKE_CURRENT_LIST_DIR}/otserv.cpp
-	${CMAKE_CURRENT_LIST_DIR}/outfit.cpp
-	${CMAKE_CURRENT_LIST_DIR}/outputmessage.cpp
-	${CMAKE_CURRENT_LIST_DIR}/party.cpp
-	${CMAKE_CURRENT_LIST_DIR}/player.cpp
-	${CMAKE_CURRENT_LIST_DIR}/position.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocol.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocolgame.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocollogin.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocolold.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocolstatus.cpp
-	${CMAKE_CURRENT_LIST_DIR}/quests.cpp
-	${CMAKE_CURRENT_LIST_DIR}/raids.cpp
-	${CMAKE_CURRENT_LIST_DIR}/rsa.cpp
-	${CMAKE_CURRENT_LIST_DIR}/scheduler.cpp
-	${CMAKE_CURRENT_LIST_DIR}/scriptmanager.cpp
-	${CMAKE_CURRENT_LIST_DIR}/script.cpp
-	${CMAKE_CURRENT_LIST_DIR}/server.cpp
-	${CMAKE_CURRENT_LIST_DIR}/signals.cpp
-	${CMAKE_CURRENT_LIST_DIR}/spawn.cpp
-	${CMAKE_CURRENT_LIST_DIR}/spells.cpp
-	${CMAKE_CURRENT_LIST_DIR}/storeinbox.cpp
-	${CMAKE_CURRENT_LIST_DIR}/talkaction.cpp
-	${CMAKE_CURRENT_LIST_DIR}/tasks.cpp
-	${CMAKE_CURRENT_LIST_DIR}/teleport.cpp
-	${CMAKE_CURRENT_LIST_DIR}/thing.cpp
-	${CMAKE_CURRENT_LIST_DIR}/tile.cpp
-	${CMAKE_CURRENT_LIST_DIR}/tools.cpp
-	${CMAKE_CURRENT_LIST_DIR}/trashholder.cpp
-	${CMAKE_CURRENT_LIST_DIR}/vocation.cpp
-	${CMAKE_CURRENT_LIST_DIR}/weapons.cpp
-	${CMAKE_CURRENT_LIST_DIR}/wildcardtree.cpp
-	${CMAKE_CURRENT_LIST_DIR}/xtea.cpp
-	PARENT_SCOPE)
+cmake_minimum_required(VERSION 3.10)
 
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+
+project(tfs)
+
+add_subdirectory(src)
+add_executable(tfs ${tfs_SRC})
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+set_target_properties(tfs PROPERTIES CXX_STANDARD 17)
+set_target_properties(tfs PROPERTIES CXX_STANDARD_REQUIRED ON)
+
+if (${CMAKE_VERSION} VERSION_GREATER "3.16.0")
+    target_precompile_headers(tfs PUBLIC src/otpch.h)
+else ()
+    include(cotire)
+    set_target_properties(tfs PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "src/otpch.h")
+    set_target_properties(tfs PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+    cotire(tfs)
+endif ()
+
+if (NOT WIN32)
+    add_compile_options(-Wall -Werror -pipe -fvisibility=hidden)
+endif ()
+
+set(CMAKE_CXX_FLAGS_PERFORMANCE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
+
+if (CMAKE_COMPILER_IS_GNUCXX)
+    add_compile_options(-fno-strict-aliasing)
+endif ()
+
+# Find packages.
+find_package(CryptoPP QUIET)
+if (CryptoPP_FOUND)  # vcpkg-provided cmake package called CryptoPP
+    set(Crypto++_LIBRARIES "cryptopp-static")
+else()
+    find_package(Crypto++ REQUIRED)
+endif ()
+find_package(fmt 6.1.2 REQUIRED)
+find_package(MySQL REQUIRED)
+find_package(Threads REQUIRED)
+find_package(PugiXML REQUIRED)
+
+# Selects LuaJIT if user defines or auto-detected
+if (DEFINED USE_LUAJIT AND NOT USE_LUAJIT)
+    set(FORCE_LUAJIT ${USE_LUAJIT})
+else ()
+    find_package(LuaJIT)
+    set(FORCE_LUAJIT ${LuaJIT_FOUND})
+endif ()
+option(USE_LUAJIT "Use LuaJIT" ${FORCE_LUAJIT})
+
+if (FORCE_LUAJIT)
+    if (APPLE)
+        set(CMAKE_EXE_LINKER_FLAGS "-pagezero_size 10000 -image_base 100000000")
+    endif ()
+else ()
+    find_package(Lua REQUIRED)
+endif ()
+
+find_package(Boost 1.66.0 REQUIRED COMPONENTS date_time system filesystem iostreams)
+
+include_directories(${Boost_INCLUDE_DIRS} ${Crypto++_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${MYSQL_INCLUDE_DIR} ${PUGIXML_INCLUDE_DIR})
+target_link_libraries(tfs PRIVATE
+        Boost::date_time
+        Boost::system
+        Boost::filesystem
+        Boost::iostreams
+        fmt::fmt
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${Crypto++_LIBRARIES}
+        ${LUA_LIBRARIES}
+        ${MYSQL_CLIENT_LIBS}
+        ${PUGIXML_LIBRARIES}
+        )
+
+### INTERPROCEDURAL_OPTIMIZATION ###
+cmake_policy(SET CMP0069 NEW)
+include(CheckIPOSupported)
+check_ipo_supported(RESULT result OUTPUT error)
+if (result)
+    message(STATUS "IPO / LTO enabled")
+    set_target_properties(tfs PROPERTIES INTERPROCEDURAL_OPTIMIZATION True)
+else ()
+    message(STATUS "IPO / LTO not supported: <${error}>")
+endif ()
+### END INTERPROCEDURAL_OPTIMIZATION ###
+
+### Git Version ###
+# Define the two required variables before including
+# the source code for watching a git repository.
+option(SKIP_GIT "Skip checking for git updates" OFF)
+if(NOT SKIP_GIT)
+	set(PRE_CONFIGURE_FILE "cmake/gitmetadata.h.in")
+	set(POST_CONFIGURE_FILE "${CMAKE_CURRENT_BINARY_DIR}/gitmetadata.h")
+	include(git_watcher)
+	if(Git_FOUND)
+		add_dependencies(tfs check_git)
+		target_include_directories(tfs PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+	endif()
+endif()
+### END  Git Version ###

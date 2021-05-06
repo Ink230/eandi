@@ -65,6 +65,7 @@ struct summonBlock_t {
 };
 
 class BaseSpell;
+//Spell block is a block of spell information
 struct spellBlock_t {
 	constexpr spellBlock_t() = default;
 	~spellBlock_t();
@@ -142,7 +143,7 @@ class MonsterType
 		int32_t healthMax = 100;
 		int32_t changeTargetChance = 0;
 		int32_t defense = 0;
-		int32_t armor = 0;
+		int32_t armor = 0; //canadianify TODO 
 		int32_t accuracy = 0;
 		int32_t evasion = 0;
 		int32_t resolve = 0;
@@ -151,6 +152,10 @@ class MonsterType
 		int32_t finesse = 0;
 		int32_t concentration = 0;
 		int32_t focus = 0;
+		int32_t melee = 0;
+		int32_t magic = 0;
+		int32_t shield = 0;
+		int32_t distance = 0;
 
 		bool canPushItems = false;
 		bool canPushCreatures = false;

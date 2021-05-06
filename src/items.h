@@ -367,9 +367,24 @@ class ItemType
 		int32_t melee = 0;
 		int32_t shield = 0;
 		int32_t fist = 0;
+
+		int32_t upgrade = 0;
+		int32_t slot1 = 0;
+		int32_t slot1value = 0;
+		int32_t slot2 = 0;
+		int32_t slot2value = 0;
+		int32_t slot3 = 0;
+		int32_t slot3value = 0;
+		int32_t slot4 = 0;
+		int32_t slot4value = 0;
+		int32_t slot5 = 0;
+		int32_t slot5value = 0;
+		
 		uint16_t rotateTo = 0;
 		int32_t runeMagLevel = 0;
 		int32_t runeLevel = 0;
+
+		
 
 		CombatType_t combatType = COMBAT_NONE;
 

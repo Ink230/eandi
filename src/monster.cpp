@@ -588,7 +588,9 @@ void Monster::onFollowCreatureComplete(const Creature* creature)
 		}
 	}
 }
-
+/*
+* TODO change for damage formula dmg formula 
+*/
 BlockType_t Monster::blockHit(Creature* attacker, CombatType_t combatType, int32_t& damage,
                               bool checkDefense /* = false*/, bool checkArmor /* = false*/, bool /* field = false */, bool /* ignoreResistances = false */)
 {
@@ -770,7 +772,10 @@ void Monster::onThink(uint32_t interval)
 		}
 	}
 }
-
+/*
+* How a monster attacks 
+* BIG TODO for monster engagement interactiveness 
+*/
 void Monster::doAttacking(uint32_t interval)
 {
 	if (!attackedCreature || (isSummon() && attackedCreature == this)) {
@@ -1846,7 +1851,9 @@ bool Monster::isInSpawnRange(const Position& pos) const
 
 	return true;
 }
-
+/*
+* TODO damage formula dmg formula 
+*/ 
 bool Monster::getCombatValues(int32_t& min, int32_t& max)
 {
 	if (minCombatValue == 0 && maxCombatValue == 0) {

@@ -1534,6 +1534,40 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(ITEM_ATTRIBUTE_CHARGES)
 	registerEnum(ITEM_ATTRIBUTE_FLUIDTYPE)
 	registerEnum(ITEM_ATTRIBUTE_DOORID)
+	registerEnum(ITEM_ATTRIBUTE_ACCURACY)
+	registerEnum(ITEM_ATTRIBUTE_EVASION)
+	registerEnum(ITEM_ATTRIBUTE_RESOLVE)
+	registerEnum(ITEM_ATTRIBUTE_AGILITY)
+	registerEnum(ITEM_ATTRIBUTE_ALACRITY)
+	registerEnum(ITEM_ATTRIBUTE_FINESSE)
+	registerEnum(ITEM_ATTRIBUTE_CONCENTRATION)
+	registerEnum(ITEM_ATTRIBUTE_FOCUS)
+	registerEnum(ITEM_ATTRIBUTE_CONCOCTING)
+	registerEnum(ITEM_ATTRIBUTE_ENCHANTING)
+	registerEnum(ITEM_ATTRIBUTE_EXPLORING)
+	registerEnum(ITEM_ATTRIBUTE_SMITHING)
+	registerEnum(ITEM_ATTRIBUTE_COOKING)
+	registerEnum(ITEM_ATTRIBUTE_MINING)
+	registerEnum(ITEM_ATTRIBUTE_GATHERING)
+	registerEnum(ITEM_ATTRIBUTE_SLAYING)
+	registerEnum(ITEM_ATTRIBUTE_NOTUSED)
+	registerEnum(ITEM_ATTRIBUTE_SHIELD)
+	registerEnum(ITEM_ATTRIBUTE_MAGIC)
+	registerEnum(ITEM_ATTRIBUTE_MELEE)
+	registerEnum(ITEM_ATTRIBUTE_DISTANCE)
+
+	registerEnum(ITEM_ATTRIBUTE_UPGRADE)
+
+	registerEnum(ITEM_ATTRIBUTE_SLOT1)
+	registerEnum(ITEM_ATTRIBUTE_SLOT1VALUE)
+	registerEnum(ITEM_ATTRIBUTE_SLOT2)
+	registerEnum(ITEM_ATTRIBUTE_SLOT2VALUE)
+	registerEnum(ITEM_ATTRIBUTE_SLOT3)
+	registerEnum(ITEM_ATTRIBUTE_SLOT3VALUE)
+	registerEnum(ITEM_ATTRIBUTE_SLOT4)
+	registerEnum(ITEM_ATTRIBUTE_SLOT4VALUE)
+	registerEnum(ITEM_ATTRIBUTE_SLOT5)
+	registerEnum(ITEM_ATTRIBUTE_SLOT5VALUE)
 
 	registerEnum(ITEM_TYPE_DEPOT)
 	registerEnum(ITEM_TYPE_MAILBOX)
@@ -2733,6 +2767,40 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("ItemType", "getExtraDefense", LuaScriptInterface::luaItemTypeGetExtraDefense);
 	registerMethod("ItemType", "getArmor", LuaScriptInterface::luaItemTypeGetArmor);
 	registerMethod("ItemType", "getWeaponType", LuaScriptInterface::luaItemTypeGetWeaponType);
+
+	registerMethod("ItemType", "getAccuracy", LuaScriptInterface::luaItemTypeGetAccuracy);
+	registerMethod("ItemType", "getEvasion", LuaScriptInterface::luaItemTypeGetEvasion);
+	registerMethod("ItemType", "getResolve", LuaScriptInterface::luaItemTypeGetResolve);
+	registerMethod("ItemType", "getAgility", LuaScriptInterface::luaItemTypeGetAgility);
+	registerMethod("ItemType", "getAlacrity", LuaScriptInterface::luaItemTypeGetAlacrity);
+	registerMethod("ItemType", "getMagic", LuaScriptInterface::luaItemTypeGetMagic);
+	registerMethod("ItemType", "getFinesse", LuaScriptInterface::luaItemTypeGetFinesse);
+	registerMethod("ItemType", "getConcentration", LuaScriptInterface::luaItemTypeGetConcentration);
+	registerMethod("ItemType", "getFocus", LuaScriptInterface::luaItemTypeGetFocus);
+	registerMethod("ItemType", "getDistance", LuaScriptInterface::luaItemTypeGetDistance);
+	registerMethod("ItemType", "getMelee", LuaScriptInterface::luaItemTypeGetMelee);
+	registerMethod("ItemType", "getShield", LuaScriptInterface::luaItemTypeGetShield);
+	registerMethod("ItemType", "getConcocting", LuaScriptInterface::luaItemTypeGetConcocting);
+	registerMethod("ItemType", "getEnchanting", LuaScriptInterface::luaItemTypeGetEnchanting);
+	registerMethod("ItemType", "getExploring", LuaScriptInterface::luaItemTypeGetExploring);
+	registerMethod("ItemType", "getSmithing", LuaScriptInterface::luaItemTypeGetSmithing);
+	registerMethod("ItemType", "getCooking", LuaScriptInterface::luaItemTypeGetCooking);
+	registerMethod("ItemType", "getMining", LuaScriptInterface::luaItemTypeGetMining);
+	registerMethod("ItemType", "getGathering", LuaScriptInterface::luaItemTypeGetGathering);
+	registerMethod("ItemType", "getSlaying", LuaScriptInterface::luaItemTypeGetSlaying);
+
+	registerMethod("ItemType", "getUpgrade", LuaScriptInterface::luaItemTypeGetUpgrade);
+
+	registerMethod("ItemType", "getSlot1", LuaScriptInterface::luaItemTypeGetSlot1);
+	registerMethod("ItemType", "getSlot1Value", LuaScriptInterface::luaItemTypeGetSlot1Value);
+	registerMethod("ItemType", "getSlot2", LuaScriptInterface::luaItemTypeGetSlot2);
+	registerMethod("ItemType", "getSlot2Value", LuaScriptInterface::luaItemTypeGetSlot2Value);
+	registerMethod("ItemType", "getSlot3", LuaScriptInterface::luaItemTypeGetSlot3);
+	registerMethod("ItemType", "getSlot3Value", LuaScriptInterface::luaItemTypeGetSlot3Value);
+	registerMethod("ItemType", "getSlot4", LuaScriptInterface::luaItemTypeGetSlot4);
+	registerMethod("ItemType", "getSlot4Value", LuaScriptInterface::luaItemTypeGetSlot4Value);
+	registerMethod("ItemType", "getSlot5", LuaScriptInterface::luaItemTypeGetSlot5);
+	registerMethod("ItemType", "getSlot5Value", LuaScriptInterface::luaItemTypeGetSlot5Value);
 
 	registerMethod("ItemType", "getElementType", LuaScriptInterface::luaItemTypeGetElementType);
 	registerMethod("ItemType", "getElementDamage", LuaScriptInterface::luaItemTypeGetElementDamage);
@@ -4120,7 +4188,7 @@ int LuaScriptInterface::luaResultGetStream(lua_State* L)
 		return 1;
 	}
 
-	unsigned long length;
+	unsigned long long length;
 	const char* stream = res->getStream(getString(L, 2), length);
 	lua_pushlstring(L, stream, length);
 	lua_pushnumber(L, length);
@@ -11907,6 +11975,416 @@ int LuaScriptInterface::luaItemTypeGetWeaponType(lua_State* L)
 	if (itemType) {
 		lua_pushnumber(L, itemType->weaponType);
 	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetAccuracy(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->accuracy);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetEvasion(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->evasion);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetResolve(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->resolve);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetAgility(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->agility);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetAlacrity(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->alacrity);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetMagic(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->magic);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetFinesse(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->finesse);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetConcentration(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->concentration);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetFocus(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->focus);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetDistance(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->distance);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetMelee(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->melee);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetShield(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->shield);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetConcocting(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->concocting);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetEnchanting(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->enchanting);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetExploring(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->exploring);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSmithing(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->smithing);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetCooking(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->cooking);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetMining(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->mining);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetGathering(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->gathering);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSlaying(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slaying);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetUpgrade(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->upgrade);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetSlot1(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot1);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSlot1Value(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot1value);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetSlot2(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot2);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSlot2Value(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot2value);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetSlot3(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot3);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSlot3Value(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot3value);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetSlot4(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot4);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSlot4Value(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot4value);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetSlot5(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot5);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetSlot5Value(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->slot5value);
+	}
+	else
+	{
 		lua_pushnil(L);
 	}
 	return 1;

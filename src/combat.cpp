@@ -670,7 +670,10 @@ void Combat::addDistanceEffect(Creature* caster, const Position& fromPos, const 
 		g_game.addDistanceEffect(fromPos, toPos, effect);
 	}
 }
-
+/*
+* Monster attacks, monster spells, lua script references, player lua spells get sent to doCombat
+* NOTHING ELSE, player dmg is done through doTargetCombat directly in src in player or weapon
+*/
 void Combat::doCombat(Creature* caster, Creature* target) const
 {
 	//target combat callback function
