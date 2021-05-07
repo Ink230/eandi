@@ -668,6 +668,12 @@ class Player final : public Creature, public Cylinder
 		int32_t getMelee() const; 
 		float getAttackFactor() const;
 		float getDefenseFactor() const;
+		int32_t getCRITICALHITCHANCE() const;
+		int32_t getCRITICALHITAMOUNT() const;
+		int32_t getHP() const;
+		int32_t getHPREGEN() const;
+		int32_t getMP() const;
+		int32_t getMPREGEN() const;
 
 		void addInFightTicks(bool pzlock = false);
 

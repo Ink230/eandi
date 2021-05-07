@@ -146,6 +146,30 @@ class Monster final : public Creature
 		{
 			return mType->info.distance;
 		}
+		int32_t getCRITICALHITCHANCE() const
+		{
+			return mType->info.criticalhitchance;
+		}
+		int32_t getCRITICALHITAMOUNT() const
+		{
+			return mType->info.criticalhitamount;
+		}
+		int32_t getHP() const
+		{
+			return mType->info.hp;
+		}
+		int32_t getMP() const
+		{
+			return mType->info.mp;
+		}
+		int32_t getMPREGEN() const
+		{
+			return mType->info.mpregen;
+		}
+		int32_t getHPREGEN() const
+		{
+			return mType->info.hpregen;
+		}
 
 		bool isPushable() const override {
 			return mType->info.pushable && baseSpeed != 0;

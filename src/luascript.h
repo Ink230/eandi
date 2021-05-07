@@ -1217,6 +1217,12 @@ class LuaScriptInterface
 		static int luaItemTypeGetSlot4Value(lua_State *L);
 		static int luaItemTypeGetSlot5(lua_State *L);
 		static int luaItemTypeGetSlot5Value(lua_State *L);
+		static int luaItemTypeGetCRITICALHITCHANCE(lua_State *L);
+		static int luaItemTypeGetCRITICALHITAMOUNT(lua_State *L);
+		static int luaItemTypeGetMP(lua_State *L);
+		static int luaItemTypeGetHP(lua_State *L);
+		static int luaItemTypeGetHPREGEN(lua_State *L);
+		static int luaItemTypeGetMPREGEN(lua_State *L);
 
 		static int luaItemTypeGetElementType(lua_State* L);
 		static int luaItemTypeGetElementDamage(lua_State* L);

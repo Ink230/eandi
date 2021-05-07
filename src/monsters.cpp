@@ -1075,6 +1075,30 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 		{
 			mType->info.distance = pugi::cast<int32_t>(attr.value());
 		}
+		if ((attr = node.attribute("criticalhitchance")))
+		{
+			mType->info.criticalhitchance = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("criticalhitamount")))
+		{
+			mType->info.criticalhitamount = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("hp")))
+		{
+			mType->info.hp = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("mp")))
+		{
+			mType->info.mp = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("hpregen")))
+		{
+			mType->info.hpregen = pugi::cast<int32_t>(attr.value());
+		}
+		if ((attr = node.attribute("mpregen")))
+		{
+			mType->info.mpregen = pugi::cast<int32_t>(attr.value());
+		}
 		for (auto attackNode : node.children()) {
 			spellBlock_t sb;
 			if (deserializeSpell(attackNode, sb, monsterName)) {

@@ -19,6 +19,19 @@ Mining
 Gathering
 Slaying
 
+attack
+defense
+extradefense 18
+armor
+
+crit hit %
+crit dmg %
+mp regen
+hp regen
+HP
+MP
+
+
 Upgrade
 
 Slot1
@@ -31,3 +44,11 @@ Slot4
 Slot4Value
 Slot5
 Slot5Value
+
+no def, att, extra def:
+
+accuracy, evasion, resolve, agility, alacrity, magic, finesse, concentration, focus, armour, shield, distance, melee, concocting, enchanting, exploring, smithing, cooking, mining, gathering, slaying, criticalhitchance, criticalhitamount, mpregen, hpregen, mp, hp, upgrade, slot1, slot1value, slot2, slot2value, slot3, slot3value, slot4, slot4value, slot5, slot5value
+
+
+hitchance
+shootrange 

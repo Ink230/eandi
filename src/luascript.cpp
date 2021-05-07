@@ -1569,6 +1569,13 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(ITEM_ATTRIBUTE_SLOT5)
 	registerEnum(ITEM_ATTRIBUTE_SLOT5VALUE)
 
+	registerEnum(ITEM_ATTRIBUTE_CRITICALHITCHANCE)
+	registerEnum(ITEM_ATTRIBUTE_CRITICALHITAMOUNT)
+	registerEnum(ITEM_ATTRIBUTE_HP)
+	registerEnum(ITEM_ATTRIBUTE_MP)
+	registerEnum(ITEM_ATTRIBUTE_HPREGEN)
+	registerEnum(ITEM_ATTRIBUTE_MPREGEN)
+
 	registerEnum(ITEM_TYPE_DEPOT)
 	registerEnum(ITEM_TYPE_MAILBOX)
 	registerEnum(ITEM_TYPE_TRASHHOLDER)
@@ -1733,6 +1740,13 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(SKILL_MINING)
 	registerEnum(SKILL_GATHERING)
 	registerEnum(SKILL_SLAYING)
+
+	registerEnum(SKILL_CRITICALHITCHANCE)
+	registerEnum(SKILL_CRITICALHITAMOUNT)
+	registerEnum(SKILL_HP)
+	registerEnum(SKILL_MP)
+	registerEnum(SKILL_HPREGEN)
+	registerEnum(SKILL_MPREGEN)
 	
 	registerEnum(SPECIALSKILL_CRITICALHITCHANCE)
 	registerEnum(SPECIALSKILL_CRITICALHITAMOUNT)
@@ -2801,6 +2815,13 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("ItemType", "getSlot4Value", LuaScriptInterface::luaItemTypeGetSlot4Value);
 	registerMethod("ItemType", "getSlot5", LuaScriptInterface::luaItemTypeGetSlot5);
 	registerMethod("ItemType", "getSlot5Value", LuaScriptInterface::luaItemTypeGetSlot5Value);
+
+	registerMethod("ItemType", "getCRITICALHITCHANCE", LuaScriptInterface::luaItemTypeGetCRITICALHITCHANCE);
+	registerMethod("ItemType", "getCRITICALHITAMOUNT", LuaScriptInterface::luaItemTypeGetCRITICALHITAMOUNT);
+	registerMethod("ItemType", "getHP", LuaScriptInterface::luaItemTypeGetHP);
+	registerMethod("ItemType", "getMP", LuaScriptInterface::luaItemTypeGetMP);
+	registerMethod("ItemType", "getMPREGEN", LuaScriptInterface::luaItemTypeGetMPREGEN);
+	registerMethod("ItemType", "getHPREGEN", LuaScriptInterface::luaItemTypeGetHPREGEN);
 
 	registerMethod("ItemType", "getElementType", LuaScriptInterface::luaItemTypeGetElementType);
 	registerMethod("ItemType", "getElementDamage", LuaScriptInterface::luaItemTypeGetElementDamage);
@@ -12382,6 +12403,84 @@ int LuaScriptInterface::luaItemTypeGetSlot5Value(lua_State *L)
 	if (itemType)
 	{
 		lua_pushnumber(L, itemType->slot5value);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetCRITICALHITCHANCE(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->criticalhitchance);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetCRITICALHITAMOUNT(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->criticalhitamount);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetMP(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->mp);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetHP(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->hp);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetHPREGEN(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->hpregen);
+	}
+	else
+	{
+		lua_pushnil(L);
+	}
+	return 1;
+}
+int LuaScriptInterface::luaItemTypeGetMPREGEN(lua_State *L)
+{
+	const ItemType *itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType)
+	{
+		lua_pushnumber(L, itemType->mpregen);
 	}
 	else
 	{

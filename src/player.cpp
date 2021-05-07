@@ -495,6 +495,30 @@ int32_t Player::getFist() const
 {
 	return getSkillLevel(SKILL_FIST) + vocation->getFist();
 }
+int32_t Player::getCRITICALHITCHANCE() const
+{
+	return vocation->getCRITICALHITCHANCE();
+}
+int32_t Player::getCRITICALHITAMOUNT() const
+{
+	return vocation->getCRITICALHITAMOUNT();
+}
+int32_t Player::getHP() const
+{
+	return vocation->getHP();
+}
+int32_t Player::getHPREGEN() const
+{
+	return vocation->getHPREGEN();
+}
+int32_t Player::getMP() const
+{
+	return vocation->getMP();
+}
+int32_t Player::getMPREGEN() const
+{
+	return vocation->getMPREGEN();
+}
 
 bool Player::isDualWielding() const
 {

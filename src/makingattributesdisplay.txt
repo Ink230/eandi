@@ -1,0 +1,49 @@
+item.cpp
+• Item::Item
+    • copy the item over from the items[id] master list
+    • set charges, item count, fluid type
+    • this must not get called or is overriden by something else 
+• getDescription
+    • this was the main thing to change 
+
+items.cpp
+• Items::reload
+    • load from otb (non game play things)
+    • load from xml
+    • reload weapons 
+
+• loadFromXml
+    • parseItemNode()
+
+• parseItemNode
+    • cases for each ITEM_PARSE attribute
+    • it.weight is similar to other things
+        • so its probably not this that is wrong
+        • and weight also updates 
+
+tools.cpp
+• getSkillName
+    • need to add the slots and upgrades 
+
+
+    enums.h
+    missing skill_defense
+    skill_armor 
+
+    loop the skills list
+    we check each skill in it.abilities
+    then we use i to get the skill name 
+
+    no skill_defense
+
+    tools
+    we don't have
+        • slo;;_defense
+
+tools.cpp
+• getSkillName
+    • Adjusted strings
+
+
+
+    

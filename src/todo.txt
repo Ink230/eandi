@@ -17,7 +17,6 @@ monsters.cpp
     • check each one as needed vs mobs in dmg formulas
 
 
-
 test monsters
 • put stuff in attacks attribute
 • put stuff in defenses attribute
@@ -30,12 +29,7 @@ test vocation attributes
 optimize player.cpp
     • return instead of int32_t in all getSkills functions
 
-
 weird issues? skills_last = maglvl ? 
-
-skill_melee
-vocation melee 
-
 
 player class
 getAlacrity
@@ -48,3 +42,10 @@ within the internaluseweapon
     • upgrade modifier
     • any gem modifiers
 • player->getAlacrity
+
+item.lua // compat.lua 
+• update skills list local skills 
+• compare diff of local vs server versions 
+
+HP, MP, Regenx2, Critx2
+• ?CONDITIONS? CONDITIONS IN ENUM.H, luascript.cpp registerenum condition  

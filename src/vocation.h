@@ -177,6 +177,31 @@ class Vocation
 		{
 			return slaying;
 		}
+		
+		uint32_t getCRITICALHITCHANCE() const
+		{
+			return criticalhitchance;
+		}
+		uint32_t getCRITICALHITAMOUNT() const
+		{
+			return criticalhitamount;
+		}
+		uint32_t getHP() const
+		{
+			return hp;
+		}
+		uint32_t getMP() const
+		{
+			return mp;
+		}
+		uint32_t getHPREGEN() const
+		{
+			return hpregen;
+		}
+		uint32_t getMPREGEN() const
+		{
+			return mpregen;
+		}
 
 		bool canDualWield() const
 		{
@@ -237,6 +262,12 @@ class Vocation
 		uint32_t melee = 0;
 		uint32_t shield = 0;
 		uint32_t fist = 0;
+		int32_t criticalhitchance = 0;
+		int32_t criticalhitamount = 0;
+		int32_t mpregen = 0;
+		int32_t hpregen = 0;
+		int32_t hp = 0;
+		int32_t mp = 0;
 };
 
 class Vocations

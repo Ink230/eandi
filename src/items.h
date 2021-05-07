@@ -139,6 +139,10 @@ enum ItemParseAttributes_t
 	ITEM_PARSE_MAGICPOINTSPERCENT,
 	ITEM_PARSE_CRITICALHITCHANCE,
 	ITEM_PARSE_CRITICALHITAMOUNT,
+	ITEM_PARSE_HPREGEN,
+	ITEM_PARSE_MPREGEN,
+	ITEM_PARSE_HP,
+	ITEM_PARSE_MP,
 	ITEM_PARSE_LIFELEECHCHANCE,
 	ITEM_PARSE_LIFELEECHAMOUNT,
 	ITEM_PARSE_MANALEECHCHANCE,
@@ -379,7 +383,14 @@ class ItemType
 		int32_t slot4value = 0;
 		int32_t slot5 = 0;
 		int32_t slot5value = 0;
-		
+
+		int32_t criticalhitchance = 0;
+		int32_t criticalhitamount = 0;
+		int32_t mpregen = 0;
+		int32_t hpregen = 0;
+		int32_t hp = 0;
+		int32_t mp = 0;
+
 		uint16_t rotateTo = 0;
 		int32_t runeMagLevel = 0;
 		int32_t runeLevel = 0;

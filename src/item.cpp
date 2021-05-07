@@ -973,6 +973,73 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
+		case ATTR_MP:
+		{
+			uint64_t mp;
+			if (!propStream.read<uint64_t>(mp))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_MP, mp);
+			break;
+		}
+		case ATTR_CRITICALHITCHANCE:
+		{
+			uint64_t criticalhitchance;
+			if (!propStream.read<uint64_t>(criticalhitchance))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_CRITICALHITCHANCE, criticalhitchance);
+			break;
+		}
+		case ATTR_CRITICALHITAMOUNT:
+		{
+			uint64_t criticalhitamount;
+			if (!propStream.read<uint64_t>(criticalhitamount))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_CRITICALHITAMOUNT, criticalhitamount);
+			break;
+		}
+		case ATTR_MPREGEN:
+		{
+			uint64_t mpregen;
+			if (!propStream.read<uint64_t>(mpregen))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_MPREGEN, mpregen);
+			break;
+		}
+		case ATTR_HPREGEN:
+		{
+			uint64_t hpregen;
+			if (!propStream.read<uint64_t>(hpregen))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_HPREGEN, hpregen);
+			break;
+		}
+		case ATTR_HP:
+		{
+			uint64_t hp;
+			if (!propStream.read<uint64_t>(hp))
+			{
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_HP, hp);
+			break;
+		}
+
 		//these should be handled through derived classes
 		//If these are called then something has changed in the items.xml since the map was saved
 		//just read the values
@@ -1239,6 +1306,7 @@ void Item::serializeAttr(PropWriteStream& propWriteStream) const
 		propWriteStream.write<uint8_t>(ATTR_MAGIC);
 		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_MAGIC));
 	}
+	
 	if (hasAttribute(ITEM_ATTRIBUTE_FINESSE))
 	{
 		propWriteStream.write<uint8_t>(ATTR_FINESSE);
@@ -1366,6 +1434,37 @@ void Item::serializeAttr(PropWriteStream& propWriteStream) const
 		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_SLOT5VALUE));
 	}
 
+	if (hasAttribute(ITEM_ATTRIBUTE_CRITICALHITCHANCE))
+	{
+		propWriteStream.write<uint8_t>(ATTR_CRITICALHITCHANCE);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_CRITICALHITCHANCE));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_CRITICALHITAMOUNT))
+	{
+		propWriteStream.write<uint8_t>(ATTR_CRITICALHITAMOUNT);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_CRITICALHITAMOUNT));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_MPREGEN))
+	{
+		propWriteStream.write<uint8_t>(ATTR_MPREGEN);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_MPREGEN));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_HPREGEN))
+	{
+		propWriteStream.write<uint8_t>(ATTR_HPREGEN);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_HPREGEN));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_HP))
+	{
+		propWriteStream.write<uint8_t>(ATTR_HP);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_HP));
+	}
+	if (hasAttribute(ITEM_ATTRIBUTE_MP))
+	{
+		propWriteStream.write<uint8_t>(ATTR_MP);
+		propWriteStream.write<uint64_t>(getIntAttr(ITEM_ATTRIBUTE_MP));
+	}
+
 	if (hasAttribute(ITEM_ATTRIBUTE_CUSTOM)) {
 		const ItemAttributes::CustomAttributeMap* customAttrMap = attributes->getCustomAttributeMap();
 		propWriteStream.write<uint8_t>(ATTR_CUSTOM_ATTRIBUTES);
@@ -1474,9 +1573,12 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				s << " or higher";
 			}
 		}
-	} else if (it.weaponType != WEAPON_NONE) {
+	} 
+	//it is a weapon cause it has a weapon type given to it in items.xml
+	else if (it.weaponType != WEAPON_NONE) 
+	{
 		bool begin = true;
-		if (it.weaponType == WEAPON_DISTANCE && it.ammoType != AMMO_NONE) {
+		/*if (it.weaponType == WEAPON_DISTANCE && it.ammoType != AMMO_NONE) {
 			s << " (Range:" << static_cast<uint16_t>(item ? item->getShootRange() : it.shootRange);
 
 			int32_t attack;
@@ -1498,22 +1600,109 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 			}
 
 			begin = false;
-		} else if (it.weaponType != WEAPON_AMMO) {
+		} */
+		if (it.weaponType != WEAPON_AMMO) 
+		{
 
-			int32_t attack, defense, extraDefense;
-			if (item) {
+			int32_t attack, defense, extraDefense, accuracy, evasion, resolve, agility, alacrity, magic, finesse, concentration, focus, armour, shield, distance, melee, concocting, enchanting, exploring, smithing, cooking, mining, gathering, slaying, criticalhitchance, criticalhitamount, mpregen, hpregen, mp, hp, upgrade, slot1, slot1value, slot2, slot2value, slot3, slot3value, slot4, slot4value, slot5, slot5value, range, hitchance;
+			if (item)
+			{
 				attack = item->getAttack();
 				defense = item->getDefense();
 				extraDefense = item->getExtraDefense();
-			} else {
+				range = item->getShootRange();
+				//hitchance = item->getHitChance();
+
+				accuracy = item->getAccuracy();
+				evasion = item->getEvasion();
+				resolve = item->getResolve();
+				agility = item->getAgility();
+				alacrity = item->getAlacrity();
+				magic = item->getMagic();
+				finesse = item->getFinesse();
+				concentration = item->getConcentration();
+				focus = item->getFocus();
+				armour = item->getArmor();
+				shield = item->getShield();
+				distance = item->getDistance();
+				melee = item->getMelee();
+				concocting = item->getConcocting();
+				enchanting = item->getEnchanting();
+				exploring = item->getExploring();
+				smithing = item->getSmithing();
+				cooking = item->getCooking();
+				mining = item->getMining();
+				gathering = item->getGathering();
+				slaying = item->getSlaying();
+				criticalhitchance = item->getCRITICALHITCHANCE();
+				criticalhitamount = item->getCRITICALHITAMOUNT();
+				mpregen = item->getMPREGEN();
+				hpregen = item->getHPREGEN();
+				mp = item->getMP();
+				hp = item->getHP();
+				upgrade = item->getUpgrade();
+				slot1 = item->getSlot1();
+				slot1value = item->getSlot1Value();
+				slot2 = item->getSlot2();
+				slot2value = item->getSlot2Value();
+				slot3 = item->getSlot3();
+				slot3value = item->getSlot3Value();
+				slot4 = item->getSlot4();
+				slot4value = item->getSlot4Value();
+				slot5 = item->getSlot5();
+				slot5value = item->getSlot5Value();
+			}
+		
+			else
+			{
 				attack = it.attack;
 				defense = it.defense;
 				extraDefense = it.extraDefense;
+				range = it.shootRange;
+				//hitchance = it.hitChance;
+				accuracy = it.accuracy;	
+				evasion = it.evasion;
+				resolve = it.resolve;
+				agility = it.agility;
+				alacrity = it.alacrity;
+				magic = it.magic;
+				finesse = it.finesse;
+				concentration = it.concentration;
+				focus = it.focus;
+				armour = it.armor;
+				shield = it.shield;
+				distance = it.distance;
+				melee = it.melee;
+				concocting = it.concocting;
+				enchanting = it.enchanting;
+				exploring = it.exploring;
+				smithing = it.smithing;
+				cooking = it.cooking;
+				mining = it.mining;
+				gathering = it.gathering;
+				slaying = it.slaying;
+				criticalhitchance = it.criticalhitchance;
+				criticalhitamount = it.criticalhitamount;
+				mpregen = it.mpregen;
+				hpregen = it.hpregen;
+				mp = it.mp;
+				hp = it.hp;
+				upgrade = it.upgrade;
+				slot1 = it.slot1;
+				slot1value = it.slot1value;
+				slot2 = it.slot2;
+				slot2value = it.slot2value;
+				slot3 = it.slot3;
+				slot3value = it.slot3value;
+				slot4 = it.slot4;
+				slot4value = it.slot4value;
+				slot5 = it.slot5;
+				slot5value = it.slot5value;
 			}
 
 			if (attack != 0) {
 				begin = false;
-				s << " (Atk:" << attack;
+				s << " \nAtk: " << attack;
 
 				if (it.abilities && it.abilities->elementType != COMBAT_NONE && it.abilities->elementDamage != 0) {
 					s << " physical + " << it.abilities->elementDamage << ' ' << getCombatName(it.abilities->elementType);
@@ -1523,20 +1712,216 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 			if (defense != 0 || extraDefense != 0) {
 				if (begin) {
 					begin = false;
-					s << " (";
+					s << "\n";
 				} else {
-					s << ", ";
+					s << "\n";
 				}
 
-				s << "Def:" << defense;
+				s << "Def: " << defense;
 				if (extraDefense != 0) {
 					s << ' ' << std::showpos << extraDefense << std::noshowpos;
 				}
 			}
-		}
+			if (range != 0)
+			{
 
-		if (it.abilities) {
-			for (uint8_t i = SKILL_FIRST; i <= SKILL_LAST; i++) {
+				s << "\nRange: " << range;
+			}
+			if (accuracy != 0)
+			{
+
+				s << "\nAccuracy: " << accuracy;
+			}
+			if (evasion != 0)
+			{
+
+				s << "\nEvasion: " << evasion;
+			}
+			if (resolve != 0)
+			{
+
+				s << "\nResolve: " << resolve;
+			}
+			if (agility != 0)
+			{
+
+				s << "\nAgility: " << agility;
+			}
+			if (alacrity != 0)
+			{
+
+				s << "\nAlacrity: " << alacrity;
+			}
+			if (magic != 0)
+			{
+
+				s << "\nMagic: " << magic;
+			}
+			if (finesse != 0)
+			{
+
+				s << "\nFinesse: " << finesse;
+			}
+			if (concentration != 0)
+			{
+
+				s << "\nConcentration: " << concentration;
+			}
+			if (focus != 0)
+			{
+
+				s << "\nFocus: " << focus;
+			}
+			if (armour != 0)
+			{
+
+				s << "\nArmour: " << armour;
+			}
+			if (shield != 0)
+			{
+
+				s << "\nShield: " << shield;
+			}
+			if (distance != 0)
+			{
+
+				s << "\nDistance: " << distance;
+			}
+			if (melee != 0)
+			{
+
+				s << "\nMelee: " << melee;
+			}
+			if (concocting != 0)
+			{
+
+				s << "\nConcocting: " << concocting;
+			}
+			if (enchanting != 0)
+			{
+
+				s << "\nEnchanting: " << enchanting;
+			}
+			if (exploring != 0)
+			{
+
+				s << "\nExploring: " << exploring;
+			}
+			if (smithing != 0)
+			{
+
+				s << "\nSmithing: " << smithing;
+			}
+			if (cooking != 0)
+			{
+
+				s << "\nCooking: " << cooking;
+			}
+			if (mining != 0)
+			{
+
+				s << "\nMining: " << mining;
+			}
+			if (gathering != 0)
+			{
+
+				s << "\nGathering: " << gathering;
+			}
+			if (slaying != 0)
+			{
+
+				s << "\nSlaying: " << slaying;
+			}
+			if (criticalhitchance != 0)
+			{
+
+				s << "\nCritHit%: " << criticalhitchance;
+			}
+			if (criticalhitamount != 0)
+			{
+
+				s << "\nCritDmg%: " << criticalhitamount;
+			}
+			if (mpregen != 0)
+			{
+
+				s << "\nMP Regen: " << mpregen;
+			}
+			if (hpregen != 0)
+			{
+
+				s << "\nHP Regen: " << hpregen;
+			}
+			if (mp != 0)
+			{
+
+				s << "\nMP: " << mp;
+			}
+			if (hp != 0)
+			{
+
+				s << "\nHP: " << hp;
+			}
+			if (upgrade != 0)
+			{
+
+				s << "\nUpgrade: " << upgrade;
+			}
+			if (slot1 != 0)
+			{
+
+				s << "\nSlot 1: " << slot1;
+			}
+			if (slot1value != 0)
+			{
+
+				s << "\nSlot 1 Value: " << slot1value;
+			}
+			if (slot2 != 0)
+			{
+
+				s << "\nSlot 2: " << slot2;
+			}
+			if (slot2value != 0)
+			{
+
+				s << "\nSlot 2 Value: " << slot2value;
+			}
+			if (slot3 != 0)
+			{
+
+				s << "\nSlot 3: " << slot3;
+			}
+			if (slot3value != 0)
+			{
+
+				s << "\nSlot 3 Value: " << slot3value;
+			}
+			if (slot4 != 0)
+			{
+
+				s << "\nSlot 4: " << slot4;
+			}
+			if (slot4value != 0)
+			{
+
+				s << "\nSlot 4 Value: " << slot4value;
+			}
+			if (slot5 != 0)
+			{
+
+				s << "\nSlot 5: " << slot5;
+			}
+			if (slot5value != 0)
+			{
+
+				s << "\nSlot 5 Value: " << slot5value;
+			}
+		}//END OF WEAPON TYPES 
+
+		if (it.abilities) 
+		{
+			/*for (uint8_t i = SKILL_FIRST; i <= SKILL_LAST; i++) {
 				if (!it.abilities->skills[i]) {
 					continue;
 				}
@@ -1549,9 +1934,9 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				}
 
 				s << getSkillName(i) << ' ' << std::showpos << it.abilities->skills[i] << std::noshowpos;
-			}
+			}*/
 
-			for (uint8_t i = SPECIALSKILL_FIRST; i <= SPECIALSKILL_LAST; i++) {
+			/*for (uint8_t i = SPECIALSKILL_FIRST; i <= SPECIALSKILL_LAST; i++) {
 				if (!it.abilities->specialSkills[i]) {
 					continue;
 				}
@@ -1564,9 +1949,9 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				}
 
 				s << getSpecialSkillName(i) << ' ' << std::showpos << it.abilities->specialSkills[i] << '%' << std::noshowpos;
-			}
+			}*/
 
-			if (it.abilities->stats[STAT_MAGICPOINTS]) {
+			/*if (it.abilities->stats[STAT_MAGICPOINTS]) {
 				if (begin) {
 					begin = false;
 					s << " (";
@@ -1575,7 +1960,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				}
 
 				s << "magic level " << std::showpos << it.abilities->stats[STAT_MAGICPOINTS] << std::noshowpos;
-			}
+			}*/
 
 			int16_t show = it.abilities->absorbPercent[0];
 			if (show != 0) {
@@ -1681,10 +2066,12 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 			}
 		}
 
-		if (!begin) {
+		/*if (!begin) {
 			s << ')';
-		}
-	} else if (it.armor != 0 || (item && item->getArmor() != 0) || it.showAttributes) {
+		}*/
+	} 
+	else if (it.armor != 0 || (item && item->getArmor() != 0) || it.showAttributes) 
+	{
 		bool begin = true;
 
 		int32_t armor = (item ? item->getArmor() : it.armor);
@@ -1960,14 +2347,14 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 	}
 
 	if (!it.allowDistRead || (it.id >= 7369 && it.id <= 7371)) {
-		s << '.';
+		//s << '.';
 	} else {
 		if (!text && item) {
 			text = &item->getText();
 		}
 
 		if (!text || text->empty()) {
-			s << '.';
+			//s << '.';
 		}
 	}
 

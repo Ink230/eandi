@@ -795,16 +795,16 @@ std::string getSkillName(uint8_t skillid)
 			return "axe fighting";
 
 		case SKILL_DISTANCE:
-			return "distance fighting";
+			return "Distance";
 
 		case SKILL_SHIELD:
-			return "shielding";
+			return "Shielding";
 
 		case SKILL_FISHING:
-			return "fishing";
+			return "Fishing";
 
 		case SKILL_MELEE:
-			return "melee fighting";
+			return "Melee";
 
 		case SKILL_ACCURACY:
 			return "Accuracy";
@@ -858,10 +858,28 @@ std::string getSkillName(uint8_t skillid)
 			return "Slayer";
 
 		case SKILL_MAGLEVEL:
-			return "magic level";
+			return "Magic";
 
 		case SKILL_LEVEL:
 			return "level";
+
+		case SKILL_CRITICALHITAMOUNT:
+			return "Critical Hit Amount";
+
+		case SKILL_CRITICALHITCHANCE:
+			return "Critical Hit Chance";
+
+		case SKILL_HP:
+			return "HP";
+
+		case SKILL_MP:
+			return "MP";
+
+		case SKILL_HPREGEN:
+			return "HP Regen";
+
+		case SKILL_MPREGEN:
+			return "MP Regen";
 
 		default:
 			return "unknown";
@@ -1183,6 +1201,31 @@ itemAttrTypes stringToItemAttribute(const std::string& str)
 	else if (str == "slot5value")
 	{
 		return ITEM_ATTRIBUTE_SLOT5VALUE;
+	}
+
+	else if (str == "criticalhitamount")
+	{
+		return ITEM_ATTRIBUTE_CRITICALHITAMOUNT;
+	}
+	else if (str == "criticalhitchance")
+	{
+		return ITEM_ATTRIBUTE_CRITICALHITCHANCE;
+	}
+	else if (str == "mp")
+	{
+		return ITEM_ATTRIBUTE_MP;
+	}
+	else if (str == "hp")
+	{
+		return ITEM_ATTRIBUTE_HP;
+	}
+	else if (str == "hpregen")
+	{
+		return ITEM_ATTRIBUTE_HPREGEN;
+	}
+	else if (str == "mpregen")
+	{
+		return ITEM_ATTRIBUTE_MPREGEN;
 	}
 	return ITEM_ATTRIBUTE_NONE;
 }

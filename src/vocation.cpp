@@ -201,6 +201,30 @@ bool Vocations::loadFromXml()
 		{
 			voc.magic = pugi::cast<uint32_t>(attr.value());
 		}
+		if ((attr = vocationNode.attribute("criticalhitamount")))
+		{
+			voc.criticalhitamount = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("criticalhitchance")))
+		{
+			voc.criticalhitchance = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("hp")))
+		{
+			voc.hp = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("mp")))
+		{
+			voc.mp = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("hpregen")))
+		{
+			voc.hpregen = pugi::cast<uint32_t>(attr.value());
+		}
+		if ((attr = vocationNode.attribute("mpregen")))
+		{
+			voc.mpregen = pugi::cast<uint32_t>(attr.value());
+		}
 		/* Enable if we want to have certain classes with dual wield on or off
 		if ((attr = vocationNode.attribute("dualwield")))
 		{

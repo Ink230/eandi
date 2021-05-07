@@ -157,6 +157,13 @@ class MonsterType
 		int32_t shield = 0;
 		int32_t distance = 0;
 
+		int32_t criticalhitchance = 0;
+		int32_t criticalhitamount = 0;
+		int32_t mpregen = 0;
+		int32_t hpregen = 0;
+		int32_t hp = 0;
+		int32_t mp = 0;
+
 		bool canPushItems = false;
 		bool canPushCreatures = false;
 		bool pushable = true;
