@@ -3376,12 +3376,13 @@ void Player::doAttacking(uint32_t)
 	}
 
 	if ((OTSYS_TIME() - lastAttack) >= getAttackSpeed()) { //if the time period of not attacking is larger than ur AS, continue to attack
-
-	bool result = false;
-	uint32_t delay = getAttackSpeed();
-	bool classicSpeed = g_config.getBoolean(ConfigManager::CLASSIC_ATTACK_SPEED);
 	Item* tool = getWeapon();
-	tool->getAttack();
+	bool classicSpeed = g_config.getBoolean(ConfigManager::CLASSIC_ATTACK_SPEED);
+	bool result[] = {false, false};
+	uint32_t delay = getAttackSpeed();
+	
+	
+	
 	const Weapon* weapon = g_weapons->getWeapon(tool);
 
 	if (isDualWielding())
@@ -3392,20 +3393,17 @@ void Player::doAttacking(uint32_t)
 		{
 			if(i==1)
 			{
-			currentAttackHand = CONST_SLOT_RIGHT;
-			result = false;
-			tool = getWeapon();
-			tool->getAttack();
-			weapon = g_weapons->getWeapon(tool);
-			delay = getAttackSpeed();
-			
+				currentAttackHand = CONST_SLOT_RIGHT;
+				tool = getWeapon();
+				weapon = g_weapons->getWeapon(tool);
+				delay = getAttackSpeed();
 			}
 
 			if (weapon)
 			{
 				if (!weapon->interruptSwing())
 				{
-					result = weapon->useWeapon(this, tool, attackedCreature);
+					result[i] = weapon->useWeapon(this, tool, attackedCreature);
 				}
 				else if (!classicSpeed && !canDoAction())
 				{
@@ -3413,50 +3411,47 @@ void Player::doAttacking(uint32_t)
 				}
 				else
 				{
-					result = weapon->useWeapon(this, tool, attackedCreature);
+					result[i] = weapon->useWeapon(this, tool, attackedCreature);
 				}
 			}
 			else
 			{
-				result = Weapon::useFist(this, attackedCreature);
+				result[i] = Weapon::useFist(this, attackedCreature);
 			}
 			
 		} //loop end
-
 		currentAttackHand = CONST_SLOT_LEFT; //always leave it at this state
-
-		}
-		//no dual wielding
-		else
-		{
-
-			if (weapon) {
-				if (!weapon->interruptSwing()) {
-					result = weapon->useWeapon(this, tool, attackedCreature);
-				} else if (!classicSpeed && !canDoAction()) {
-					delay = getNextActionTime();
-				} else {
-					result = weapon->useWeapon(this, tool, attackedCreature);
-				}
+	}
+	//no dual wielding
+	else
+	{
+		if (weapon) {
+			if (!weapon->interruptSwing()) {
+				result[0] = weapon->useWeapon(this, tool, attackedCreature);
+			} else if (!classicSpeed && !canDoAction()) {
+				delay = getNextActionTime();
 			} else {
-				result = Weapon::useFist(this, attackedCreature);
+				result[0] = weapon->useWeapon(this, tool, attackedCreature);
 			}
+		} else {
+			result[0] = Weapon::useFist(this, attackedCreature);
 		}
+	}
 
-		SchedulerTask *task = createSchedulerTask(std::max<uint32_t>(SCHEDULER_MINTICKS, delay), std::bind(&Game::checkCreatureAttack, &g_game, getID()));
-		if (!classicSpeed)
-		{
-			setNextActionTask(task, false);
-		}
-		else
-		{
-			g_scheduler.addEvent(task);
-		}
+	SchedulerTask *task = createSchedulerTask(std::max<uint32_t>(SCHEDULER_MINTICKS, delay), std::bind(&Game::checkCreatureAttack, &g_game, getID()));
+	if (!classicSpeed)
+	{
+		setNextActionTask(task, false);
+	}
+	else
+	{
+		g_scheduler.addEvent(task);
+	}
 
-		if (result)
-		{
-			lastAttack = OTSYS_TIME();
-		}
+	if (result[0] || result[1])
+	{
+		lastAttack = OTSYS_TIME();
+	}
 
 	}//end of we can attack
 }

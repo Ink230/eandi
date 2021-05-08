@@ -358,7 +358,7 @@ bool Weapon::useWeapon(Player* player, Item* item, Creature* target) const
 	if (damageModifier == 0) {
 		return false;
 	}
-
+	
 	internalUseWeapon(player, item, target, damageModifier);
 	return true;
 }
