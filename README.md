@@ -3,6 +3,10 @@ This repository contains some community requested features for TheForgottenServe
 
 • Dual wielding
 • A long list of custom skills fully implemented for server, database and client functionality
+
 • Enchanting and upgrading functionality
+
 • Necessary Lua interface function hooks
+
 • Packet adjustments to send the above information to the client
+
